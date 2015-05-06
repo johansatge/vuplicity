@@ -1,160 +1,48 @@
-var app = require('app');
-var Tray = require('tray');
-var BrowserWindow = require('browser-window');
-var fs = require('fs');
-var Menu = require('menu');
-var ipc = require('ipc');
-var dialog = require('dialog');
-
-require('crash-reporter').start();
-
-var mainWindow = null;
-var mainPath = fs.realpathSync(__dirname + '/../../');
-var mainTray = null;
-var quitFromTray = false;
-var manifest = eval('(' + fs.readFileSync(mainPath + '/package.json', {encoding: 'utf8'}) + ')');
-
-app.on('ready', function()
+(function(require, js_path)
 {
-    mainTray = new Tray(mainPath + '/assets/css/images/tray.png');
-    mainTray.setToolTip('Tray tooltip @todo');
 
-    if (typeof app.dock !== 'undefined')
-    {
-        app.dock.hide();
-    }
+    'use strict';
 
-    mainTray.setContextMenu(Menu.buildFromTemplate(
-        [
-            {
-                label: manifest.name + ' ' + manifest.version,
-                enabled: false
-            },
-            {
-                type: 'separator'
-            },
-            {
-                label: 'Open settings panel',
-                click: function()
-                {
-                    _toggleSettingsWindow();
-                }
-            },
-            {
-                type: 'separator'
-            },
-            {
-                label: 'About...',
-                selector: 'orderFrontStandardAboutPanel:'
-            },
-            {
-                label: 'Quit',
-                accelerator: 'Command+Q',
-                click: function()
-                {
-                    quitFromTray = true;
-                    app.quit();
-                }
-            }
-        ]
-    ));
-
-    ipc.on('settings-ready', function(event)
-    {
-        var sample_settings = [ // @todo get real ones (localStorage ? User file ?)
-            {
-                url: 'http://test-url-1',
-                dir: '/Users/coucou1',
-                options: '--size 5'
-            },
-            {
-                url: 'http://test-url-2',
-                dir: '/Users/coucou2',
-                options: '--size 5'
-            },
-            {
-                url: 'http://test-url-3',
-                dir: '/Users/coucou3',
-                options: '--size 5'
-            },
-            {
-                url: 'http://test-url-4',
-                dir: '/Users/coucou4',
-                options: '--size 5'
-            }
-        ];
-        event.sender.send('current-settings', sample_settings);
-    });
-
-    ipc.on('select-directory', function(event, backup_id)
-    {
-        dialog.showOpenDialog(mainWindow, {title: '@todo title', properties: ['openDirectory']}, function(paths)
-        {
-            if (typeof paths !== 'undefined')
-            {
-                event.sender.send('directory-selected', {backup_id: backup_id, path: paths[0]});
-            }
-        });
-    });
-
-    ipc.on('window-move', function(event, position)
-    {
-        mainWindow.setPosition(position.x, position.y);
-    });
-
-    ipc.on('window-close', function()
-    {
-        mainWindow.close();
-    });
-
-    app.on('before-quit', function(evt)
-    {
-        if (!quitFromTray)
-        {
-            evt.preventDefault();
-        }
-    });
+    var fs = require('fs');
+    var app = require('app');
+    var crash_reporter = require('crash-reporter');
 
     /**
-     * Creates the settings window
+     * Inits the main controller when the electron app is ready
      */
-    var _toggleSettingsWindow = function()
+    var _onAppReady = function()
     {
-        if (mainWindow === null)
+        if (typeof app.dock !== 'undefined')
         {
-            mainWindow = new BrowserWindow({
-                width: 800,
-                height: 600,
-                'min-width': 750,
-                'min-height': 400,
-                show: false,
-                frame: false,
-                transparent: true
-            });
-            mainWindow.webContents.on('did-finish-load', function()
-            {
-                mainWindow.show();
-                mainWindow.openDevTools({detach: true});
-            });
-            mainWindow.webContents.loadUrl('file://' + mainPath + '/assets/html/settings.html');
-            mainWindow.on('closed', function()
-            {
-                mainWindow = null;
-            });
-            mainWindow.on('focus', function()
-            {
-                mainWindow.webContents.send('window-focus');
-            });
-            mainWindow.on('blur', function()
-            {
-                mainWindow.webContents.send('window-blur');
-            });
+            app.dock.hide();
         }
-        else
-        {
-            mainWindow.focus();
-        }
+        var app_path = js_path.replace(/\/assets\/js$/, '');
+        var Main = require(app_path + '/assets/js/controllers/main.js');
+        var controller = new Main(app.getName(), app.getVersion(), app_path);
+        controller.on('quit', _onQuitFromController);
+        controller.init();
     };
 
-    _toggleSettingsWindow();
-});
+    /**
+     * Do not quit when all windows are closed
+     * @param evt
+     */
+    var _onBeforeQuit = function(evt)
+    {
+        evt.preventDefault();
+    };
+
+    /**
+     * Quits the app
+     */
+    var _onQuitFromController = function()
+    {
+        app.removeListener('before-quit', _onBeforeQuit);
+        app.quit();
+    };
+
+    crash_reporter.start();
+    app.on('ready', _onAppReady);
+    app.on('before-quit', _onBeforeQuit);
+
+})(require, __dirname);
