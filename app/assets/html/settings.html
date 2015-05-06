@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Vuplicity settings</title>
+        <link rel="stylesheet" href="../css/font-awesome.min.css" type="text/css">
+    </head>
+    <body>
+
+        <div>
+            %s configured backups.
+            <input type="button" value="Add...">
+        </div>
+
+        <div>
+            <div>
+                <label>Backup URL</label>
+                <input type="text">
+            </div>
+            <div>
+                <label>Directory</label>
+                <input type="text">
+            </div>
+            <input type="button" value="Refresh status">
+            <input type="button" value="Start backup">
+            <input type="button" value="Restore all...">
+            <div>
+                <p>
+                    last backup date
+                </p>
+                <p>
+                    last refresh date
+                </p>
+            </div>
+            <ul>
+                <li>
+                    <i class="fa fa-file"></i>
+                    file 1
+                </li>
+                <li>
+                    <i class="fa fa-file"></i>
+                    file 2
+                </li>
+                <li>
+                    <i class="fa fa-file"></i>
+                    file 3
+                </li>
+                <li>
+                    <i class="fa fa-folder"></i>
+                    folder 1
+                    <ul>
+                        <li>
+                            <i class="fa fa-file"></i>
+                            file 1
+                        </li>
+                        <li>
+                            <i class="fa fa-file"></i>
+                            file 2
+                        </li>
+                        <li>
+                            <i class="fa fa-file"></i>
+                            file 3
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <i class="fa fa-file"></i>
+                    file 4
+                </li>
+            </ul>
+        </div>
+    </div>
+    <script src="../js/jquery-2.1.1.min.js"></script>
+    <script src="../js/settings.js"></script>
+    <script>
+        window.onload = function()
+        {
+            Settings.init();
+        };
+    </script>
+    </body>
+</html>
