@@ -11,6 +11,7 @@ require('crash-reporter').start();
 var mainWindow = null;
 var mainPath = fs.realpathSync(__dirname + '/../../');
 var mainTray = null;
+var quitFromTray = false;
 var manifest = eval('(' + fs.readFileSync(mainPath + '/package.json', {encoding: 'utf8'}) + ')');
 
 app.on('ready', function()
@@ -34,7 +35,10 @@ app.on('ready', function()
             },
             {
                 label: 'Open settings panel',
-                click: _toggleSettingsWindow
+                click: function()
+                {
+                    _toggleSettingsWindow();
+                }
             },
             {
                 type: 'separator'
@@ -48,6 +52,7 @@ app.on('ready', function()
                 accelerator: 'Command+Q',
                 click: function()
                 {
+                    quitFromTray = true;
                     app.quit();
                 }
             }
@@ -81,15 +86,33 @@ app.on('ready', function()
         event.sender.send('current-settings', sample_settings);
     });
 
-    ipc.on('select-directory', function(event, task_id)
+    ipc.on('select-directory', function(event, backup_id)
     {
         dialog.showOpenDialog(mainWindow, {title: '@todo title', properties: ['openDirectory']}, function(paths)
         {
             if (typeof paths !== 'undefined')
             {
-                event.sender.send('directory-selected', {task_id: task_id, path: paths[0]});
+                event.sender.send('directory-selected', {backup_id: backup_id, path: paths[0]});
             }
         });
+    });
+
+    ipc.on('window-move', function(event, position)
+    {
+        mainWindow.setPosition(position.x, position.y);
+    });
+
+    ipc.on('window-close', function()
+    {
+        mainWindow.close();
+    });
+
+    app.on('before-quit', function(evt)
+    {
+        if (!quitFromTray)
+        {
+            evt.preventDefault();
+        }
     });
 
     /**
@@ -99,7 +122,15 @@ app.on('ready', function()
     {
         if (mainWindow === null)
         {
-            mainWindow = new BrowserWindow({width: 800, height: 600, show: false, frame: false, transparent: true});
+            mainWindow = new BrowserWindow({
+                width: 800,
+                height: 600,
+                'min-width': 750,
+                'min-height': 400,
+                show: false,
+                frame: false,
+                transparent: true
+            });
             mainWindow.webContents.on('did-finish-load', function()
             {
                 mainWindow.show();
@@ -108,7 +139,6 @@ app.on('ready', function()
             mainWindow.webContents.loadUrl('file://' + mainPath + '/assets/html/settings.html');
             mainWindow.on('closed', function()
             {
-                // @todo do not quit on close
                 mainWindow = null;
             });
             mainWindow.on('focus', function()
