@@ -1,0 +1,30 @@
+html, body, div, span, p, form, input, textarea, select, h1, h2, h3, table, tbody, tr, td, label, button, ul, li
+{
+    margin         : 0;
+    padding        : 0;
+    border         : 0;
+    outline        : 0;
+
+    font-family    : "Arial", sans-serif;
+    box-sizing     : border-box;
+}
+
+html, body
+{
+    -webkit-user-select : none;
+    overflow            : hidden;
+}
+
+.window
+{
+    background    : #fafafa;
+    position      : absolute;
+    top           : 0;
+    left          : 0;
+    margin        : 15px;
+    bottom        : 0;
+    right         : 0;
+    border-radius : 5px;
+    overflow      : hidden;
+    box-shadow    : 0 0 22px rgba(0, 0, 0, 0.5);
+}

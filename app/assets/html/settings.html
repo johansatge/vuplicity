@@ -3,50 +3,72 @@
     <head>
         <title>Vuplicity settings</title>
         <link rel="stylesheet" href="../css/font-awesome.min.css" type="text/css">
+        <link rel="stylesheet" href="../css/main.css" type="text/css">
     </head>
     <body>
-
-        <div>
-            %s configured backups.
-            <input type="button" value="Add...">
+        <div class="window">
+            <div class="toolbar">
+                <button class="close">
+                    <i class="fa fa-times"></i>
+                </button>
+                <button class="add js-add-task">Add new task</button>
+            </div>
+            <div class="tasks-wrapper">
+                <div class="tasks js-tasks-list"></div>
+            </div>
         </div>
-
-        <div>
-            <div>
-                <label>Backup URL</label>
-                <input type="text">
+        <script type="text/template" class="js-task-template" rel="task js-task">
+            <div class="loader">
+                <i class="fa fa-refresh fa-spin"></i>
             </div>
-            <div>
-                <label>Directory</label>
-                <input type="text">
+            <div class="heading">
+                <button class="accordion js-accordion">
+                    <i class="fa fa-chevron-right"></i>
+                    <i class="fa fa-chevron-down"></i>
+                </button>
+                <span class="title js-title"></span>
+                <button class="action">
+                    <i class="fa fa-cloud-download"></i>
+                    Restore...
+                </button>
+                <button class="action">
+                    <i class="fa fa-cloud-upload"></i>
+                    Start backup
+                </button>
+                <button class="action">
+                    <i class="fa fa-refresh"></i>
+                    Refresh status
+                </button>
             </div>
-            <input type="button" value="Refresh status">
-            <input type="button" value="Start backup">
-            <input type="button" value="Restore all...">
-            <div>
-                <p>
-                    last backup date
-                </p>
-                <p>
-                    last refresh date
-                </p>
-            </div>
-            <ul>
-                <li>
-                    <i class="fa fa-file"></i>
-                    file 1
-                </li>
-                <li>
-                    <i class="fa fa-file"></i>
-                    file 2
-                </li>
-                <li>
-                    <i class="fa fa-file"></i>
-                    file 3
-                </li>
-                <li>
-                    <i class="fa fa-folder"></i>
-                    folder 1
+            <div class="config js-config">
+                <div class="inside">
+                    <div class="col2 left">
+                        <label>
+                            Backup URL
+                            <input type="text" class="js-url">
+                        </label>
+                    </div>
+                    <div class="col2">
+                        <label>
+                            Directory
+                            <input type="text" class="js-dir">
+                            <button class="input-icon js-dir-select">
+                                <i class="fa fa-folder-open"></i>
+                            </button>
+                        </label>
+                    </div>
+                    <div class="col1">
+                        <label>Options</label>
+                        <input type="text" class="js-options">
+                    </div>
+                    <div>
+                        <p>
+                            last backup date
+                        </p>
+                        <p>
+                            last refresh date
+                        </p>
+                    </div>
                     <ul>
                         <li>
                             <i class="fa fa-file"></i>
@@ -60,22 +82,45 @@
                             <i class="fa fa-file"></i>
                             file 3
                         </li>
+                        <li>
+                            <i class="fa fa-folder"></i>
+                            folder 1
+                            <ul>
+                                <li>
+                                    <i class="fa fa-file"></i>
+                                    file 1
+                                </li>
+                                <li>
+                                    <i class="fa fa-file"></i>
+                                    file 2
+                                </li>
+                                <li>
+                                    <i class="fa fa-file"></i>
+                                    file 3
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <i class="fa fa-file"></i>
+                            file 4
+                        </li>
                     </ul>
-                </li>
-                <li>
-                    <i class="fa fa-file"></i>
-                    file 4
-                </li>
-            </ul>
-        </div>
-    </div>
-    <script src="../js/jquery-2.1.1.min.js"></script>
-    <script src="../js/settings.js"></script>
-    <script>
-        window.onload = function()
-        {
-            Settings.init();
-        };
-    </script>
+                </div>
+                <div class="footer">
+                    <button class="action">
+                        <i class="fa fa-check"></i>
+                        Save task
+                    </button>
+                </div>
+            </div>
+        </script>
+        <script src="../js/jquery-2.1.1.min.js"></script>
+        <script src="../js/settings.js"></script>
+        <script>
+            window.onload = function()
+            {
+                Settings.init();
+            };
+        </script>
     </body>
 </html>

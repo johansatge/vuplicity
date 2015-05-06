@@ -3,6 +3,8 @@ var Tray = require('tray');
 var BrowserWindow = require('browser-window');
 var fs = require('fs');
 var Menu = require('menu');
+var ipc = require('ipc');
+var dialog = require('dialog');
 
 require('crash-reporter').start();
 
@@ -32,10 +34,7 @@ app.on('ready', function()
             },
             {
                 label: 'Open settings panel',
-                click: function()
-                {
-                    _toggleMainWindow();
-                }
+                click: _toggleSettingsWindow
             },
             {
                 type: 'separator'
@@ -55,11 +54,52 @@ app.on('ready', function()
         ]
     ));
 
-    var _toggleMainWindow = function()
+    ipc.on('settings-ready', function(event)
+    {
+        var sample_settings = [ // @todo get real ones (localStorage ? User file ?)
+            {
+                url: 'http://test-url-1',
+                dir: '/Users/coucou1',
+                options: '--size 5'
+            },
+            {
+                url: 'http://test-url-2',
+                dir: '/Users/coucou2',
+                options: '--size 5'
+            },
+            {
+                url: 'http://test-url-3',
+                dir: '/Users/coucou3',
+                options: '--size 5'
+            },
+            {
+                url: 'http://test-url-4',
+                dir: '/Users/coucou4',
+                options: '--size 5'
+            }
+        ];
+        event.sender.send('current-settings', sample_settings);
+    });
+
+    ipc.on('select-directory', function(event, task_id)
+    {
+        dialog.showOpenDialog(mainWindow, {title: '@todo title', properties: ['openDirectory']}, function(paths)
+        {
+            if (typeof paths !== 'undefined')
+            {
+                event.sender.send('directory-selected', {task_id: task_id, path: paths[0]});
+            }
+        });
+    });
+
+    /**
+     * Creates the settings window
+     */
+    var _toggleSettingsWindow = function()
     {
         if (mainWindow === null)
         {
-            mainWindow = new BrowserWindow({width: 800, height: 600, show: false});
+            mainWindow = new BrowserWindow({width: 800, height: 600, show: false, frame: false, transparent: true});
             mainWindow.webContents.on('did-finish-load', function()
             {
                 mainWindow.show();
@@ -68,7 +108,16 @@ app.on('ready', function()
             mainWindow.webContents.loadUrl('file://' + mainPath + '/assets/html/settings.html');
             mainWindow.on('closed', function()
             {
+                // @todo do not quit on close
                 mainWindow = null;
+            });
+            mainWindow.on('focus', function()
+            {
+                mainWindow.webContents.send('window-focus');
+            });
+            mainWindow.on('blur', function()
+            {
+                mainWindow.webContents.send('window-blur');
             });
         }
         else
@@ -77,21 +126,5 @@ app.on('ready', function()
         }
     };
 
-    /*
-    var ipc = require('ipc');
-    ipc.on('asynchronous-message', function(event, arg)
-    {
-        console.log(arg);  // prints "ping"
-        event.sender.send('asynchronous-reply', 'pong');
-    });
-
-    ipc.on('synchronous-message', function(event, arg)
-    {
-        console.log(arg);  // prints "ping"
-        event.returnValue = 'pong';
-    });
-    */
-
-    _toggleMainWindow();
-
+    _toggleSettingsWindow();
 });

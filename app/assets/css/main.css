@@ -1,0 +1,306 @@
+/* line 1, ../sass/_base.scss */
+html, body, div, span, p, form, input, textarea, select, h1, h2, h3, table, tbody, tr, td, label, button, ul, li {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-family: "Arial", sans-serif;
+  box-sizing: border-box;
+}
+
+/* line 12, ../sass/_base.scss */
+html, body {
+  -webkit-user-select: none;
+  overflow: hidden;
+}
+
+/* line 18, ../sass/_base.scss */
+.window {
+  background: #fafafa;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 15px;
+  bottom: 0;
+  right: 0;
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 0 0 22px rgba(0, 0, 0, 0.5);
+}
+
+/* line 1, ../sass/_toolbar.scss */
+.js-blur .toolbar {
+  opacity: 0.5;
+}
+
+/* line 6, ../sass/_toolbar.scss */
+.toolbar {
+  position: absolute;
+  width: 100%;
+  height: 46px;
+  background: linear-gradient(to bottom, #ffffff, #eaeaea);
+  padding: 0 12px 0 12px;
+  border-bottom: 1px solid #b4b4b4;
+}
+/* line 15, ../sass/_toolbar.scss */
+.toolbar .close {
+  position: relative;
+  float: left;
+  width: 14px;
+  height: 14px;
+  margin: 16px 0 0 0;
+  border: 1px solid #b4b4b4;
+  background: #cccccc;
+  border-radius: 50%;
+}
+/* line 26, ../sass/_toolbar.scss */
+.toolbar .close:hover {
+  border: 1px solid #af413e;
+  background: #fc615c;
+}
+/* line 32, ../sass/_toolbar.scss */
+.toolbar .close:active {
+  border: 1px solid #af413e;
+  background: #e05652;
+}
+/* line 38, ../sass/_toolbar.scss */
+.toolbar .close i {
+  display: none;
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  font-size: 10px;
+  color: #000000;
+  opacity: 0.4;
+}
+/* line 50, ../sass/_toolbar.scss */
+.toolbar .add {
+  color: #333333;
+  float: right;
+  font-size: 12px;
+  border-radius: 4px;
+  padding: 5px 10px 5px 7px;
+  box-shadow: inset 0 1px 0 #ffffff;
+  background: linear-gradient(to bottom, #ffffff, #eaeaea);
+  border: 1px solid #b4b4b4;
+  margin: 10px 0 0 0;
+}
+/* line 62, ../sass/_toolbar.scss */
+.toolbar .add:active {
+  background: linear-gradient(to top, #ffffff, #eaeaea);
+}
+
+/* line 1, ../sass/_tasks.scss */
+.js-blur .tasks-wrapper {
+  opacity: 0.5;
+}
+
+/* line 6, ../sass/_tasks.scss */
+.tasks-wrapper {
+  position: absolute;
+  top: 46px;
+  bottom: 0;
+  width: 100%;
+}
+
+/* line 14, ../sass/_tasks.scss */
+.tasks {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  overflow-y: auto;
+}
+
+/* line 25, ../sass/_tasks.scss */
+.task.js-loading .loader {
+  display: block;
+}
+/* line 30, ../sass/_tasks.scss */
+.task.js-loading .config {
+  -webkit-filter: blur(1.5px);
+}
+
+/* line 38, ../sass/_tasks.scss */
+.task.js-opened .accordion .fa-chevron-right {
+  display: none !important;
+}
+/* line 43, ../sass/_tasks.scss */
+.task.js-opened .accordion .fa-chevron-down {
+  display: inline !important;
+}
+/* line 48, ../sass/_tasks.scss */
+.task.js-opened .config {
+  display: block !important;
+}
+/* line 53, ../sass/_tasks.scss */
+.task.js-opened .heading {
+  border-bottom: 1px solid #dddddd !important;
+}
+
+/* line 59, ../sass/_tasks.scss */
+.task {
+  position: relative;
+  border: 1px solid #dddddd;
+  box-shadow: 0 1px 0 rgba(237, 237, 237, 0.75);
+  background: #fefefe;
+  margin: 15px 15px 0 15px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+/* line 69, ../sass/_tasks.scss */
+.task .loader {
+  z-index: 2;
+  position: absolute;
+  display: none;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.5);
+}
+/* line 78, ../sass/_tasks.scss */
+.task .loader i {
+  font-size: 34px;
+  color: #999999;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -20px 0 0 -21px;
+}
+/* line 90, ../sass/_tasks.scss */
+.task .heading {
+  z-index: 1;
+  position: relative;
+  height: 36px;
+  background: linear-gradient(to bottom, #ffffff, #f5f5f5);
+  border-bottom: 0;
+}
+/* line 98, ../sass/_tasks.scss */
+.task .heading .accordion {
+  float: left;
+  background: transparent;
+  width: 22px;
+  height: 100%;
+  font-size: 14px;
+  color: #bbbbbb;
+  text-align: right;
+}
+/* line 108, ../sass/_tasks.scss */
+.task .heading .accordion .fa-chevron-down {
+  display: none;
+}
+/* line 114, ../sass/_tasks.scss */
+.task .heading .title {
+  float: left;
+  cursor: default;
+  font-size: 14px;
+  color: #666666;
+  text-shadow: 0 1px 0 #ffffff;
+  margin: 10px 0 0 10px;
+}
+/* line 124, ../sass/_tasks.scss */
+.task .heading .action {
+  position: relative;
+  color: #333333;
+  float: right;
+  font-size: 12px;
+  background: transparent;
+  height: 100%;
+  border-left: 1px solid #dddddd;
+  padding: 0 10px 0 28px;
+}
+/* line 135, ../sass/_tasks.scss */
+.task .heading .action i {
+  position: absolute;
+  top: 11px;
+  left: 8px;
+  font-size: 13px;
+  color: #bbbbbb;
+}
+/* line 144, ../sass/_tasks.scss */
+.task .heading .action:active {
+  background: linear-gradient(to top, #ffffff, #f5f5f5);
+}
+/* line 151, ../sass/_tasks.scss */
+.task .config {
+  z-index: 1;
+  position: relative;
+  display: none;
+}
+/* line 157, ../sass/_tasks.scss */
+.task .config .inside {
+  margin: 15px;
+}
+/* line 162, ../sass/_tasks.scss */
+.task .config .col1 {
+  float: left;
+  width: 100%;
+  margin: 0 0 15px 0;
+}
+/* line 169, ../sass/_tasks.scss */
+.task .config .col2 {
+  float: left;
+  width: 49.5%;
+  margin: 0 0 15px 0;
+}
+/* line 175, ../sass/_tasks.scss */
+.task .config .col2.left {
+  margin-right: 1%;
+}
+/* line 181, ../sass/_tasks.scss */
+.task .config label {
+  position: relative;
+  font-size: 13px;
+}
+/* line 187, ../sass/_tasks.scss */
+.task .config input[type="text"] {
+  width: 100%;
+  height: 28px;
+  border: 1px solid #dddddd;
+  border-radius: 3px;
+  font-size: 12px;
+  background: #ffffff;
+  margin: 5px 0 0 0;
+  box-shadow: inset 0 1px 0 #f6f6f6;
+  padding: 0 5px 0 5px;
+}
+/* line 200, ../sass/_tasks.scss */
+.task .config .input-icon {
+  color: #333333;
+  background: transparent;
+  position: absolute;
+  bottom: -7px;
+  right: 0;
+  width: 28px;
+  height: 28px;
+}
+/* line 212, ../sass/_tasks.scss */
+.task .footer {
+  z-index: 1;
+  position: relative;
+  height: 36px;
+  background: linear-gradient(to bottom, #ffffff, #f5f5f5);
+  border-top: 1px solid #dddddd;
+}
+/* line 220, ../sass/_tasks.scss */
+.task .footer .action {
+  position: relative;
+  color: #333333;
+  float: right;
+  font-size: 12px;
+  background: transparent;
+  height: 100%;
+  border-left: 1px solid #dddddd;
+  padding: 0 10px 0 28px;
+}
+/* line 231, ../sass/_tasks.scss */
+.task .footer .action i {
+  position: absolute;
+  top: 11px;
+  left: 8px;
+  font-size: 13px;
+  color: #bbbbbb;
+}
+/* line 240, ../sass/_tasks.scss */
+.task .footer .action:active {
+  background: linear-gradient(to top, #ffffff, #f5f5f5);
+}

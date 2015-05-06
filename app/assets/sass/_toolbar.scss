@@ -1,0 +1,67 @@
+.js-blur .toolbar
+{
+    opacity : 0.5;
+}
+
+.toolbar
+{
+    position      : absolute;
+    width         : 100%;
+    height        : 46px;
+    background    : linear-gradient(to bottom, #ffffff, #eaeaea);
+    padding       : 0 12px 0 12px;
+    border-bottom : 1px solid #b4b4b4;
+
+    .close
+    {
+        position      : relative;
+        float         : left;
+        width         : 14px;
+        height        : 14px;
+        margin        : 16px 0 0 0;
+        border        : 1px solid #b4b4b4;
+        background    : #cccccc;
+        border-radius : 50%;
+
+        &:hover
+        {
+            border     : 1px solid #af413e;
+            background : #fc615c;
+        }
+
+        &:active
+        {
+            border     : 1px solid #af413e;
+            background : #e05652;
+        }
+
+        i
+        {
+            display   : none;
+            position  : absolute;
+            top       : 3px;
+            left      : 3px;
+            font-size : 10px;
+            color     : #000000;
+            opacity   : 0.4;
+        }
+    }
+
+    .add
+    {
+        color         : #333333;
+        float         : right;
+        font-size     : 12px;
+        border-radius : 4px;
+        padding       : 5px 10px 5px 7px;
+        box-shadow    : inset 0 1px 0 #ffffff;
+        background    : linear-gradient(to bottom, #ffffff, #eaeaea);
+        border        : 1px solid #b4b4b4;
+        margin        : 10px 0 0 0;
+
+        &:active
+        {
+            background : linear-gradient(to top, #ffffff, #eaeaea);
+        }
+    }
+}
