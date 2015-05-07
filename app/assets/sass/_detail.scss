@@ -131,6 +131,22 @@ h2
     }
 }
 
+.backup-detail.js-processing
+{
+    -webkit-filter : blur(1px);
+
+    &:after
+    {
+        content    : ' ';
+        display    : block;
+        position   : absolute;
+        width      : 100%;
+        height     : 100%;
+        background : #ffffff;
+        opacity    : 0.5;
+    }
+}
+
 .backup-detail
 {
     z-index    : 1;

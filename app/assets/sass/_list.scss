@@ -49,6 +49,21 @@
             text-shadow : 0 1px 0 #1d1d1d;
         }
 
+        .loader
+        {
+            display   : none;
+            position  : absolute;
+            color     : #292929;
+            right     : 12px;
+            top       : 17px;
+            font-size : 18px;
+        }
+
+        &.js-processing .loader
+        {
+            display : block;
+        }
+
         &.js-active
         {
             background : linear-gradient(to top, #7ebfdf, #759fda);
@@ -60,6 +75,12 @@
                 text-shadow : 0 1px 0 #6788b6;
                 color       : #ffffff;
             }
+
+            .loader
+            {
+                color : #ffffff;
+            }
+
         }
     }
 
