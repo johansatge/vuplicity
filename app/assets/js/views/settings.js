@@ -5,18 +5,18 @@
 
     var module = {};
     var backupListTemplate = null;
-    var backupConfigTemplate = null;
+    var backupDetailTemplate = null;
     var backupsList = null;
-    var backupsConfig = null;
+    var backupsDetail = null;
     var ipc = require('ipc');
     var mouseOffset = null;
 
     module.init = function()
     {
         backupListTemplate = document.querySelector('.js-backup-list-template');
-        backupConfigTemplate = document.querySelector('.js-backup-config-template');
+        backupDetailTemplate = document.querySelector('.js-backup-detail-template');
         backupsList = document.querySelector('.js-backups-list');
-        backupsConfig = document.querySelector('.js-backups-config');
+        backupsDetail = document.querySelector('.js-backups-detail');
         document.querySelector('.js-add-backup').addEventListener('click', function(evt)
         {
             evt.preventDefault();
@@ -50,7 +50,7 @@
         });
         ipc.on('window-blur', function()
         {
-            document.body.className += ' js-blur';
+            //document.body.className += ' js-blur';
         });
     };
 
@@ -92,14 +92,14 @@
         new_backup_item.setAttribute('id', new_id);
 
         var new_backup_config = document.createElement('div');
-        new_backup_config.innerHTML = backupConfigTemplate.innerHTML;
-        new_backup_config.className = backupConfigTemplate.getAttribute('rel');
+        new_backup_config.innerHTML = backupDetailTemplate.innerHTML;
+        new_backup_config.className = backupDetailTemplate.getAttribute('rel');
         new_backup_config.setAttribute('rel', new_id);
         new_backup_config.style.display = 'none';
 
         new_backup_config.querySelector('.js-dir-select').addEventListener('click', _onSelectDirectory);
 
-        backupsConfig.appendChild(new_backup_config);
+        backupsDetail.appendChild(new_backup_config);
         for (var property in data)
         {
             var node = new_backup_config.querySelector('.js-' + property);
@@ -117,7 +117,7 @@
     var _onToggleBackup = function(evt)
     {
         var item = evt.currentTarget;
-        var config = backupsConfig.querySelector('[rel="' + item.getAttribute('id') + '"]');
+        var config = backupsDetail.querySelector('[rel="' + item.getAttribute('id') + '"]');
         if (item.className.search('js-active') !== -1)
         {
             config.style.display = 'none';

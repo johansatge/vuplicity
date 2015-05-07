@@ -2,8 +2,9 @@
 <html>
     <head>
         <title>Vuplicity settings</title>
-        <link rel="stylesheet" href="../css/font-awesome.min.css" type="text/css">
-        <link rel="stylesheet" href="../css/main.css" type="text/css">
+        <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans:400,600">
+        <link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="../css/main.css">
     </head>
     <body>
         <div class="window">
@@ -11,71 +12,74 @@
                 <button class="close js-close">
                     <i class="fa fa-plus"></i>
                 </button>
-                <button class="add js-add-backup">Add new backup</button>
+                <h1>
+                    Vuplicity
+                </h1>
             </div>
             <div class="backups-list-wrapper">
                 <div class="backups-list js-backups-list"></div>
+                <div class="actions">
+                    <button class="js-add-backup">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                    <button class="js-remove-backup">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                </div>
             </div>
-            <div class="backups-config-wrapper">
-                <div class="backups-config js-backups-config"></div>
+            <div class="backups-detail-wrapper">
+                <div class="backups-detail js-backups-detail"></div>
+                <div class="actions">
+                    <button class="action left">
+                        <i class="fa fa-refresh"></i>
+                        Refresh status
+                    </button>
+                    <button class="action left">
+                        <i class="fa fa-cloud-upload"></i>
+                        Start backup
+                    </button>
+                    <button class="action left">
+                        <i class="fa fa-cloud-download"></i>
+                        Restore...
+                    </button>
+                    <button class="action right">
+                        <i class="fa fa-check"></i>
+                        Save settings
+                    </button>
+                </div>
             </div>
         </div>
         <script type="text/template" class="js-backup-list-template" rel="backup-item js-backup-item">
-            <div class="heading">
-                <span class="title">@todo titre</span>
-            </div>
+            Titre @todo
         </script>
-        <script type="text/template" class="js-backup-config-template" rel="backup-config js-backup-config">
-            <div class="inside">
+        <script type="text/template" class="js-backup-detail-template" rel="backup-detail js-backup-detail">
+            <div class="section">
+                <h2>
+                    Files tree
+                    <i class="fa fa-files-o"></i>
+                </h2>
                 <div class="col1">
-                    <label>
-                        Files tree
-                    </label>
                     <div class="files">
                         <ul>
-                            <li>
-                                <i class="fa fa-folder-open-o"></i>
-                                Root
-                            </li>
-                            <li>
-                                <i class="fa fa-file-o"></i>
-                                file
-                            </li>
-                            <li>
-                                <i class="fa fa-file-o"></i>
-                                file
-                            </li>
-                            <li>
-                                <i class="fa fa-folder-o"></i>
-                                folder
-                            </li>
-                            <li>
-                                <i class="fa fa-file-o"></i>
-                                file
-                            </li>
-                            <li>
-                                <i class="fa fa-folder-open-o"></i>
-                                folder
-                            </li>
-                            <li>
-                                <i class="fa fa-file-o"></i>
-                                file
-                            </li>
-                            <li>
-                                <i class="fa fa-file-o"></i>
-                                file
-                            </li>
-                            <li>
-                                <i class="fa fa-file-o"></i>
-                                file
-                            </li>
-                            <li>
-                                <i class="fa fa-file-o"></i>
-                                file
-                            </li>
+                            <li><i class="fa fa-folder-open-o"></i>Root</li>
+                            <li><i class="fa fa-file-o"></i>file</li>
+                            <li><i class="fa fa-file-o"></i>file</li>
+                            <li><i class="fa fa-folder-o"></i>folder</li>
+                            <li><i class="fa fa-file-o"></i>file</li>
+                            <li><i class="fa fa-folder-open-o"></i>folder</li>
+                            <li><i class="fa fa-file-o"></i>file</li>
+                            <li><i class="fa fa-file-o"></i>file</li>
+                            <li><i class="fa fa-file-o"></i>file</li>
+                            <li><i class="fa fa-file-o"></i>file</li>
                         </ul>
                     </div>
                 </div>
+            </div>
+            <div class="section">
+                <h2>
+                    Configuration
+                    <i class="fa fa-wrench"></i>
+                </h2>
                 <div class="col2 left">
                     <label>
                         Backup URL
@@ -96,31 +100,31 @@
                     <input type="text" class="js-options">
                 </div>
             </div>
-            <div class="footer">
-                <button class="action left">
-                    <i class="fa fa-refresh"></i>
-                    Refresh status
-                </button>
-                <button class="action left">
-                    <i class="fa fa-cloud-upload"></i>
-                    Start backup
-                </button>
-                <button class="action left">
-                    <i class="fa fa-cloud-download"></i>
-                    Restore...
-                </button>
-                <button class="action right">
-                    <i class="fa fa-ban"></i>
-                    Delete backup
-                </button>
-                <button class="action right">
-                    <i class="fa fa-check"></i>
-                    Save backup
-                </button>
+            <div class="section">
+                <h2>
+                    Planning
+                    <i class="fa fa-history"></i>
+                </h2>
+                <div class="col2 left">
+                    <label>
+                        Backup URL
+                        <input type="text" class="js-url">
+                    </label>
+                </div>
+                <div class="col2">
+                    <label>
+                        Directory
+                        <input type="text" class="js-dir">
+                        <button class="input-icon js-dir-select">
+                            <i class="fa fa-folder-open"></i>
+                        </button>
+                    </label>
+                </div>
+                <div class="col1">
+                    <label>Options</label>
+                    <input type="text" class="js-options">
+                </div>
             </div>
-        </script>
-        <script type="text/template" class="js-backup-config-template" rel="backup js-backup-config">
-
         </script>
         <script src="../js/jquery-2.1.1.min.js"></script>
         <script src="../js/views/settings.js"></script>

@@ -159,9 +159,9 @@
         {
             settingsWindow = new BrowserWindow({
                 width: 900,
-                height: 700,
-                'min-width': 800,
-                'min-height': 500,
+                height: 600,
+                'min-width': 900,
+                'min-height': 600,
                 show: false,
                 frame: false,
                 transparent: true
