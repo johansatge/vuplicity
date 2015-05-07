@@ -128,8 +128,12 @@
     var _onDeleteSelectedBackup = function(evt)
     {
         evt.preventDefault();
-
-        // @todo how to get current backup ?
+        if (currentBackup !== null)
+        {
+            backupsListNode.removeChild(currentBackup.getItemNode());
+            backupsDetailNode.removeChild(currentBackup.getDetailNode());
+            currentBackup = null;
+        }
     };
 
     /**

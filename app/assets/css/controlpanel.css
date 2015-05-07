@@ -32,7 +32,7 @@ html, body {
 
 /* line 1, ../sass/_toolbar.scss */
 .js-blur .toolbar {
-  opacity: 0.8;
+  opacity: 0.9;
 }
 
 /* line 6, ../sass/_toolbar.scss */
@@ -97,7 +97,7 @@ html, body {
 
 /* line 1, ../sass/_list.scss */
 .js-blur .backups-list-wrapper {
-  opacity: 0.8;
+  opacity: 0.9;
 }
 
 /* line 6, ../sass/_list.scss */
