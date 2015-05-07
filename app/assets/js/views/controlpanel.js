@@ -1,4 +1,4 @@
-(function(window, document, ipc, BackupElement)
+(function(window, document, ipc, BackupElement, Window)
 {
 
     'use strict';
@@ -6,7 +6,6 @@
     var module = {};
     var backupsListNode = null;
     var backupsDetailNode = null;
-    var mouseOffset = null;
     var currentBackup = null;
     var removeBackupNode = null;
 
@@ -36,70 +35,10 @@
     var _initEvents = function()
     {
         document.querySelector('.js-add-backup').addEventListener('click', _onCreateNewBackup);
-        document.querySelector('.js-toolbar').addEventListener('mousedown', _onDragWindow);
-        document.querySelector('.js-close').addEventListener('click', _onCloseWindow);
         removeBackupNode.addEventListener('click', _onRequestBackupDeletion);
-
         ipc.on('control-panel-init-data', _onInitBackups);
         //ipc.on('directory-selected', _onSelectedDirectory);
-        ipc.on('window-focus', _onWindowFocus);
-        ipc.on('window-blur', _onWindowBlur);
         ipc.on('confirm-backup-deletion', _onConfirmBackupDeletion);
-    };
-
-    /**
-     * Closes the window
-     * @param evt
-     */
-    var _onCloseWindow = function(evt)
-    {
-        evt.preventDefault();
-        ipc.send('window-close');
-    };
-
-    /**
-     * Window focus
-     */
-    var _onWindowFocus = function()
-    {
-        document.body.className = document.body.className.replace('js-blur', '');
-    };
-
-    /**
-     * Window blur
-     */
-    var _onWindowBlur = function()
-    {
-        // @todo enable this
-        document.body.className += ' js-blur';
-    };
-
-    /**
-     * Starts dragging the window on toolbar mousedown
-     * @param evt
-     */
-    var _onDragWindow = function(evt)
-    {
-        if (evt.target.className.indexOf('js-toolbar') === -1)
-        {
-            evt.stopPropagation();
-            return;
-        }
-        mouseOffset = {x: evt.pageX, y: evt.pageY};
-        document.addEventListener('mousemove', _dragWindow);
-        document.addEventListener('mouseup', function()
-        {
-            document.removeEventListener('mousemove', _dragWindow);
-        });
-    };
-
-    /**
-     * Drags the window on mouse move
-     * @param evt
-     */
-    var _dragWindow = function(evt)
-    {
-        ipc.send('window-move', {x: evt.screenX - mouseOffset.x, y: evt.screenY - mouseOffset.y});
     };
 
     /**
@@ -191,4 +130,4 @@
 
     window.ControlPanel = module;
 
-})(window, document, require('ipc'), BackupElement);
+})(window, document, require('ipc'), BackupElement, Window);

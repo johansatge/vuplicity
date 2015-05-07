@@ -9,7 +9,7 @@
     </head>
     <body>
         <div class="window">
-            <div class="toolbar js-toolbar">
+            <div class="toolbar js-window-handler">
                 <button class="close js-close">
                     <i class="fa fa-plus"></i>
                 </button>
@@ -45,7 +45,7 @@
             <div class="status">
                 Last backup the 2015-XX-XX at XX:33
                 <span>
-                    Automatic
+                    Manual
                 </span>
             </div>
         </script>
@@ -142,11 +142,13 @@
             </div>
         </script>
         <script src="../js/jquery-2.1.1.min.js"></script>
+        <script src="../js/views/window.js"></script>
         <script src="../js/views/backupelement.js"></script>
         <script src="../js/views/controlpanel.js"></script>
         <script>
             window.onload = function()
             {
+                Window.init();
                 ControlPanel.init();
             };
         </script>
