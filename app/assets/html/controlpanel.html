@@ -3,17 +3,17 @@
     <head>
         <title>Vuplicity settings</title>
         <!-- @todo use local fonts -->
-        <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans:400,600">
+        <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600">
         <link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css">
         <link rel="stylesheet" type="text/css" href="../css/controlpanel.css">
     </head>
     <body>
         <div class="window">
-            <div class="toolbar js-window-handler">
+            <div class="toolbar">
                 <button class="close js-close">
                     <i class="fa fa-plus"></i>
                 </button>
-                <h1>
+                <h1 class="js-window-handler">
                     Vuplicity
                 </h1>
             </div>
@@ -44,9 +44,6 @@
             </div>
             <div class="status">
                 Last backup the 2015-XX-XX at XX:33
-                <span>
-                    Manual
-                </span>
             </div>
         </script>
         <script type="text/template" class="js-backup-detail-template" rel="backup-detail js-backup-detail">
@@ -67,6 +64,23 @@
                     <i class="fa fa-check"></i>
                     Save settings
                 </button>
+            </div>
+            <div class="section">
+                <h2>
+                    Backup status
+                </h2>
+                <p class="col1">
+                    Number of contained backup sets
+                    <span class="right">2</span>
+                </p>
+                <p class="col1">
+                    Chain start time
+                    <span class="right">Tue Apr 28 11:22:27 2015</span>
+                </p>
+                <p class="col1">
+                    Chain end time
+                    <span class="right">Wed Apr 29 13:34:18 2015</span>
+                </p>
             </div>
             <div class="section">
                 <h2>
@@ -93,24 +107,24 @@
                 <h2>
                     Target
                 </h2>
-                <label class="col1">
+                <label class="col2 left">
                     Backup title
                     <input type="text" class="js-field-title">
                 </label>
-                <label class="col2 left">
-                    Destination URL
-                    <input type="text" class="js-field-url">
-                </label>
                 <label class="col2">
+                    Options
+                    <input type="text" class="js-field-options">
+                </label>
+                <label class="col2 left">
                     Source path
                     <input type="text" class="js-field-path">
                     <button class="input-icon js-path-select">
                         <i class="fa fa-folder-open"></i>
                     </button>
                 </label>
-                <label class="col1">
-                    Options
-                    <input type="text" class="js-field-options">
+                <label class="col2">
+                    Destination URL
+                    <input type="text" class="js-field-url">
                 </label>
             </div>
             <div class="section">

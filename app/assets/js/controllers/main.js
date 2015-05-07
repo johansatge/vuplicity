@@ -180,9 +180,9 @@
         {
             controlPanelWindow = new BrowserWindow({
                 width: 900,
-                height: 650,
+                height: 730,
                 'min-width': 900,
-                'min-height': 650,
+                'min-height': 730,
                 show: false,
                 frame: false,
                 transparent: true

@@ -77,10 +77,9 @@
     };
 
     /**
-     * Deletes the selected backup
-     * @param evt
+     * Deletes the selected backup when the user has confirmed the action
      */
-    var _onConfirmBackupDeletion = function(evt)
+    var _onConfirmBackupDeletion = function()
     {
         backupsListNode.removeChild(currentBackup.getItemNode());
         backupsDetailNode.removeChild(currentBackup.getDetailNode());
