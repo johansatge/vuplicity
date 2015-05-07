@@ -20,7 +20,7 @@
         document.querySelector('.js-add-backup').addEventListener('click', function(evt)
         {
             evt.preventDefault();
-            _createBackup({}, true);
+            _createBackup({});
         });
         document.querySelector('.js-toolbar').addEventListener('mousedown', function(evt)
         {
@@ -73,35 +73,41 @@
     {
         for (var index = 0; index < backups.length; index += 1)
         {
-            _createBackup(backups[index], false);
+            _createBackup(backups[index]);
         }
     };
 
     /**
      * Appends a new backup to the list
      * @param data
-     * @param opened
      */
-    var _createBackup = function(data, opened)
+    var _createBackup = function(data)
     {
-        var new_backup = document.createElement('div');
-        new_backup.innerHTML = backupListTemplate.innerHTML;
-        new_backup.className = backupListTemplate.getAttribute('rel');
-        backupsList.insertBefore(new_backup, backupsList.firstChild);
+        var new_backup_item = document.createElement('div');
+        new_backup_item.innerHTML = backupListTemplate.innerHTML;
+        new_backup_item.className = backupListTemplate.getAttribute('rel');
+        backupsList.insertBefore(new_backup_item, backupsList.firstChild);
+        new_backup_item.addEventListener('click', _onToggleBackup);
+        var new_id = 'backup-' + new Date().getTime() + '-' + document.querySelectorAll('.js-backup-item').length;
+        new_backup_item.setAttribute('id', new_id);
+
+        var new_backup_config = document.createElement('div');
+        new_backup_config.innerHTML = backupConfigTemplate.innerHTML;
+        new_backup_config.className = backupConfigTemplate.getAttribute('rel');
+        new_backup_config.setAttribute('rel', new_id);
+        new_backup_config.style.display = 'none';
+
+        new_backup_config.querySelector('.js-dir-select').addEventListener('click', _onSelectDirectory);
+
+        backupsConfig.appendChild(new_backup_config);
         for (var property in data)
         {
-            var node = new_backup.querySelector('.js-' + property);
-            node.setAttribute('value', data[property]);
+            var node = new_backup_config.querySelector('.js-' + property);
+            if (typeof node !== 'undefined')
+            {
+                node.setAttribute('value', data[property]);
+            }
         }
-        new_backup.querySelector('.js-accordion').addEventListener('click', _onToggleBackup);
-        new_backup.querySelector('.js-dir').addEventListener('change', _updateBackups);
-        new_backup.querySelector('.js-dir-select').addEventListener('click', _onSelectDirectory);
-        if (opened)
-        {
-            new_backup.className += ' js-opened';
-        }
-        new_backup.setAttribute('id', 'backup-' + new Date().getTime() + '-' + document.querySelectorAll('.js-backup-item').length);
-        _updateBackups();
     };
 
     /**
@@ -110,14 +116,22 @@
      */
     var _onToggleBackup = function(evt)
     {
-        var backup = evt.currentTarget.parentNode.parentNode;
-        if (backup.className.search('js-opened') !== -1)
+        var item = evt.currentTarget;
+        var config = backupsConfig.querySelector('[rel="' + item.getAttribute('id') + '"]');
+        if (item.className.search('js-active') !== -1)
         {
-            backup.className = backup.className.replace('js-opened', '');
+            config.style.display = 'none';
+            item.className = item.className.replace('js-active', '');
         }
         else
         {
-            backup.className += ' js-opened';
+            var current_item = backupsList.querySelector('.js-active');
+            if (current_item !== null)
+            {
+                current_item.dispatchEvent(new Event('click'));
+            }
+            item.className += ' js-active';
+            config.style.display = 'block';
         }
     };
 
@@ -128,7 +142,8 @@
     var _onSelectDirectory = function(evt)
     {
         evt.preventDefault();
-        ipc.send('select-directory', evt.currentTarget.parentNode.parentNode.parentNode.parentNode.parentNode.getAttribute('id'));
+        // @todo refactor this
+        //ipc.send('select-directory', evt.currentTarget.parentNode.parentNode.parentNode.parentNode.parentNode.getAttribute('id'));
     };
 
     /**
@@ -144,6 +159,7 @@
 
     /**
      * Updates backup blocks
+     * @todo update backup name in the list when editing the config (only on save ?)
      */
     var _updateBackups = function()
     {

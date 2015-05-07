@@ -21,6 +21,24 @@
     border-right : 1px solid #000000;
 }
 
+.backups-config-wrapper
+{
+    position : absolute;
+    top      : 46px;
+    bottom   : 0;
+    left     : 40%;
+    width    : 60%;
+}
+
+.backups-config
+{
+    position   : absolute;
+    top        : 0;
+    bottom     : 0;
+    width      : 100%;
+    overflow-y : auto;
+}
+
 .backup-item.js-loading
 {
     .loader
@@ -34,29 +52,6 @@
     }
 }
 
-.backup-item.js-opened
-{
-    .accordion .fa-chevron-right
-    {
-        display : none !important;
-    }
-
-    .accordion .fa-chevron-down
-    {
-        display : inline !important;
-    }
-
-    .config
-    {
-        display : block !important;
-    }
-
-    .heading
-    {
-        border-bottom : 1px solid #dddddd !important;
-    }
-}
-
 .backup-item
 {
     position      : relative;
@@ -67,25 +62,9 @@
     border-radius : 4px;
     overflow      : hidden;
 
-    .loader
+    &.js-active
     {
-        z-index    : 2;
-        position   : absolute;
-        display    : none;
-        width      : 100%;
-        height     : 100%;
-        background : rgba(255, 255, 255, 0.5);
-
-        i
-        {
-            font-size : 34px;
-            color     : #999999;
-            position  : absolute;
-            top       : 50%;
-            left      : 50%;
-            margin    : -20px 0 0 -21px;
-        }
-
+        border : 1px solid #000000;
     }
 
     .heading
@@ -95,22 +74,6 @@
         height        : 36px;
         background    : linear-gradient(to bottom, #ffffff, #f5f5f5);
         border-bottom : 0;
-
-        .accordion
-        {
-            float      : left;
-            background : transparent;
-            width      : 22px;
-            height     : 100%;
-            font-size  : 14px;
-            color      : #bbbbbb;
-            text-align : right;
-
-            .fa-chevron-down
-            {
-                display : none;
-            }
-        }
 
         .title
         {
@@ -132,146 +95,145 @@
             margin      : 10px 12px 0 0;
         }
     }
+}
 
-    .config
+.backup-config
+{
+    z-index  : 1;
+    position : relative;
+    float    : left;
+    width    : 100%;
+
+    .inside
     {
-        z-index  : 1;
-        position : relative;
-        float    : left;
-        width    : 100%;
-        display  : none;
+        margin : 15px;
+    }
 
-        .inside
+    .col1
+    {
+        float  : left;
+        width  : 100%;
+        margin : 0 0 15px 0;
+    }
+
+    .col2
+    {
+        float  : left;
+        width  : 49.5%;
+        margin : 0 0 15px 0;
+
+        &.left
         {
-            margin : 15px;
-        }
-
-        .col1
-        {
-            float  : left;
-            width  : 100%;
-            margin : 0 0 15px 0;
-        }
-
-        .col2
-        {
-            float  : left;
-            width  : 49.5%;
-            margin : 0 0 15px 0;
-
-            &.left
-            {
-                margin-right : 1%;
-            }
-        }
-
-        label
-        {
-            position  : relative;
-            font-size : 13px;
-        }
-
-        input[type="text"]
-        {
-            width         : 100%;
-            height        : 28px;
-            border        : 1px solid #dddddd;
-            border-radius : 3px;
-            font-size     : 12px;
-            background    : #ffffff;
-            margin        : 5px 0 0 0;
-            box-shadow    : inset 0 1px 0 #f6f6f6;
-            padding       : 0 5px 0 5px;
-        }
-
-        .input-icon
-        {
-            color      : #333333;
-            background : transparent;
-            position   : absolute;
-            bottom     : -7px;
-            right      : 0;
-            width      : 28px;
-            height     : 28px;
+            margin-right : 1%;
         }
     }
 
-    .files
+    label
     {
-        color         : #333333;
-        height        : 150px;
+        position  : relative;
+        font-size : 13px;
+    }
+
+    input[type="text"]
+    {
+        width         : 100%;
+        height        : 28px;
         border        : 1px solid #dddddd;
         border-radius : 3px;
         font-size     : 12px;
         background    : #ffffff;
         margin        : 5px 0 0 0;
         box-shadow    : inset 0 1px 0 #f6f6f6;
-        overflow-y    : auto;
-        padding       : 5px 10px 5px 5px;
-
-        ul
-        {
-            list-style-type : none;
-        }
-
-        li
-        {
-            cursor        : default;
-            border-radius : 3px;
-            border        : 1px solid transparent;
-
-            i
-            {
-                color  : #999999;
-                margin : 2px 2px 2px 0;
-            }
-        }
+        padding       : 0 5px 0 5px;
     }
 
-    .footer
+    .input-icon
     {
-        z-index    : 1;
-        position   : relative;
-        float      : left;
-        width      : 100%;
-        height     : 36px;
-        background : linear-gradient(to bottom, #ffffff, #f5f5f5);
-        border-top : 1px solid #dddddd;
+        color      : #333333;
+        background : transparent;
+        position   : absolute;
+        bottom     : -7px;
+        right      : 0;
+        width      : 28px;
+        height     : 28px;
+    }
+}
 
-        .action
+.files
+{
+    color         : #333333;
+    height        : 150px;
+    border        : 1px solid #dddddd;
+    border-radius : 3px;
+    font-size     : 12px;
+    background    : #ffffff;
+    margin        : 5px 0 0 0;
+    box-shadow    : inset 0 1px 0 #f6f6f6;
+    overflow-y    : auto;
+    padding       : 5px 10px 5px 5px;
+
+    ul
+    {
+        list-style-type : none;
+    }
+
+    li
+    {
+        cursor        : default;
+        border-radius : 3px;
+        border        : 1px solid transparent;
+
+        i
         {
-            position   : relative;
-            color      : #333333;
-            font-size  : 12px;
-            background : transparent;
-            height     : 100%;
-            padding    : 0 10px 0 28px;
+            color  : #999999;
+            margin : 2px 2px 2px 0;
+        }
+    }
+}
 
-            &.left
-            {
-                float        : left;
-                border-right : 1px solid #dddddd;
-            }
+.footer
+{
+    z-index    : 1;
+    position   : relative;
+    float      : left;
+    width      : 100%;
+    height     : 36px;
+    background : linear-gradient(to bottom, #ffffff, #f5f5f5);
+    border-top : 1px solid #dddddd;
 
-            &.right
-            {
-                float       : right;
-                border-left : 1px solid #dddddd;
-            }
+    .action
+    {
+        position   : relative;
+        color      : #333333;
+        font-size  : 12px;
+        background : transparent;
+        height     : 100%;
+        padding    : 0 10px 0 28px;
 
-            i
-            {
-                position  : absolute;
-                top       : 11px;
-                left      : 8px;
-                font-size : 13px;
-                color     : #bbbbbb;
-            }
+        &.left
+        {
+            float        : left;
+            border-right : 1px solid #dddddd;
+        }
 
-            &:active
-            {
-                background : linear-gradient(to top, #ffffff, #f5f5f5);
-            }
+        &.right
+        {
+            float       : right;
+            border-left : 1px solid #dddddd;
+        }
+
+        i
+        {
+            position  : absolute;
+            top       : 11px;
+            left      : 8px;
+            font-size : 13px;
+            color     : #bbbbbb;
+        }
+
+        &:active
+        {
+            background : linear-gradient(to top, #ffffff, #f5f5f5);
         }
     }
 }
