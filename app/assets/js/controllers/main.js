@@ -158,10 +158,10 @@
         var _initSettingsWindow = function()
         {
             settingsWindow = new BrowserWindow({
-                width: 800,
-                height: 600,
-                'min-width': 750,
-                'min-height': 400,
+                width: 900,
+                height: 700,
+                'min-width': 800,
+                'min-height': 500,
                 show: false,
                 frame: false,
                 transparent: true

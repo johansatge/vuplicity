@@ -3,24 +3,25 @@
     opacity : 0.5;
 }
 
-.backups-wrapper
+.backups-list-wrapper
 {
     position : absolute;
     top      : 46px;
     bottom   : 0;
-    width    : 100%;
+    width    : 40%;
 }
 
-.backups
+.backups-list
 {
-    position   : absolute;
-    top        : 0;
-    bottom     : 0;
-    width      : 100%;
-    overflow-y : auto;
+    position     : absolute;
+    top          : 0;
+    bottom       : 0;
+    width        : 100%;
+    overflow-y   : auto;
+    border-right : 1px solid #000000;
 }
 
-.backup.js-loading
+.backup-item.js-loading
 {
     .loader
     {
@@ -33,7 +34,7 @@
     }
 }
 
-.backup.js-opened
+.backup-item.js-opened
 {
     .accordion .fa-chevron-right
     {
@@ -56,7 +57,7 @@
     }
 }
 
-.backup
+.backup-item
 {
     position      : relative;
     border        : 1px solid #dddddd;

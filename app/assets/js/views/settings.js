@@ -4,19 +4,23 @@
     'use strict';
 
     var module = {};
-    var backupTemplate = null;
+    var backupListTemplate = null;
+    var backupConfigTemplate = null;
     var backupsList = null;
+    var backupsConfig = null;
     var ipc = require('ipc');
     var mouseOffset = null;
 
     module.init = function()
     {
-        backupTemplate = document.querySelector('.js-backup-template');
+        backupListTemplate = document.querySelector('.js-backup-list-template');
+        backupConfigTemplate = document.querySelector('.js-backup-config-template');
         backupsList = document.querySelector('.js-backups-list');
+        backupsConfig = document.querySelector('.js-backups-config');
         document.querySelector('.js-add-backup').addEventListener('click', function(evt)
         {
             evt.preventDefault();
-            _createbackup({}, true);
+            _createBackup({}, true);
         });
         document.querySelector('.js-toolbar').addEventListener('mousedown', function(evt)
         {
@@ -69,7 +73,7 @@
     {
         for (var index = 0; index < backups.length; index += 1)
         {
-            _createbackup(backups[index], false);
+            _createBackup(backups[index], false);
         }
     };
 
@@ -78,33 +82,33 @@
      * @param data
      * @param opened
      */
-    var _createbackup = function(data, opened)
+    var _createBackup = function(data, opened)
     {
         var new_backup = document.createElement('div');
-        new_backup.innerHTML = backupTemplate.innerHTML;
-        new_backup.className = backupTemplate.getAttribute('rel');
+        new_backup.innerHTML = backupListTemplate.innerHTML;
+        new_backup.className = backupListTemplate.getAttribute('rel');
         backupsList.insertBefore(new_backup, backupsList.firstChild);
         for (var property in data)
         {
             var node = new_backup.querySelector('.js-' + property);
             node.setAttribute('value', data[property]);
         }
-        new_backup.querySelector('.js-accordion').addEventListener('click', _onTogglebackup);
-        new_backup.querySelector('.js-dir').addEventListener('change', _updatebackups);
+        new_backup.querySelector('.js-accordion').addEventListener('click', _onToggleBackup);
+        new_backup.querySelector('.js-dir').addEventListener('change', _updateBackups);
         new_backup.querySelector('.js-dir-select').addEventListener('click', _onSelectDirectory);
         if (opened)
         {
             new_backup.className += ' js-opened';
         }
-        new_backup.setAttribute('id', 'backup-' + new Date().getTime() + '-' + document.querySelectorAll('.js-backup').length);
-        _updatebackups();
+        new_backup.setAttribute('id', 'backup-' + new Date().getTime() + '-' + document.querySelectorAll('.js-backup-item').length);
+        _updateBackups();
     };
 
     /**
      * Toggles a backup
      * @param evt
      */
-    var _onTogglebackup = function(evt)
+    var _onToggleBackup = function(evt)
     {
         var backup = evt.currentTarget.parentNode.parentNode;
         if (backup.className.search('js-opened') !== -1)
@@ -141,9 +145,9 @@
     /**
      * Updates backup blocks
      */
-    var _updatebackups = function()
+    var _updateBackups = function()
     {
-        var backups = document.querySelectorAll('.js-backup');
+        var backups = document.querySelectorAll('.js-backup-item');
         for (var index = 0; index < backups.length; index += 1)
         {
             var backup = backups[index];

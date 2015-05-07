@@ -105,50 +105,51 @@ html, body {
 }
 
 /* line 6, ../sass/_backups.scss */
-.backups-wrapper {
+.backups-list-wrapper {
   position: absolute;
   top: 46px;
   bottom: 0;
-  width: 100%;
+  width: 40%;
 }
 
 /* line 14, ../sass/_backups.scss */
-.backups {
+.backups-list {
   position: absolute;
   top: 0;
   bottom: 0;
   width: 100%;
   overflow-y: auto;
+  border-right: 1px solid #000000;
 }
 
-/* line 25, ../sass/_backups.scss */
-.backup.js-loading .loader {
+/* line 26, ../sass/_backups.scss */
+.backup-item.js-loading .loader {
   display: block;
 }
-/* line 30, ../sass/_backups.scss */
-.backup.js-loading .config {
+/* line 31, ../sass/_backups.scss */
+.backup-item.js-loading .config {
   -webkit-filter: blur(1.5px);
 }
 
-/* line 38, ../sass/_backups.scss */
-.backup.js-opened .accordion .fa-chevron-right {
+/* line 39, ../sass/_backups.scss */
+.backup-item.js-opened .accordion .fa-chevron-right {
   display: none !important;
 }
-/* line 43, ../sass/_backups.scss */
-.backup.js-opened .accordion .fa-chevron-down {
+/* line 44, ../sass/_backups.scss */
+.backup-item.js-opened .accordion .fa-chevron-down {
   display: inline !important;
 }
-/* line 48, ../sass/_backups.scss */
-.backup.js-opened .config {
+/* line 49, ../sass/_backups.scss */
+.backup-item.js-opened .config {
   display: block !important;
 }
-/* line 53, ../sass/_backups.scss */
-.backup.js-opened .heading {
+/* line 54, ../sass/_backups.scss */
+.backup-item.js-opened .heading {
   border-bottom: 1px solid #dddddd !important;
 }
 
-/* line 59, ../sass/_backups.scss */
-.backup {
+/* line 60, ../sass/_backups.scss */
+.backup-item {
   position: relative;
   border: 1px solid #dddddd;
   box-shadow: 0 1px 0 rgba(237, 237, 237, 0.75);
@@ -157,8 +158,8 @@ html, body {
   border-radius: 4px;
   overflow: hidden;
 }
-/* line 69, ../sass/_backups.scss */
-.backup .loader {
+/* line 70, ../sass/_backups.scss */
+.backup-item .loader {
   z-index: 2;
   position: absolute;
   display: none;
@@ -166,8 +167,8 @@ html, body {
   height: 100%;
   background: rgba(255, 255, 255, 0.5);
 }
-/* line 78, ../sass/_backups.scss */
-.backup .loader i {
+/* line 79, ../sass/_backups.scss */
+.backup-item .loader i {
   font-size: 34px;
   color: #999999;
   position: absolute;
@@ -175,16 +176,16 @@ html, body {
   left: 50%;
   margin: -20px 0 0 -21px;
 }
-/* line 90, ../sass/_backups.scss */
-.backup .heading {
+/* line 91, ../sass/_backups.scss */
+.backup-item .heading {
   z-index: 1;
   position: relative;
   height: 36px;
   background: linear-gradient(to bottom, #ffffff, #f5f5f5);
   border-bottom: 0;
 }
-/* line 98, ../sass/_backups.scss */
-.backup .heading .accordion {
+/* line 99, ../sass/_backups.scss */
+.backup-item .heading .accordion {
   float: left;
   background: transparent;
   width: 22px;
@@ -193,12 +194,12 @@ html, body {
   color: #bbbbbb;
   text-align: right;
 }
-/* line 108, ../sass/_backups.scss */
-.backup .heading .accordion .fa-chevron-down {
+/* line 109, ../sass/_backups.scss */
+.backup-item .heading .accordion .fa-chevron-down {
   display: none;
 }
-/* line 114, ../sass/_backups.scss */
-.backup .heading .title {
+/* line 115, ../sass/_backups.scss */
+.backup-item .heading .title {
   float: left;
   cursor: default;
   font-size: 14px;
@@ -206,8 +207,8 @@ html, body {
   text-shadow: 0 1px 0 #ffffff;
   margin: 10px 0 0 10px;
 }
-/* line 124, ../sass/_backups.scss */
-.backup .heading .status {
+/* line 125, ../sass/_backups.scss */
+.backup-item .heading .status {
   float: right;
   cursor: default;
   font-size: 14px;
@@ -215,41 +216,41 @@ html, body {
   text-shadow: 0 1px 0 #ffffff;
   margin: 10px 12px 0 0;
 }
-/* line 135, ../sass/_backups.scss */
-.backup .config {
+/* line 136, ../sass/_backups.scss */
+.backup-item .config {
   z-index: 1;
   position: relative;
   float: left;
   width: 100%;
   display: none;
 }
-/* line 143, ../sass/_backups.scss */
-.backup .config .inside {
+/* line 144, ../sass/_backups.scss */
+.backup-item .config .inside {
   margin: 15px;
 }
-/* line 148, ../sass/_backups.scss */
-.backup .config .col1 {
+/* line 149, ../sass/_backups.scss */
+.backup-item .config .col1 {
   float: left;
   width: 100%;
   margin: 0 0 15px 0;
 }
-/* line 155, ../sass/_backups.scss */
-.backup .config .col2 {
+/* line 156, ../sass/_backups.scss */
+.backup-item .config .col2 {
   float: left;
   width: 49.5%;
   margin: 0 0 15px 0;
 }
-/* line 161, ../sass/_backups.scss */
-.backup .config .col2.left {
+/* line 162, ../sass/_backups.scss */
+.backup-item .config .col2.left {
   margin-right: 1%;
 }
-/* line 167, ../sass/_backups.scss */
-.backup .config label {
+/* line 168, ../sass/_backups.scss */
+.backup-item .config label {
   position: relative;
   font-size: 13px;
 }
-/* line 173, ../sass/_backups.scss */
-.backup .config input[type="text"] {
+/* line 174, ../sass/_backups.scss */
+.backup-item .config input[type="text"] {
   width: 100%;
   height: 28px;
   border: 1px solid #dddddd;
@@ -260,8 +261,8 @@ html, body {
   box-shadow: inset 0 1px 0 #f6f6f6;
   padding: 0 5px 0 5px;
 }
-/* line 186, ../sass/_backups.scss */
-.backup .config .input-icon {
+/* line 187, ../sass/_backups.scss */
+.backup-item .config .input-icon {
   color: #333333;
   background: transparent;
   position: absolute;
@@ -270,8 +271,8 @@ html, body {
   width: 28px;
   height: 28px;
 }
-/* line 198, ../sass/_backups.scss */
-.backup .files {
+/* line 199, ../sass/_backups.scss */
+.backup-item .files {
   color: #333333;
   height: 150px;
   border: 1px solid #dddddd;
@@ -283,23 +284,23 @@ html, body {
   overflow-y: auto;
   padding: 5px 10px 5px 5px;
 }
-/* line 211, ../sass/_backups.scss */
-.backup .files ul {
+/* line 212, ../sass/_backups.scss */
+.backup-item .files ul {
   list-style-type: none;
 }
-/* line 216, ../sass/_backups.scss */
-.backup .files li {
+/* line 217, ../sass/_backups.scss */
+.backup-item .files li {
   cursor: default;
   border-radius: 3px;
   border: 1px solid transparent;
 }
-/* line 222, ../sass/_backups.scss */
-.backup .files li i {
+/* line 223, ../sass/_backups.scss */
+.backup-item .files li i {
   color: #999999;
   margin: 2px 2px 2px 0;
 }
-/* line 230, ../sass/_backups.scss */
-.backup .footer {
+/* line 231, ../sass/_backups.scss */
+.backup-item .footer {
   z-index: 1;
   position: relative;
   float: left;
@@ -308,8 +309,8 @@ html, body {
   background: linear-gradient(to bottom, #ffffff, #f5f5f5);
   border-top: 1px solid #dddddd;
 }
-/* line 240, ../sass/_backups.scss */
-.backup .footer .action {
+/* line 241, ../sass/_backups.scss */
+.backup-item .footer .action {
   position: relative;
   color: #333333;
   font-size: 12px;
@@ -317,25 +318,25 @@ html, body {
   height: 100%;
   padding: 0 10px 0 28px;
 }
-/* line 249, ../sass/_backups.scss */
-.backup .footer .action.left {
+/* line 250, ../sass/_backups.scss */
+.backup-item .footer .action.left {
   float: left;
   border-right: 1px solid #dddddd;
 }
-/* line 255, ../sass/_backups.scss */
-.backup .footer .action.right {
+/* line 256, ../sass/_backups.scss */
+.backup-item .footer .action.right {
   float: right;
   border-left: 1px solid #dddddd;
 }
-/* line 261, ../sass/_backups.scss */
-.backup .footer .action i {
+/* line 262, ../sass/_backups.scss */
+.backup-item .footer .action i {
   position: absolute;
   top: 11px;
   left: 8px;
   font-size: 13px;
   color: #bbbbbb;
 }
-/* line 270, ../sass/_backups.scss */
-.backup .footer .action:active {
+/* line 271, ../sass/_backups.scss */
+.backup-item .footer .action:active {
   background: linear-gradient(to top, #ffffff, #f5f5f5);
 }
