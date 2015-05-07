@@ -36,24 +36,6 @@
                     </span>
                 </div>
                 <div class="backups-detail js-backups-detail"></div>
-                <div class="actions js-backup-toolbar">
-                    <button class="action left">
-                        <i class="fa fa-refresh"></i>
-                        Refresh status
-                    </button>
-                    <button class="action left">
-                        <i class="fa fa-cloud-upload"></i>
-                        Backup now
-                    </button>
-                    <button class="action left">
-                        <i class="fa fa-cloud-download"></i>
-                        Restore...
-                    </button>
-                    <button class="action right">
-                        <i class="fa fa-check"></i>
-                        Save settings
-                    </button>
-                </div>
             </div>
         </div>
         <script type="text/template" class="js-backup-list-template" rel="backup-item js-backup-item">
@@ -68,6 +50,24 @@
             </div>
         </script>
         <script type="text/template" class="js-backup-detail-template" rel="backup-detail js-backup-detail">
+            <div class="actions">
+                <button class="action left">
+                    <i class="fa fa-refresh"></i>
+                    Refresh status
+                </button>
+                <button class="action left">
+                    <i class="fa fa-cloud-upload"></i>
+                    Backup now
+                </button>
+                <button class="action left">
+                    <i class="fa fa-cloud-download"></i>
+                    Restore...
+                </button>
+                <button class="action right">
+                    <i class="fa fa-check"></i>
+                    Save settings
+                </button>
+            </div>
             <div class="section">
                 <h2>
                     File tree
@@ -142,6 +142,7 @@
             </div>
         </script>
         <script src="../js/jquery-2.1.1.min.js"></script>
+        <script src="../js/views/backupelement.js"></script>
         <script src="../js/views/controlpanel.js"></script>
         <script>
             window.onload = function()

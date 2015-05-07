@@ -12,8 +12,7 @@
         z-index  : 1;
         position : absolute;
         width    : 100%;
-        top      : 0;
-        bottom   : 40px;
+        height   : 100%;
 
         i
         {
@@ -93,7 +92,7 @@
         z-index    : 2;
         position   : absolute;
         top        : 0;
-        bottom     : 40px;
+        bottom     : 0;
         width      : 100%;
         overflow-y : auto;
     }
@@ -134,10 +133,11 @@ h2
 
 .backup-detail
 {
-    z-index  : 1;
-    position : relative;
-    float    : left;
-    width    : 100%;
+    z-index    : 1;
+    position   : relative;
+    float      : left;
+    width      : 100%;
+    min-height : 100%;
 
     label
     {

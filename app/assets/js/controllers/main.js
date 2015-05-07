@@ -108,7 +108,7 @@
                         options: '--size 5'
                     }
                 ];
-                event.sender.send('current-settings', sample_settings);
+                event.sender.send('control-panel-init-data', sample_settings);
             });
 
             ipc.on('select-directory', function(event, backup_id)

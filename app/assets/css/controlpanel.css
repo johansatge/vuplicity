@@ -32,7 +32,7 @@ html, body {
 
 /* line 1, ../sass/_toolbar.scss */
 .js-blur .toolbar {
-  opacity: 0.5;
+  opacity: 0.8;
 }
 
 /* line 6, ../sass/_toolbar.scss */
@@ -97,7 +97,7 @@ html, body {
 
 /* line 1, ../sass/_list.scss */
 .js-blur .backups-list-wrapper {
-  opacity: 0.5;
+  opacity: 0.8;
 }
 
 /* line 6, ../sass/_list.scss */
@@ -197,10 +197,9 @@ html, body {
   z-index: 1;
   position: absolute;
   width: 100%;
-  top: 0;
-  bottom: 40px;
+  height: 100%;
 }
-/* line 18, ../sass/_detail.scss */
+/* line 17, ../sass/_detail.scss */
 .backups-detail-wrapper .empty i {
   color: #CBCBCB;
   font-size: 50px;
@@ -210,7 +209,7 @@ html, body {
   text-shadow: 0 2px 0 #ffffff;
   margin: -45px 0 0 -27px;
 }
-/* line 29, ../sass/_detail.scss */
+/* line 28, ../sass/_detail.scss */
 .backups-detail-wrapper .empty span {
   position: absolute;
   width: 80%;
@@ -222,7 +221,7 @@ html, body {
   text-shadow: 0 2px 0 #ffffff;
   margin: 20px 0 0 0;
 }
-/* line 43, ../sass/_detail.scss */
+/* line 42, ../sass/_detail.scss */
 .backups-detail-wrapper .actions {
   position: absolute;
   width: 100%;
@@ -232,7 +231,7 @@ html, body {
   background: linear-gradient(to bottom, #FEFEFE, #E7E7E7);
   box-shadow: inset 0 1px 0 #ffffff;
 }
-/* line 53, ../sass/_detail.scss */
+/* line 52, ../sass/_detail.scss */
 .backups-detail-wrapper .actions button {
   position: relative;
   font-size: 12px;
@@ -242,17 +241,17 @@ html, body {
   background: transparent;
   padding: 0 14px 0 28px;
 }
-/* line 63, ../sass/_detail.scss */
+/* line 62, ../sass/_detail.scss */
 .backups-detail-wrapper .actions button.left {
   float: left;
   border-right: 1px solid #CBCBCB;
 }
-/* line 69, ../sass/_detail.scss */
+/* line 68, ../sass/_detail.scss */
 .backups-detail-wrapper .actions button.right {
   float: right;
   border-left: 1px solid #CBCBCB;
 }
-/* line 75, ../sass/_detail.scss */
+/* line 74, ../sass/_detail.scss */
 .backups-detail-wrapper .actions button i {
   position: absolute;
   top: 13px;
@@ -260,21 +259,21 @@ html, body {
   font-size: 13px;
   color: #bbbbbb;
 }
-/* line 84, ../sass/_detail.scss */
+/* line 83, ../sass/_detail.scss */
 .backups-detail-wrapper .actions button:active {
   background: linear-gradient(to top, #FEFEFE, #E7E7E7);
 }
-/* line 91, ../sass/_detail.scss */
+/* line 90, ../sass/_detail.scss */
 .backups-detail-wrapper .backups-detail {
   z-index: 2;
   position: absolute;
   top: 0;
-  bottom: 40px;
+  bottom: 0;
   width: 100%;
   overflow-y: auto;
 }
 
-/* line 102, ../sass/_detail.scss */
+/* line 101, ../sass/_detail.scss */
 .section {
   float: left;
   width: 100%;
@@ -282,12 +281,12 @@ html, body {
   background: linear-gradient(to bottom, #Ffffff, #FAFAFA);
   border-bottom: 1px solid #cbcbcb;
 }
-/* line 110, ../sass/_detail.scss */
+/* line 109, ../sass/_detail.scss */
 .section:last-child {
   border-bottom: 0;
 }
 
-/* line 116, ../sass/_detail.scss */
+/* line 115, ../sass/_detail.scss */
 h2 {
   font-weight: 600;
   cursor: default;
@@ -300,17 +299,18 @@ h2 {
   color: #646464;
   text-shadow: 0 1px 0 #ffffff;
 }
-/* line 129, ../sass/_detail.scss */
+/* line 128, ../sass/_detail.scss */
 h2 i {
   float: right;
 }
 
-/* line 135, ../sass/_detail.scss */
+/* line 134, ../sass/_detail.scss */
 .backup-detail {
   z-index: 1;
   position: relative;
   float: left;
   width: 100%;
+  min-height: 100%;
 }
 /* line 142, ../sass/_detail.scss */
 .backup-detail label {
