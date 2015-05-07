@@ -1,4 +1,4 @@
-(function(window, document)
+(function(window, document, ipc)
 {
 
     'use strict';
@@ -9,10 +9,22 @@
     var backupsList = null;
     var backupsDetail = null;
     var backupToolbar = null;
-    var ipc = require('ipc');
     var mouseOffset = null;
 
+    /**
+     * Inits the view
+     */
     module.init = function()
+    {
+        _initDOM.apply(this);
+        _initEvents.apply(this);
+        ipc.send('control-panel-ready');
+    };
+
+    /**
+     * Inits DOM stuff
+     */
+    var _initDOM = function()
     {
         backupListTemplate = document.querySelector('.js-backup-list-template');
         backupDetailTemplate = document.querySelector('.js-backup-detail-template');
@@ -20,41 +32,76 @@
         backupsDetail = document.querySelector('.js-backups-detail');
         backupToolbar = document.querySelector('.js-backup-toolbar');
         backupToolbar.style.display = 'none';
-        document.querySelector('.js-add-backup').addEventListener('click', function(evt)
-        {
-            evt.preventDefault();
-            _createBackup({});
-        });
-        document.querySelector('.js-toolbar').addEventListener('mousedown', function(evt)
-        {
-            if (evt.target.className.indexOf('js-toolbar') === -1)
-            {
-                evt.stopPropagation();
-                return;
-            }
-            mouseOffset = {x: evt.pageX, y: evt.pageY};
-            document.addEventListener('mousemove', _dragWindow);
-            document.addEventListener('mouseup', function()
-            {
-                document.removeEventListener('mousemove', _dragWindow);
-            });
-        });
-        document.querySelector('.js-close').addEventListener('click', function(evt)
-        {
-            evt.preventDefault();
-            ipc.send('window-close');
-        });
-        ipc.on('current-settings', _onInitbackups);
-        ipc.send('settings-ready');
+    };
+
+    /**
+     * Inits window events
+     */
+    var _initEvents = function()
+    {
+        document.querySelector('.js-add-backup').addEventListener('click', _onCreateNewBackup.bind(this));
+        document.querySelector('.js-toolbar').addEventListener('mousedown', _onDragWindow.bind(this));
+        document.querySelector('.js-close').addEventListener('click', _onCloseWindow.bind(this));
+
+        ipc.on('current-settings', _onInitBackups);
         ipc.on('directory-selected', _onSelectedDirectory);
-        ipc.on('window-focus', function()
+        ipc.on('window-focus', _onWindowFocus.bind(this));
+        ipc.on('window-blur', _onWindowBlur.bind(this));
+    };
+
+    /**
+     * Creates a new backup from the left panel
+     * @param evt
+     */
+    var _onCreateNewBackup = function(evt)
+    {
+        evt.preventDefault();
+        _createBackup.apply(this, {});
+    };
+
+    /**
+     * Closes the window
+     * @param evt
+     */
+    var _onCloseWindow = function(evt)
+    {
+        evt.preventDefault();
+        ipc.send('window-close');
+    };
+
+    /**
+     * Window focus
+     */
+    var _onWindowFocus = function()
+    {
+        document.body.className = document.body.className.replace('js-blur', '');
+    };
+
+    /**
+     * Window blur
+     */
+    var _onWindowBlur = function()
+    {
+        // @todo enable this
+        //document.body.className += ' js-blur';
+    };
+
+    /**
+     * Starts dragging the window on toolbar mousedown
+     * @param evt
+     */
+    var _onDragWindow = function(evt)
+    {
+        if (evt.target.className.indexOf('js-toolbar') === -1)
         {
-            document.body.className = document.body.className.replace('js-blur', '');
-        });
-        ipc.on('window-blur', function()
+            evt.stopPropagation();
+            return;
+        }
+        mouseOffset = {x: evt.pageX, y: evt.pageY};
+        document.addEventListener('mousemove', _dragWindow);
+        document.addEventListener('mouseup', function()
         {
-            // @todo enable this
-            //document.body.className += ' js-blur';
+            document.removeEventListener('mousemove', _dragWindow);
         });
     };
 
@@ -64,20 +111,18 @@
      */
     var _dragWindow = function(evt)
     {
-        var x = evt.screenX - mouseOffset.x;
-        var y = evt.screenY - mouseOffset.y;
-        ipc.send('window-move', {x: x, y: y});
+        ipc.send('window-move', {x: evt.screenX - mouseOffset.x, y: evt.screenY - mouseOffset.y});
     };
 
     /**
-     * Inits available backups when received by the app
-     * @param backups
+     * Inits available backups when sent by the app
+     * @param backups_list
      */
-    var _onInitbackups = function(backups)
+    var _onInitBackups = function(backups_list)
     {
-        for (var index = 0; index < backups.length; index += 1)
+        for (var index = 0; index < backups_list.length; index += 1)
         {
-            _createBackup(backups[index]);
+            _createBackup(backups_list[index]);
         }
     };
 
@@ -105,7 +150,7 @@
         for (var property in data)
         {
             var node = new_backup_detail.querySelector('.js-field-' + property);
-            if (typeof node !== 'undefined')
+            if (node !== null)
             {
                 node.setAttribute('value', data[property]);
             }
@@ -113,7 +158,7 @@
     };
 
     /**
-     * Toggles a backup
+     * Toggles a backup view when clicking on an item of the left panel
      * @param evt
      */
     var _onToggleBackup = function(evt)
@@ -176,6 +221,6 @@
          }
      };*/
 
-    window.Settings = module;
+    window.ControlPanel = module;
 
-})(window, document);
+})(window, document, require('ipc'));

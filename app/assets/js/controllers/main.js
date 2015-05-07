@@ -80,7 +80,7 @@
          */
         var _initIPC = function()
         {
-            ipc.on('settings-ready', function(event)
+            ipc.on('control-panel-ready', function(event)
             {
                 var sample_settings = [ // @todo get real ones (localStorage ? User file ?)
                     {
@@ -175,7 +175,7 @@
                 settingsWindow.show();
                 settingsWindow.openDevTools({detach: true});
             });
-            settingsWindow.webContents.loadUrl('file://' + appPath + '/assets/html/settings.html');
+            settingsWindow.webContents.loadUrl('file://' + appPath + '/assets/html/controlpanel.html');
             settingsWindow.on('closed', function()
             {
                 settingsWindow = null;
