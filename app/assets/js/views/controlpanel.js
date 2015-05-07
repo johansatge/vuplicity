@@ -34,7 +34,7 @@
     var _initEvents = function()
     {
         document.querySelector('.js-add-backup').addEventListener('click', _onCreateNewBackup);
-        document.querySelector('.js-remove-backup').addEventListener('click', _onDeleteSelectedBackup);
+        document.querySelector('.js-remove-backup').addEventListener('click', _onRequestBackupDeletion);
         document.querySelector('.js-toolbar').addEventListener('mousedown', _onDragWindow);
         document.querySelector('.js-close').addEventListener('click', _onCloseWindow);
 
@@ -42,6 +42,7 @@
         //ipc.on('directory-selected', _onSelectedDirectory);
         ipc.on('window-focus', _onWindowFocus);
         ipc.on('window-blur', _onWindowBlur);
+        ipc.on('confirm-backup-deletion', _onConfirmBackupDeletion);
     };
 
     /**
@@ -122,18 +123,27 @@
     };
 
     /**
+     * Requests the deletion of the current backup
+     * @param evt
+     */
+    var _onRequestBackupDeletion = function(evt)
+    {
+        if (currentBackup !== null)
+        {
+            evt.preventDefault();
+            ipc.send('request-backup-deletion');
+        }
+    };
+
+    /**
      * Deletes the selected backup
      * @param evt
      */
-    var _onDeleteSelectedBackup = function(evt)
+    var _onConfirmBackupDeletion = function(evt)
     {
-        evt.preventDefault();
-        if (currentBackup !== null)
-        {
-            backupsListNode.removeChild(currentBackup.getItemNode());
-            backupsDetailNode.removeChild(currentBackup.getDetailNode());
-            currentBackup = null;
-        }
+        backupsListNode.removeChild(currentBackup.getItemNode());
+        backupsDetailNode.removeChild(currentBackup.getDetailNode());
+        currentBackup = null;
     };
 
     /**

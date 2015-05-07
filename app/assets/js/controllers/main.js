@@ -18,7 +18,7 @@
         var appName = app_name;
         var appVersion = app_version;
 
-        var settingsWindow = null;
+        var controlPanelWindow = null;
         var mainTray = null;
 
         /**
@@ -28,7 +28,7 @@
         {
             _initTray.apply(this);
             _initIPC.apply(this);
-            _toggleSettingsWindow.apply(this);
+            _toggleControlPanelWindow.apply(this);
         };
 
         /**
@@ -53,7 +53,7 @@
                         label: 'Open control panel',
                         click: function()
                         {
-                            _toggleSettingsWindow.apply(self);
+                            _toggleControlPanelWindow.apply(self);
                         }
                     },
                     {
@@ -111,9 +111,26 @@
                 event.sender.send('control-panel-init-data', sample_settings);
             });
 
+            ipc.on('request-backup-deletion', function(event)
+            {
+                var params = {
+                    type: 'warning',
+                    message: 'Do you want to delete this backup ?',
+                    detail: 'The entry will be removed.\nNothing will be modified on the remote server.',
+                    buttons: ['Delete', 'Cancel']
+                };
+                dialog.showMessageBox(controlPanelWindow, params, function(response)
+                {
+                    if (response === 0)
+                    {
+                        event.sender.send('confirm-backup-deletion');
+                    }
+                });
+            });
+
             ipc.on('select-directory', function(event, backup_id)
             {
-                dialog.showOpenDialog(settingsWindow, {title: '@todo title', properties: ['openDirectory']}, function(paths)
+                dialog.showOpenDialog(controlPanelWindow, {title: '@todo title', properties: ['openDirectory']}, function(paths)
                 {
                     if (typeof paths !== 'undefined')
                     {
@@ -124,12 +141,12 @@
 
             ipc.on('window-move', function(event, position)
             {
-                settingsWindow.setPosition(position.x, position.y);
+                controlPanelWindow.setPosition(position.x, position.y);
             });
 
             ipc.on('window-close', function()
             {
-                settingsWindow.close();
+                controlPanelWindow.close();
             });
         };
 
@@ -144,24 +161,24 @@
         /**
          * Creates the settings window
          */
-        var _toggleSettingsWindow = function()
+        var _toggleControlPanelWindow = function()
         {
-            if (settingsWindow === null)
+            if (controlPanelWindow === null)
             {
-                _initSettingsWindow.apply(this);
+                _initControlPanelWindow.apply(this);
             }
             else
             {
-                settingsWindow.focus();
+                controlPanelWindow.focus();
             }
         };
 
         /**
          * Creates a new "Settings" window
          */
-        var _initSettingsWindow = function()
+        var _initControlPanelWindow = function()
         {
-            settingsWindow = new BrowserWindow({
+            controlPanelWindow = new BrowserWindow({
                 width: 900,
                 height: 650,
                 'min-width': 900,
@@ -170,23 +187,23 @@
                 frame: false,
                 transparent: true
             });
-            settingsWindow.webContents.on('did-finish-load', function()
+            controlPanelWindow.webContents.on('did-finish-load', function()
             {
-                settingsWindow.show();
-                settingsWindow.openDevTools({detach: true});
+                controlPanelWindow.show();
+                controlPanelWindow.openDevTools({detach: true});
             });
-            settingsWindow.webContents.loadUrl('file://' + appPath + '/assets/html/controlpanel.html');
-            settingsWindow.on('closed', function()
+            controlPanelWindow.webContents.loadUrl('file://' + appPath + '/assets/html/controlpanel.html');
+            controlPanelWindow.on('closed', function()
             {
-                settingsWindow = null;
+                controlPanelWindow = null;
             });
-            settingsWindow.on('focus', function()
+            controlPanelWindow.on('focus', function()
             {
-                settingsWindow.webContents.send('window-focus');
+                controlPanelWindow.webContents.send('window-focus');
             });
-            settingsWindow.on('blur', function()
+            controlPanelWindow.on('blur', function()
             {
-                settingsWindow.webContents.send('window-blur');
+                controlPanelWindow.webContents.send('window-blur');
             });
         };
 
