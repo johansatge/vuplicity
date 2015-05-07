@@ -12,12 +12,11 @@ html, body, div, span, p, form, input, textarea, select, h1, h2, h3, table, tbod
 
 /* line 14, ../sass/_base.scss */
 html, body {
-  -webkit-font-smoothing: antialiased;
   -webkit-user-select: none;
   overflow: hidden;
 }
 
-/* line 21, ../sass/_base.scss */
+/* line 20, ../sass/_base.scss */
 .window {
   background: #fafafa;
   position: absolute;
@@ -126,25 +125,40 @@ html, body {
   background: #fefefe;
   margin: 10px 10px 0 10px;
   border-radius: 4px;
-  text-indent: 10px;
-  line-height: 40px;
-  overflow: hidden;
-  height: 42px;
+  padding: 6px 10px 8px 10px;
   background: linear-gradient(to bottom, #4e4f4e, #383839);
+}
+/* line 35, ../sass/_list.scss */
+.backups-list-wrapper .backup-item .title {
   cursor: default;
   font-size: 14px;
   color: #cccccc;
-  font-weight: 600;
   text-shadow: 0 1px 0 #000000;
+  margin: 0 0 4px 0;
 }
-/* line 43, ../sass/_list.scss */
+/* line 44, ../sass/_list.scss */
+.backups-list-wrapper .backup-item .status {
+  cursor: default;
+  font-size: 11px;
+  color: #999999;
+  text-shadow: 0 1px 0 #1d1d1d;
+}
+/* line 51, ../sass/_list.scss */
+.backups-list-wrapper .backup-item .status span {
+  float: right;
+}
+/* line 57, ../sass/_list.scss */
 .backups-list-wrapper .backup-item.js-active {
   background: linear-gradient(to top, #7ebfdf, #759fda);
   box-shadow: inset 0 0 1px #ffffff;
+}
+/* line 62, ../sass/_list.scss */
+.backups-list-wrapper .backup-item.js-active .status,
+.backups-list-wrapper .backup-item.js-active .title {
   text-shadow: 0 1px 0 #6788b6;
   color: #ffffff;
 }
-/* line 52, ../sass/_list.scss */
+/* line 71, ../sass/_list.scss */
 .backups-list-wrapper .actions {
   position: absolute;
   width: 100%;
@@ -154,11 +168,10 @@ html, body {
   background: linear-gradient(to bottom, #4e4f4e, #383839);
   box-shadow: inset 0 1px 0 #666666;
 }
-/* line 62, ../sass/_list.scss */
+/* line 81, ../sass/_list.scss */
 .backups-list-wrapper .actions button {
   font-size: 12px;
   color: #cccccc;
-  font-weight: 600;
   text-shadow: 0 1px 0 #000000;
   float: left;
   height: 100%;
@@ -166,7 +179,7 @@ html, body {
   padding: 0 14px 0 14px;
   border-right: 1px solid #212121;
 }
-/* line 74, ../sass/_list.scss */
+/* line 92, ../sass/_list.scss */
 .backups-list-wrapper .actions button:active {
   background: linear-gradient(to top, #4e4f4e, #383839);
 }
@@ -180,6 +193,36 @@ html, body {
   width: 60%;
 }
 /* line 10, ../sass/_detail.scss */
+.backups-detail-wrapper .empty {
+  z-index: 1;
+  position: absolute;
+  width: 100%;
+  top: 0;
+  bottom: 40px;
+}
+/* line 18, ../sass/_detail.scss */
+.backups-detail-wrapper .empty i {
+  color: #CBCBCB;
+  font-size: 50px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  text-shadow: 0 2px 0 #ffffff;
+  margin: -45px 0 0 -27px;
+}
+/* line 29, ../sass/_detail.scss */
+.backups-detail-wrapper .empty span {
+  position: absolute;
+  width: 80%;
+  left: 10%;
+  top: 50%;
+  color: #cbcbcb;
+  font-size: 17px;
+  text-align: center;
+  text-shadow: 0 2px 0 #ffffff;
+  margin: 20px 0 0 0;
+}
+/* line 43, ../sass/_detail.scss */
 .backups-detail-wrapper .actions {
   position: absolute;
   width: 100%;
@@ -189,28 +232,27 @@ html, body {
   background: linear-gradient(to bottom, #FEFEFE, #E7E7E7);
   box-shadow: inset 0 1px 0 #ffffff;
 }
-/* line 20, ../sass/_detail.scss */
+/* line 53, ../sass/_detail.scss */
 .backups-detail-wrapper .actions button {
   position: relative;
   font-size: 12px;
-  color: #333333;
-  font-weight: 300;
+  color: #646464;
   float: left;
   height: 100%;
   background: transparent;
   padding: 0 14px 0 28px;
 }
-/* line 31, ../sass/_detail.scss */
+/* line 63, ../sass/_detail.scss */
 .backups-detail-wrapper .actions button.left {
   float: left;
   border-right: 1px solid #CBCBCB;
 }
-/* line 37, ../sass/_detail.scss */
+/* line 69, ../sass/_detail.scss */
 .backups-detail-wrapper .actions button.right {
   float: right;
   border-left: 1px solid #CBCBCB;
 }
-/* line 43, ../sass/_detail.scss */
+/* line 75, ../sass/_detail.scss */
 .backups-detail-wrapper .actions button i {
   position: absolute;
   top: 13px;
@@ -218,13 +260,13 @@ html, body {
   font-size: 13px;
   color: #bbbbbb;
 }
-/* line 52, ../sass/_detail.scss */
+/* line 84, ../sass/_detail.scss */
 .backups-detail-wrapper .actions button:active {
   background: linear-gradient(to top, #FEFEFE, #E7E7E7);
 }
-
-/* line 60, ../sass/_detail.scss */
-.backups-detail {
+/* line 91, ../sass/_detail.scss */
+.backups-detail-wrapper .backups-detail {
+  z-index: 2;
   position: absolute;
   top: 0;
   bottom: 40px;
@@ -232,36 +274,77 @@ html, body {
   overflow-y: auto;
 }
 
-/* line 69, ../sass/_detail.scss */
+/* line 102, ../sass/_detail.scss */
+.section {
+  float: left;
+  width: 100%;
+  padding: 15px 15px 5px 15px;
+  background: linear-gradient(to bottom, #Ffffff, #FAFAFA);
+  border-bottom: 1px solid #cbcbcb;
+}
+/* line 110, ../sass/_detail.scss */
+.section:last-child {
+  border-bottom: 0;
+}
+
+/* line 116, ../sass/_detail.scss */
+h2 {
+  font-weight: 600;
+  cursor: default;
+  float: left;
+  width: 100%;
+  margin: 0 0 10px 0;
+  font-size: 15px;
+  text-transform: uppercase;
+  line-height: 14px;
+  color: #646464;
+  text-shadow: 0 1px 0 #ffffff;
+}
+/* line 129, ../sass/_detail.scss */
+h2 i {
+  float: right;
+}
+
+/* line 135, ../sass/_detail.scss */
 .backup-detail {
   z-index: 1;
   position: relative;
   float: left;
   width: 100%;
 }
-/* line 76, ../sass/_detail.scss */
-.backup-detail .col1 {
+/* line 142, ../sass/_detail.scss */
+.backup-detail label {
+  color: #646464;
+  position: relative;
+  font-size: 13px;
+}
+/* line 148, ../sass/_detail.scss */
+.backup-detail label.col1 {
   float: left;
   width: 100%;
   margin: 0 0 10px 0;
 }
-/* line 83, ../sass/_detail.scss */
-.backup-detail .col2 {
+/* line 155, ../sass/_detail.scss */
+.backup-detail label.col2 {
   float: left;
   width: 49.5%;
   margin: 0 0 10px 0;
 }
-/* line 89, ../sass/_detail.scss */
-.backup-detail .col2.left {
+/* line 161, ../sass/_detail.scss */
+.backup-detail label.col2.left {
   margin-right: 1%;
 }
-/* line 95, ../sass/_detail.scss */
-.backup-detail label {
-  color: #333333;
-  position: relative;
-  font-size: 13px;
+/* line 167, ../sass/_detail.scss */
+.backup-detail label.col3 {
+  float: left;
+  width: 32.6%;
+  margin: 0 0 10px 0;
 }
-/* line 102, ../sass/_detail.scss */
+/* line 173, ../sass/_detail.scss */
+.backup-detail label.col3.left {
+  margin-right: 1%;
+}
+/* line 180, ../sass/_detail.scss */
 .backup-detail input[type="text"] {
   color: #282828;
   width: 100%;
@@ -273,45 +356,61 @@ html, body {
   margin: 5px 0 0 0;
   box-shadow: inset 0 1px 0 #f6f6f6;
   padding: 0 5px 0 5px;
+  font-weight: 400;
 }
-/* line 116, ../sass/_detail.scss */
+/* line 195, ../sass/_detail.scss */
+.backup-detail select {
+  color: #282828;
+  width: 100%;
+  height: 28px;
+  border: 1px solid #dddddd;
+  border-radius: 3px;
+  font-size: 12px;
+  margin: 5px 0 0 0;
+  background: linear-gradient(to bottom, #Ffffff, #FAFAFA);
+  padding: 0 5px 0 5px;
+  font-weight: 400;
+}
+/* line 209, ../sass/_detail.scss */
+.backup-detail input[type="radio"] {
+  position: relative;
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border: 1px solid #CBCBCB;
+  border-radius: 50%;
+  background: linear-gradient(to top, #Ffffff, #FAFAFA);
+  float: left;
+  margin: 2px 4px 0 0;
+}
+/* line 221, ../sass/_detail.scss */
+.backup-detail input[type="radio"]:disabled {
+  opacity: 0.5;
+}
+/* line 226, ../sass/_detail.scss */
+.backup-detail input[type="radio"]:checked:after {
+  content: ' ';
+  display: block;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 8px;
+  height: 8px;
+  background: linear-gradient(to bottom, #7ebfdf, #759fda);
+  border-radius: 50%;
+}
+/* line 240, ../sass/_detail.scss */
 .backup-detail .input-icon {
   color: #282828;
   background: transparent;
   position: absolute;
-  bottom: -7px;
+  bottom: 0;
   right: 0;
   width: 28px;
   height: 28px;
 }
 
-/* line 128, ../sass/_detail.scss */
-.section {
-  float: left;
-  width: 100%;
-  padding: 15px 15px 5px 15px;
-  background: linear-gradient(to bottom, #Ffffff, #FAFAFA);
-  border-bottom: 1px solid #cbcbcb;
-}
-
-/* line 137, ../sass/_detail.scss */
-h2 {
-  cursor: default;
-  float: left;
-  width: 100%;
-  margin: 0 0 10px 0;
-  font-size: 15px;
-  line-height: 14px;
-  color: #999999;
-  font-weight: 600;
-  text-shadow: 0 1px 0 #ffffff;
-}
-/* line 149, ../sass/_detail.scss */
-h2 i {
-  float: right;
-}
-
-/* line 155, ../sass/_detail.scss */
+/* line 252, ../sass/_detail.scss */
 .files {
   color: #333333;
   height: 150px;
@@ -324,17 +423,18 @@ h2 i {
   overflow-y: auto;
   padding: 5px 10px 5px 5px;
 }
-/* line 168, ../sass/_detail.scss */
+/* line 265, ../sass/_detail.scss */
 .files ul {
   list-style-type: none;
 }
-/* line 173, ../sass/_detail.scss */
+/* line 270, ../sass/_detail.scss */
 .files li {
+  font-weight: 400;
   cursor: default;
   border-radius: 3px;
   border: 1px solid transparent;
 }
-/* line 179, ../sass/_detail.scss */
+/* line 277, ../sass/_detail.scss */
 .files li i {
   color: #999999;
   margin: 2px 2px 2px 0;

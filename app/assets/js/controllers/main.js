@@ -50,7 +50,7 @@
                         type: 'separator'
                     },
                     {
-                        label: 'Open settings panel',
+                        label: 'Open control panel',
                         click: function()
                         {
                             _toggleSettingsWindow.apply(self);
@@ -84,23 +84,27 @@
             {
                 var sample_settings = [ // @todo get real ones (localStorage ? User file ?)
                     {
+                        title: 'My first backup',
                         url: 'http://test-url-1',
-                        dir: '/Users/coucou1',
+                        path: '/Users/coucou1',
                         options: '--size 5'
                     },
                     {
+                        title: 'My second backup',
                         url: 'http://test-url-2',
-                        dir: '/Users/coucou2',
+                        path: '/Users/coucou2',
                         options: '--size 5'
                     },
                     {
+                        title: 'My third backup',
                         url: 'http://test-url-3',
-                        dir: '/Users/coucou3',
+                        path: '/Users/coucou3',
                         options: '--size 5'
                     },
                     {
+                        title: 'My fourth backup',
                         url: 'http://test-url-4',
-                        dir: '/Users/coucou4',
+                        path: '/Users/coucou4',
                         options: '--size 5'
                     }
                 ];
@@ -159,9 +163,9 @@
         {
             settingsWindow = new BrowserWindow({
                 width: 900,
-                height: 600,
+                height: 650,
                 'min-width': 900,
-                'min-height': 600,
+                'min-height': 650,
                 show: false,
                 frame: false,
                 transparent: true

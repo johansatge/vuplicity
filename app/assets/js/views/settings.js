@@ -8,6 +8,7 @@
     var backupDetailTemplate = null;
     var backupsList = null;
     var backupsDetail = null;
+    var backupToolbar = null;
     var ipc = require('ipc');
     var mouseOffset = null;
 
@@ -17,6 +18,8 @@
         backupDetailTemplate = document.querySelector('.js-backup-detail-template');
         backupsList = document.querySelector('.js-backups-list');
         backupsDetail = document.querySelector('.js-backups-detail');
+        backupToolbar = document.querySelector('.js-backup-toolbar');
+        backupToolbar.style.display = 'none';
         document.querySelector('.js-add-backup').addEventListener('click', function(evt)
         {
             evt.preventDefault();
@@ -50,6 +53,7 @@
         });
         ipc.on('window-blur', function()
         {
+            // @todo enable this
             //document.body.className += ' js-blur';
         });
     };
@@ -91,18 +95,16 @@
         var new_id = 'backup-' + new Date().getTime() + '-' + document.querySelectorAll('.js-backup-item').length;
         new_backup_item.setAttribute('id', new_id);
 
-        var new_backup_config = document.createElement('div');
-        new_backup_config.innerHTML = backupDetailTemplate.innerHTML;
-        new_backup_config.className = backupDetailTemplate.getAttribute('rel');
-        new_backup_config.setAttribute('rel', new_id);
-        new_backup_config.style.display = 'none';
-
-        new_backup_config.querySelector('.js-dir-select').addEventListener('click', _onSelectDirectory);
-
-        backupsDetail.appendChild(new_backup_config);
+        var new_backup_detail = document.createElement('form');
+        new_backup_detail.innerHTML = backupDetailTemplate.innerHTML;
+        new_backup_detail.className = backupDetailTemplate.getAttribute('rel');
+        new_backup_detail.setAttribute('rel', new_id);
+        new_backup_detail.style.display = 'none';
+        new_backup_detail.querySelector('.js-path-select').addEventListener('click', _onSelectDirectory);
+        backupsDetail.appendChild(new_backup_detail);
         for (var property in data)
         {
-            var node = new_backup_config.querySelector('.js-' + property);
+            var node = new_backup_detail.querySelector('.js-field-' + property);
             if (typeof node !== 'undefined')
             {
                 node.setAttribute('value', data[property]);
@@ -122,6 +124,7 @@
         {
             config.style.display = 'none';
             item.className = item.className.replace('js-active', '');
+            backupToolbar.style.display = 'none';
         }
         else
         {
@@ -132,6 +135,7 @@
             }
             item.className += ' js-active';
             config.style.display = 'block';
+            backupToolbar.style.display = 'block';
         }
     };
 
@@ -152,7 +156,7 @@
      */
     var _onSelectedDirectory = function(data)
     {
-        var input = document.querySelector('#' + data.backup_id + ' .js-dir');
+        var input = document.querySelector('#' + data.backup_id + ' .js-field-path');
         input.value = data.path;
         input.dispatchEvent(new Event('change'));
     };
@@ -160,17 +164,17 @@
     /**
      * Updates backup blocks
      * @todo update backup name in the list when editing the config (only on save ?)
-     */
-    var _updateBackups = function()
-    {
-        var backups = document.querySelectorAll('.js-backup-item');
-        for (var index = 0; index < backups.length; index += 1)
-        {
-            var backup = backups[index];
-            var title = backup.querySelector('.js-dir').value;
-            backup.querySelector('.js-title').innerHTML = title.length > 0 ? title : 'Unnamed backup';
-        }
-    };
+     *
+     var _updateBackups = function()
+     {
+         var backups = document.querySelectorAll('.js-backup-item');
+         for (var index = 0; index < backups.length; index += 1)
+         {
+             var backup = backups[index];
+             var title = backup.querySelector('.js-dir').value;
+             backup.querySelector('.js-title').innerHTML = title.length > 0 ? title : 'Unnamed backup';
+         }
+     };*/
 
     window.Settings = module;
 

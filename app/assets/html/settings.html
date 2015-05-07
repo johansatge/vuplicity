@@ -2,6 +2,7 @@
 <html>
     <head>
         <title>Vuplicity settings</title>
+        <!-- @todo use local fonts -->
         <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans:400,600">
         <link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css">
         <link rel="stylesheet" type="text/css" href="../css/main.css">
@@ -28,15 +29,21 @@
                 </div>
             </div>
             <div class="backups-detail-wrapper">
+                <div class="empty">
+                    <i class="fa fa-cloud-upload"></i>
+                    <span>
+                        No backup selected
+                    </span>
+                </div>
                 <div class="backups-detail js-backups-detail"></div>
-                <div class="actions">
+                <div class="actions js-backup-toolbar">
                     <button class="action left">
                         <i class="fa fa-refresh"></i>
                         Refresh status
                     </button>
                     <button class="action left">
                         <i class="fa fa-cloud-upload"></i>
-                        Start backup
+                        Backup now
                     </button>
                     <button class="action left">
                         <i class="fa fa-cloud-download"></i>
@@ -50,15 +57,22 @@
             </div>
         </div>
         <script type="text/template" class="js-backup-list-template" rel="backup-item js-backup-item">
-            Titre @todo
+            <div class="title">
+                Titre @todo
+            </div>
+            <div class="status">
+                Last backup the 2015-XX-XX at XX:33
+                <span>
+                    Automatic
+                </span>
+            </div>
         </script>
         <script type="text/template" class="js-backup-detail-template" rel="backup-detail js-backup-detail">
             <div class="section">
                 <h2>
-                    Files tree
-                    <i class="fa fa-files-o"></i>
+                    File tree
                 </h2>
-                <div class="col1">
+                <label class="col1">
                     <div class="files">
                         <ul>
                             <li><i class="fa fa-folder-open-o"></i>Root</li>
@@ -73,57 +87,58 @@
                             <li><i class="fa fa-file-o"></i>file</li>
                         </ul>
                     </div>
-                </div>
+                </label>
             </div>
             <div class="section">
                 <h2>
-                    Configuration
-                    <i class="fa fa-wrench"></i>
+                    Target
                 </h2>
-                <div class="col2 left">
-                    <label>
-                        Backup URL
-                        <input type="text" class="js-url">
-                    </label>
-                </div>
-                <div class="col2">
-                    <label>
-                        Directory
-                        <input type="text" class="js-dir">
-                        <button class="input-icon js-dir-select">
-                            <i class="fa fa-folder-open"></i>
-                        </button>
-                    </label>
-                </div>
-                <div class="col1">
-                    <label>Options</label>
-                    <input type="text" class="js-options">
-                </div>
+                <label class="col1">
+                    Backup title
+                    <input type="text" class="js-field-title">
+                </label>
+                <label class="col2 left">
+                    Destination URL
+                    <input type="text" class="js-field-url">
+                </label>
+                <label class="col2">
+                    Source path
+                    <input type="text" class="js-field-path">
+                    <button class="input-icon js-path-select">
+                        <i class="fa fa-folder-open"></i>
+                    </button>
+                </label>
+                <label class="col1">
+                    Options
+                    <input type="text" class="js-field-options">
+                </label>
             </div>
             <div class="section">
                 <h2>
-                    Planning
-                    <i class="fa fa-history"></i>
+                    Automation
                 </h2>
-                <div class="col2 left">
-                    <label>
-                        Backup URL
-                        <input type="text" class="js-url">
-                    </label>
-                </div>
-                <div class="col2">
-                    <label>
-                        Directory
-                        <input type="text" class="js-dir">
-                        <button class="input-icon js-dir-select">
-                            <i class="fa fa-folder-open"></i>
-                        </button>
-                    </label>
-                </div>
-                <div class="col1">
-                    <label>Options</label>
-                    <input type="text" class="js-options">
-                </div>
+                <label class="col1">
+                    <input name="p" type="radio" checked="checked">
+                    Backup manually
+                </label>
+                <label class="col1">
+                    <input name="p" type="radio" disabled="disabled">
+                    Backup automatically (soon)
+                </label>
+                <!--
+                <label class="col3 left">
+                    Frequency
+                    <select><option>05</option></select>
+                </label>
+                <label class="col3 left">
+                    &nbsp;
+                    <select><option>minutes</option></select>
+                </label>
+                <label class="col3">
+                    Starting at
+                    <input type="text">
+                </label>
+                -->
             </div>
         </script>
         <script src="../js/jquery-2.1.1.min.js"></script>
