@@ -179,9 +179,17 @@ html, body {
   padding: 0 14px 0 14px;
   border-right: 1px solid #212121;
 }
-/* line 92, ../sass/_list.scss */
+/* line 91, ../sass/_list.scss */
 .backups-list-wrapper .actions button:active {
   background: linear-gradient(to top, #4e4f4e, #383839);
+}
+/* line 96, ../sass/_list.scss */
+.backups-list-wrapper .actions button:disabled i {
+  opacity: 0.3;
+}
+/* line 101, ../sass/_list.scss */
+.backups-list-wrapper .actions button:disabled:active {
+  background: linear-gradient(to bottom, #4e4f4e, #383839);
 }
 
 /* line 2, ../sass/_detail.scss */

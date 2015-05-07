@@ -8,6 +8,7 @@
     var backupsDetailNode = null;
     var mouseOffset = null;
     var currentBackup = null;
+    var removeBackupNode = null;
 
     /**
      * Inits the view
@@ -26,6 +27,7 @@
     {
         backupsListNode = document.querySelector('.js-backups-list');
         backupsDetailNode = document.querySelector('.js-backups-detail');
+        removeBackupNode = document.querySelector('.js-remove-backup');
     };
 
     /**
@@ -34,9 +36,9 @@
     var _initEvents = function()
     {
         document.querySelector('.js-add-backup').addEventListener('click', _onCreateNewBackup);
-        document.querySelector('.js-remove-backup').addEventListener('click', _onRequestBackupDeletion);
         document.querySelector('.js-toolbar').addEventListener('mousedown', _onDragWindow);
         document.querySelector('.js-close').addEventListener('click', _onCloseWindow);
+        removeBackupNode.addEventListener('click', _onRequestBackupDeletion);
 
         ipc.on('control-panel-init-data', _onInitBackups);
         //ipc.on('directory-selected', _onSelectedDirectory);
@@ -175,7 +177,16 @@
         {
             currentBackup.toggleVisibility();
         }
-        currentBackup = is_visible ? backup : null;
+        if (is_visible)
+        {
+            removeBackupNode.removeAttribute('disabled');
+            currentBackup = backup;
+        }
+        else
+        {
+            removeBackupNode.setAttribute('disabled', 'disabled');
+            currentBackup = null;
+        }
     };
 
     window.ControlPanel = module;

@@ -88,11 +88,21 @@
             background   : transparent;
             padding      : 0 14px 0 14px;
             border-right : 1px solid #212121;
-
             &:active
             {
                 background : linear-gradient(to top, #4e4f4e, #383839);
             }
+
+            &:disabled i
+            {
+                opacity : 0.3;
+            }
+
+            &:disabled:active
+            {
+                background : linear-gradient(to bottom, #4e4f4e, #383839);
+            }
+
         }
     }
 }
