@@ -4,9 +4,10 @@
     'use strict';
 
     var module = {};
+    var backups = {};
     var backupsListNode = null;
     var backupsDetailNode = null;
-    var currentBackup = null;
+    var currentBackupID = null;
     var removeBackupNode = null;
 
     /**
@@ -69,7 +70,7 @@
      */
     var _onRequestBackupDeletion = function(evt)
     {
-        if (currentBackup !== null)
+        if (currentBackupID !== null)
         {
             evt.preventDefault();
             ipc.send('request-backup-deletion');
@@ -81,9 +82,10 @@
      */
     var _onConfirmBackupDeletion = function()
     {
-        backupsListNode.removeChild(currentBackup.getItemNode());
-        backupsDetailNode.removeChild(currentBackup.getDetailNode());
-        currentBackup = null;
+        backupsListNode.removeChild(backups[currentBackupID].getItemNode());
+        backupsDetailNode.removeChild(backups[currentBackupID].getDetailNode());
+        backups[currentBackupID] = null;
+        currentBackupID = null;
     };
 
     /**
@@ -93,48 +95,53 @@
      */
     var _createBackup = function(data, is_visible)
     {
+        var id = 'backup-' + new Date().getTime() + backupsListNode.childNodes.length;
         var backup = new BackupElement();
-        backup.populate(data, _onToggleBackupVisibility, _onTriggerBackupAction);
+        backup.populate(id, data, _onToggleBackupVisibility, _onTriggerBackupAction);
         backupsListNode.insertBefore(backup.getItemNode(), backupsListNode.firstChild);
         backupsDetailNode.appendChild(backup.getDetailNode());
         if (is_visible)
         {
             backup.toggleVisibility();
         }
+        backups[id] = backup;
     };
 
     /**
      * Triggers an action from a backup item
      * @param action
-     * @param backup
+     * @param id
      */
-    var _onTriggerBackupAction = function(action, backup)
+    var _onTriggerBackupAction = function(action, id)
     {
-        backup.toggleProcessingStatus(true);
-        console.log(action);
-        // @todo send request to the app
+        backups[id].toggleProcessingStatus(true);
+        if (action === 'refresh')
+        {
+            ipc.send('refresh-backup', id);
+        }
+        // @todo send request to the app for actions: "backup", "restore"
     };
 
     /**
      * Stores the currently opened backup when toggling it
-     * @param backup
+     * @param id
      * @param is_visible
      */
-    var _onToggleBackupVisibility = function(backup, is_visible)
+    var _onToggleBackupVisibility = function(id, is_visible)
     {
-        if (currentBackup !== null && is_visible)
+        if (currentBackupID !== null && is_visible)
         {
-            currentBackup.toggleVisibility();
+            backups[currentBackupID].toggleVisibility();
         }
         if (is_visible)
         {
             removeBackupNode.removeAttribute('disabled');
-            currentBackup = backup;
+            currentBackupID = id;
         }
         else
         {
             removeBackupNode.setAttribute('disabled', 'disabled');
-            currentBackup = null;
+            currentBackupID = null;
         }
     };
 

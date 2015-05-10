@@ -139,6 +139,12 @@
                 });
             });
 
+            ipc.on('refresh-backup', function(event, backup_id)
+            {
+                console.log(backup_id);
+                // @todo start command
+            });
+
             ipc.on('window-move', function(event, position)
             {
                 controlPanelWindow.setPosition(position.x, position.y);

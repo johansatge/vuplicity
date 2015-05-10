@@ -9,6 +9,7 @@
         var backupListTemplate = document.querySelector('.js-backup-list-template');
         var detailNodeTemplate = document.querySelector('.js-backup-detail-template');
 
+        var id = null;
         var itemNode = null;
         var detailNode = null;
         var toggleCallback = null;
@@ -16,16 +17,18 @@
 
         /**
          * Populates the object by using the given data (options, ect)
+         * @param uniqid
          * @param data
          * @param toggle_callback
          * @param action_callback
          */
-        this.populate = function(data, toggle_callback, action_callback)
+        this.populate = function(uniqid, data, toggle_callback, action_callback)
         {
-            _initItemNode.apply(this, [data]);
-            _initDetailNode.apply(this, [data]);
+            id = uniqid;
             toggleCallback = toggle_callback;
             actionCallback = action_callback;
+            _initItemNode.apply(this, [data]);
+            _initDetailNode.apply(this, [data]);
         };
 
         /**
@@ -107,7 +110,7 @@
             detailNode.style.display = is_visible ? 'none' : 'block';
             if (toggleCallback !== null)
             {
-                toggleCallback(this, !is_visible);
+                toggleCallback(id, !is_visible);
             }
         };
 
@@ -119,7 +122,7 @@
         {
             evt.preventDefault();
             var action = evt.target.getAttribute('rel');
-            actionCallback(action, this);
+            actionCallback(action, id);
         };
 
         /**
