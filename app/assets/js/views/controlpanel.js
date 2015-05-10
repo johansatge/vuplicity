@@ -94,14 +94,25 @@
     var _createBackup = function(data, is_visible)
     {
         var backup = new BackupElement();
-        backup.populate(data);
-        backup.onToggleVisibility(_onToggleBackupVisibility);
+        backup.populate(data, _onToggleBackupVisibility, _onTriggerBackupAction);
         backupsListNode.insertBefore(backup.getItemNode(), backupsListNode.firstChild);
         backupsDetailNode.appendChild(backup.getDetailNode());
         if (is_visible)
         {
             backup.toggleVisibility();
         }
+    };
+
+    /**
+     * Triggers an action from a backup item
+     * @param action
+     * @param backup
+     */
+    var _onTriggerBackupAction = function(action, backup)
+    {
+        backup.toggleProcessingStatus(true);
+        console.log(action);
+        // @todo send request to the app
     };
 
     /**

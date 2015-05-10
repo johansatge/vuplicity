@@ -12,15 +12,38 @@
         var itemNode = null;
         var detailNode = null;
         var toggleCallback = null;
+        var actionCallback = null;
 
         /**
          * Populates the object by using the given data (options, ect)
          * @param data
+         * @param toggle_callback
+         * @param action_callback
          */
-        this.populate = function(data)
+        this.populate = function(data, toggle_callback, action_callback)
         {
             _initItemNode.apply(this, [data]);
             _initDetailNode.apply(this, [data]);
+            toggleCallback = toggle_callback;
+            actionCallback = action_callback;
+        };
+
+        /**
+         * Sets the processing status of the backup (displays a loader)
+         * @param is_processing
+         */
+        this.toggleProcessingStatus = function(is_processing)
+        {
+            if (is_processing)
+            {
+                itemNode.className = itemNode.className + ' js-processing';
+                detailNode.className = detailNode.className + ' js-processing';
+            }
+            else
+            {
+                itemNode.className = itemNode.className.replace('js-processing', '');
+                detailNode.className = detailNode.className.replace('js-processing', '');
+            }
         };
 
         /**
@@ -33,6 +56,7 @@
             itemNode.innerHTML = backupListTemplate.innerHTML;
             itemNode.className = backupListTemplate.getAttribute('rel');
             itemNode.addEventListener('click', this.toggleVisibility.bind(this));
+
         };
 
         /**
@@ -53,7 +77,8 @@
                     node.setAttribute('value', data[property]);
                 }
             }
-            detailNode.querySelector('.js-path-select').addEventListener('click', _onSelectDirectory.bind('this'));
+            detailNode.querySelector('.js-path-select').addEventListener('click', _onSelectDirectory.bind(this));
+            detailNode.querySelector('.js-actions').addEventListener('click', _onTriggerAction.bind(this));
         };
 
         /**
@@ -73,15 +98,6 @@
         };
 
         /**
-         * Registers a function to call when toggling the backup view
-         * @param callback
-         */
-        this.onToggleVisibility = function(callback)
-        {
-            toggleCallback = callback;
-        };
-
-        /**
          * Toggles the backup view when clicking on an item of the left panel
          */
         this.toggleVisibility = function()
@@ -93,6 +109,17 @@
             {
                 toggleCallback(this, !is_visible);
             }
+        };
+
+        /**
+         * Starts an action when using the toolbar of the detail view
+         * @param evt
+         */
+        var _onTriggerAction = function(evt)
+        {
+            evt.preventDefault();
+            var action = evt.target.getAttribute('rel');
+            actionCallback(action, this);
         };
 
         /**

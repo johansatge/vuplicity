@@ -48,22 +48,18 @@
             <i class="loader fa fa-refresh fa-spin"></i>
         </script>
         <script type="text/template" class="js-backup-detail-template" rel="backup-detail js-backup-detail">
-            <div class="actions">
-                <button class="action left">
-                    <i class="fa fa-refresh"></i>
-                    Refresh status
-                </button>
-                <button class="action left">
-                    <i class="fa fa-cloud-upload"></i>
-                    Backup now
-                </button>
-                <button class="action left">
+            <div class="actions js-actions">
+                <button class="action js-action" rel="restore">
                     <i class="fa fa-cloud-download"></i>
                     Restore...
                 </button>
-                <button class="action right">
-                    <i class="fa fa-check"></i>
-                    Save settings
+                <button class="action js-action" rel="backup">
+                    <i class="fa fa-cloud-upload"></i>
+                    Backup now
+                </button>
+                <button class="action js-action" rel="refresh">
+                    <i class="fa fa-refresh"></i>
+                    Refresh status
                 </button>
             </div>
             <div class="section">
