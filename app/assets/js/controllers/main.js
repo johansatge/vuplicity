@@ -84,31 +84,45 @@
             {
                 var sample_settings = [ // @todo get real ones (localStorage ? User file ?)
                     {
+                        id: 'backup-0',
                         title: 'My first backup',
                         url: 'http://test-url-1',
                         path: '/Users/coucou1',
                         options: '--size 5'
                     },
                     {
+                        id: 'backup-1',
                         title: 'My second backup',
                         url: 'http://test-url-2',
                         path: '/Users/coucou2',
                         options: '--size 5'
                     },
                     {
+                        id: 'backup-2',
                         title: 'My third backup',
                         url: 'http://test-url-3',
                         path: '/Users/coucou3',
                         options: '--size 5'
                     },
                     {
+                        id: 'backup-3',
                         title: 'My fourth backup',
                         url: 'http://test-url-4',
                         path: '/Users/coucou4',
                         options: '--size 5'
                     }
                 ];
-                event.sender.send('control-panel-init-data', sample_settings);
+                for (var index = 0; index < sample_settings.length; index += 1)
+                {
+                    event.sender.send('set-backup', sample_settings[index], false);
+                }
+            });
+
+            ipc.on('create-backup', function(event)
+            {
+                // @todo add the item to the config file
+
+                event.sender.send('set-backup', {id: 'backup-' + new Date().getTime()}, true);
             });
 
             ipc.on('request-backup-deletion', function(event)
@@ -123,6 +137,7 @@
                 {
                     if (response === 0)
                     {
+                        // @todo remove item from the config file
                         event.sender.send('confirm-backup-deletion');
                     }
                 });

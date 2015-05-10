@@ -1,4 +1,4 @@
-(function(window, document, ipc, BackupElement, Window)
+(function(window, document, ipc, BackupElement)
 {
 
     'use strict';
@@ -7,8 +7,8 @@
     var backups = {};
     var backupsListNode = null;
     var backupsDetailNode = null;
-    var currentBackupID = null;
     var removeBackupNode = null;
+    var currentBackupID = null;
 
     /**
      * Inits the view
@@ -37,31 +37,41 @@
     {
         document.querySelector('.js-add-backup').addEventListener('click', _onCreateNewBackup);
         removeBackupNode.addEventListener('click', _onRequestBackupDeletion);
-        ipc.on('control-panel-init-data', _onInitBackups);
+        ipc.on('set-backup', _onSetBackup);
         //ipc.on('directory-selected', _onSelectedDirectory);
         ipc.on('confirm-backup-deletion', _onConfirmBackupDeletion);
     };
 
     /**
-     * Inits available backups when sent by the app
-     * @param backups_list
+     * Updates a backup (and creates it first, if needed)
+     * @param data
+     * @param is_visible
      */
-    var _onInitBackups = function(backups_list)
+    var _onSetBackup = function(data, is_visible)
     {
-        for (var index = 0; index < backups_list.length; index += 1)
+        if (typeof backups[data.id] === 'undefined')
         {
-            _createBackup(backups_list[index], false);
+            var backup = new BackupElement();
+            backup.init(_onToggleBackupVisibility, _onTriggerBackupAction);
+            backupsListNode.insertBefore(backup.getItemNode(), backupsListNode.firstChild);
+            backupsDetailNode.appendChild(backup.getDetailNode());
+            backups[data.id] = backup;
         }
+        if (is_visible)
+        {
+            backups[data.id].toggleVisibility();
+        }
+        backups[data.id].update(data);
     };
 
     /**
-     * Creates a new backup from the left panel
+     * Asks the app to build a new backup item
      * @param evt
      */
     var _onCreateNewBackup = function(evt)
     {
         evt.preventDefault();
-        _createBackup.apply(this, [{}, true]);
+        ipc.send('create-backup');
     };
 
     /**
@@ -86,25 +96,6 @@
         backupsDetailNode.removeChild(backups[currentBackupID].getDetailNode());
         backups[currentBackupID] = null;
         currentBackupID = null;
-    };
-
-    /**
-     * Prepends a new backup to the list
-     * @param data
-     * @param is_visible
-     */
-    var _createBackup = function(data, is_visible)
-    {
-        var id = 'backup-' + new Date().getTime() + backupsListNode.childNodes.length;
-        var backup = new BackupElement();
-        backup.populate(id, data, _onToggleBackupVisibility, _onTriggerBackupAction);
-        backupsListNode.insertBefore(backup.getItemNode(), backupsListNode.firstChild);
-        backupsDetailNode.appendChild(backup.getDetailNode());
-        if (is_visible)
-        {
-            backup.toggleVisibility();
-        }
-        backups[id] = backup;
     };
 
     /**
@@ -133,18 +124,10 @@
         {
             backups[currentBackupID].toggleVisibility();
         }
-        if (is_visible)
-        {
-            removeBackupNode.removeAttribute('disabled');
-            currentBackupID = id;
-        }
-        else
-        {
-            removeBackupNode.setAttribute('disabled', 'disabled');
-            currentBackupID = null;
-        }
+        is_visible ? removeBackupNode.removeAttribute('disabled') : removeBackupNode.setAttribute('disabled', 'disabled');
+        currentBackupID = is_visible ? id : null;
     };
 
     window.ControlPanel = module;
 
-})(window, document, require('ipc'), BackupElement, Window);
+})(window, document, require('ipc'), BackupElement);

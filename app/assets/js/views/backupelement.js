@@ -16,19 +16,33 @@
         var actionCallback = null;
 
         /**
-         * Populates the object by using the given data (options, ect)
-         * @param uniqid
-         * @param data
+         * Inits the item
          * @param toggle_callback
          * @param action_callback
          */
-        this.populate = function(uniqid, data, toggle_callback, action_callback)
+        this.init = function(toggle_callback, action_callback)
         {
-            id = uniqid;
             toggleCallback = toggle_callback;
             actionCallback = action_callback;
-            _initItemNode.apply(this, [data]);
-            _initDetailNode.apply(this, [data]);
+            _initItemNode.apply(this);
+            _initDetailNode.apply(this);
+        };
+
+        /**
+         * Updates the item by using the given data
+         * @param data
+         */
+        this.update = function(data)
+        {
+            id = data.id;
+            for (var property in data)
+            {
+                var node = detailNode.querySelector('.js-field-' + property);
+                if (node !== null)
+                {
+                    node.setAttribute('value', data[property]);
+                }
+            }
         };
 
         /**
@@ -51,9 +65,8 @@
 
         /**
          * Inits the item node (left panel)
-         * @param data
          */
-        var _initItemNode = function(data)
+        var _initItemNode = function()
         {
             itemNode = document.createElement('div');
             itemNode.innerHTML = backupListTemplate.innerHTML;
@@ -64,22 +77,14 @@
 
         /**
          * Inits the detail node (config, file tree, etc)
-         * @param data
          */
-        var _initDetailNode = function(data)
+        var _initDetailNode = function()
         {
             detailNode = document.createElement('form');
             detailNode.innerHTML = detailNodeTemplate.innerHTML;
             detailNode.className = detailNodeTemplate.getAttribute('rel');
             detailNode.style.display = 'none';
-            for (var property in data)
-            {
-                var node = detailNode.querySelector('.js-field-' + property);
-                if (node !== null)
-                {
-                    node.setAttribute('value', data[property]);
-                }
-            }
+
             detailNode.querySelector('.js-path-select').addEventListener('click', _onSelectDirectory.bind(this));
             detailNode.querySelector('.js-actions').addEventListener('click', _onTriggerAction.bind(this));
         };
