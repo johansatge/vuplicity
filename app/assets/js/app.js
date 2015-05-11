@@ -136,12 +136,17 @@
         if (config.updateBackup(backup_id, backup_data))
         {
             controlPanelWindow.send('set-backup-options', backup_id, backup_data);
-
+            var self = this;
             var helper = new Duplicity();
-            helper.getFiles(backup_data.url);
-            helper.getStatus(backup_data.url);
+            helper.getStatus(backup_data.url, backup_data.passphrase, function(error, status)
+            {
+                _onRefreshedBackupStatus.apply(self, [backup_id, error, status]);
+            });
 
-            // @todo send with IPC: "set-backup-status"
+
+            //helper.getFiles(backup_data.url, backup_data.passphrase);
+            // @todo send with IPC: "set-backup-tree"
+
         }
         else
         {
@@ -149,6 +154,18 @@
 
             // @todo here, tell the window to revert the "processing" status
         }
+    };
+
+    /**
+     * Updates the control panel when the status of a backup has been retrieved
+     * @param backup_id
+     * @param error
+     * @param status
+     */
+    var _onRefreshedBackupStatus = function(backup_id, error, status)
+    {
+        // @todo handle error
+        controlPanelWindow.send('set-backup-status', backup_id, status);
     };
 
     /**

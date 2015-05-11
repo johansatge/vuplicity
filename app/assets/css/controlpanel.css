@@ -386,7 +386,8 @@ h2 i {
   margin-right: 1%;
 }
 /* line 192, ../sass/_detail.scss */
-.backup-detail input[type="text"] {
+.backup-detail input[type="text"],
+.backup-detail input[type="password"] {
   color: #282828;
   width: 100%;
   height: 28px;
@@ -399,7 +400,7 @@ h2 i {
   padding: 0 5px 0 5px;
   font-weight: 400;
 }
-/* line 207, ../sass/_detail.scss */
+/* line 208, ../sass/_detail.scss */
 .backup-detail select {
   color: #282828;
   width: 100%;
@@ -412,7 +413,7 @@ h2 i {
   padding: 0 5px 0 5px;
   font-weight: 400;
 }
-/* line 221, ../sass/_detail.scss */
+/* line 222, ../sass/_detail.scss */
 .backup-detail input[type="radio"] {
   position: relative;
   -webkit-appearance: none;
@@ -424,11 +425,11 @@ h2 i {
   float: left;
   margin: 2px 4px 0 0;
 }
-/* line 233, ../sass/_detail.scss */
+/* line 234, ../sass/_detail.scss */
 .backup-detail input[type="radio"]:disabled {
   opacity: 0.5;
 }
-/* line 238, ../sass/_detail.scss */
+/* line 239, ../sass/_detail.scss */
 .backup-detail input[type="radio"]:checked:after {
   content: ' ';
   display: block;
@@ -440,7 +441,7 @@ h2 i {
   background: linear-gradient(to bottom, #7ebfdf, #759fda);
   border-radius: 50%;
 }
-/* line 252, ../sass/_detail.scss */
+/* line 253, ../sass/_detail.scss */
 .backup-detail .input-icon {
   color: #282828;
   background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, white 40%);
@@ -450,7 +451,7 @@ h2 i {
   padding: 5px 3px 5px 16px;
 }
 
-/* line 263, ../sass/_detail.scss */
+/* line 264, ../sass/_detail.scss */
 .files {
   color: #333333;
   height: 150px;
@@ -463,18 +464,18 @@ h2 i {
   overflow-y: auto;
   padding: 5px 10px 5px 5px;
 }
-/* line 276, ../sass/_detail.scss */
+/* line 277, ../sass/_detail.scss */
 .files ul {
   list-style-type: none;
 }
-/* line 281, ../sass/_detail.scss */
+/* line 282, ../sass/_detail.scss */
 .files li {
   font-weight: 400;
   cursor: default;
   border-radius: 3px;
   border: 1px solid transparent;
 }
-/* line 288, ../sass/_detail.scss */
+/* line 289, ../sass/_detail.scss */
 .files li i {
   color: #999999;
   margin: 2px 2px 2px 0;

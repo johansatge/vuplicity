@@ -40,17 +40,18 @@
     {
         document.querySelector('.js-add-backup').addEventListener('click', _onCreateNewBackup.bind(this));
         removeBackupNode.addEventListener('click', _onRequestBackupDeletion.bind(this));
-        ipc.on('set-backup-options', _onSetBackup.bind(this));
+        ipc.on('set-backup-options', _onSetBackupOptions.bind(this));
         ipc.on('directory-selected', _onSelectedBackupDirectory.bind(this));
         ipc.on('confirm-backup-deletion', _onConfirmBackupDeletion.bind(this));
+        ipc.on('set-backup-status', _onSetBackupStatus.bind(this));
     };
 
     /**
-     * Updates a backup (and creates it first, if needed)
+     * Updates the options of a backup (and creates it first, if needed)
      * @param data
      * @param is_visible
      */
-    var _onSetBackup = function(id, data, is_visible)
+    var _onSetBackupOptions = function(id, data, is_visible)
     {
         if (typeof backups[id] === 'undefined')
         {
@@ -65,6 +66,19 @@
             backups[id].toggleVisibility();
         }
         backups[id].update(data);
+    };
+
+    /**
+     * Updates the status of a backup
+     * @param id
+     * @param data
+     * @private
+     */
+    var _onSetBackupStatus = function(id, data)
+    {
+        console.log(id);
+        console.log(data);
+        // @todo update backup item
     };
 
     /**
