@@ -84,11 +84,12 @@
      * Updates the status of a backup
      * @param id
      * @param data
+     * @param error
      * @private
      */
-    var _onSetBackupStatus = function(id, data)
+    var _onSetBackupStatus = function(id, data, error)
     {
-        backups[id].updateStatus(data);
+        backups[id].updateStatus(data, error);
     };
 
     /**

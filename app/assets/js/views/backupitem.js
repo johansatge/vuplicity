@@ -16,6 +16,7 @@
         var id = backup_id;
         var itemNode = null;
         var detailNode = null;
+        var errorNode = null;
         var toggleCallback = null;
         var actionCallback = null;
 
@@ -30,21 +31,32 @@
             actionCallback = action_callback;
             _initItemNode.apply(this);
             _initDetailNode.apply(this);
+            _initErrors.apply(this);
         };
 
         /**
          * Updates backup status
          * @param data
+         * @param error
          */
-        this.updateStatus = function(data)
+        this.updateStatus = function(data, error)
         {
             for (var property in data)
             {
                 var node = detailNode.querySelector('.js-status[rel="' + property + '"');
                 if (node !== null)
                 {
-                    node.innerHTML = data[property];
+                    node.innerHTML = data[property].length > 0 ? data[property] : '--';
                 }
+            }
+            if (error === false)
+            {
+                errorNode.style.display = 'none';
+            }
+            else
+            {
+                errorNode.querySelector('.js-error-message').innerHTML = error;
+                errorNode.style.display = 'block';
             }
         };
 
@@ -110,6 +122,16 @@
         };
 
         /**
+         * Inits error messages
+         */
+        var _initErrors = function()
+        {
+            errorNode = detailNode.querySelector('.js-error');
+            errorNode.querySelector('.js-error-close').addEventListener('click', _onCloseError.bind(this));
+            errorNode.style.display = 'none';
+        };
+
+        /**
          * Returns the left panel node
          */
         this.getItemNode = function()
@@ -164,11 +186,26 @@
             actionCallback(action, id, _getCurrentOptions.apply(this));
         };
 
+        /**
+         * Selects a directory by using the icon in the related field
+         * @param evt
+         */
         var _onSelectDirectory = function(evt)
         {
             evt.preventDefault();
             actionCallback('select-directory', id, _getCurrentOptions.apply(this));
         };
+
+        /**
+         * Closes the error message
+         * @param evt
+         */
+        var _onCloseError = function(evt)
+        {
+            evt.preventDefault();
+            errorNode.style.display = 'none';
+        };
+
 
     };
 

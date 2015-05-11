@@ -35,7 +35,7 @@
          */
         this.getStatus = function(url, pass, callback)
         {
-            var options = {env: {PASSPHRASE: pass}};
+            var options = {};//{env: {PASSPHRASE: pass}};
             exec('duplicity collection-status ' + url, options, function(error, stdout, stderr)
             {
                 var data = _parseOutput.apply(this, [stdout, {
@@ -43,7 +43,7 @@
                     chain_end_time: /Chain end time: ([^\n]+)/gm,
                     backup_sets: /Number of contained backup sets: ([0-9]+)/gm
                 }]);
-                callback(error, data);
+                callback(_parseError.apply(this, [stderr]), data);
             });
         };
 
@@ -61,6 +61,19 @@
                 data[variable] = regex !== null && typeof regex[1] !== 'undefined' ? regex[1] : '';
             }
             return data;
+        };
+
+        /**
+         * Parses an error message
+         * @param stderr
+         */
+        var _parseError = function(stderr)
+        {
+            if (stderr.replace(/[ \n\t]*/gm, '').length > 0)
+            {
+                return stderr;
+            }
+            return false;
         };
 
     };

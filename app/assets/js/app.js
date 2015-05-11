@@ -174,8 +174,7 @@
      */
     var _onRefreshedBackupStatus = function(backup_id, error, status)
     {
-        // @todo handle errors
-        controlPanelWindow.send('set-backup-status', backup_id, status);
+        controlPanelWindow.send('set-backup-status', backup_id, status, error);
         controlPanelWindow.send('backup-process-status', backup_id, false);
     };
 
