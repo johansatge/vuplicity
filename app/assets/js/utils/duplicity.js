@@ -58,7 +58,6 @@
             for (var variable in variables)
             {
                 var regex = variables[variable].exec(output);
-                console.log(regex[1]);
                 data[variable] = regex !== null && typeof regex[1] !== 'undefined' ? regex[1] : '';
             }
             return data;

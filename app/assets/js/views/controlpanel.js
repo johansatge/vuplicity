@@ -44,10 +44,22 @@
         ipc.on('directory-selected', _onSelectedBackupDirectory.bind(this));
         ipc.on('confirm-backup-deletion', _onConfirmBackupDeletion.bind(this));
         ipc.on('set-backup-status', _onSetBackupStatus.bind(this));
+        ipc.on('backup-process-status', _onBackupProcessingStatus.bind(this));
+    };
+
+    /**
+     * Sets the state of the given backup
+     * @param backup_id
+     * @private
+     */
+    var _onBackupProcessingStatus = function(backup_id, is_processing)
+    {
+        backups[backup_id].toggleProcessingStatus(is_processing);
     };
 
     /**
      * Updates the options of a backup (and creates it first, if needed)
+     * @param id
      * @param data
      * @param is_visible
      */
@@ -65,7 +77,7 @@
         {
             backups[id].toggleVisibility();
         }
-        backups[id].update(data);
+        backups[id].updateOptions(data);
     };
 
     /**
@@ -76,9 +88,7 @@
      */
     var _onSetBackupStatus = function(id, data)
     {
-        console.log(id);
-        console.log(data);
-        // @todo update backup item
+        backups[id].updateStatus(data);
     };
 
     /**
@@ -98,7 +108,7 @@
      */
     var _onSelectedBackupDirectory = function(path, id)
     {
-        backups[id].update({path: path});
+        backups[id].updateOptions({path: path});
     };
 
     /**
@@ -139,7 +149,6 @@
     {
         if (action === 'refresh')
         {
-            backups[id].toggleProcessingStatus(true);
             ipc.send('refresh-backup', id, data);
         }
         if (action === 'select-directory')

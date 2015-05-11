@@ -33,14 +33,30 @@
         };
 
         /**
-         * Updates the item by using the given data
+         * Updates backup status
          * @param data
          */
-        this.update = function(data)
+        this.updateStatus = function(data)
         {
             for (var property in data)
             {
-                var node = detailNode.querySelector('.js-field[rel="' + property + '"');
+                var node = detailNode.querySelector('.js-status[rel="' + property + '"');
+                if (node !== null)
+                {
+                    node.innerHTML = data[property];
+                }
+            }
+        };
+
+        /**
+         * Updates backup options
+         * @param data
+         */
+        this.updateOptions = function(data)
+        {
+            for (var property in data)
+            {
+                var node = detailNode.querySelector('.js-option[rel="' + property + '"');
                 if (node !== null)
                 {
                     node.setAttribute('value', data[property]);
@@ -128,11 +144,11 @@
          */
         var _getCurrentOptions = function()
         {
-            var fields = detailNode.querySelectorAll('.js-field');
+            var options = detailNode.querySelectorAll('.js-option');
             var data = {};
-            for (var index = 0; index < fields.length; index += 1)
+            for (var index = 0; index < options.length; index += 1)
             {
-                data[fields[index].getAttribute('rel')] = fields[index].value;
+                data[options[index].getAttribute('rel')] = options[index].value;
             }
             return data;
         };
