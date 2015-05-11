@@ -17,8 +17,10 @@
     var Duplicity = require(appPath + '/assets/js/utils/duplicity.js');
     var Tray = require(appPath + '/assets/js/utils/tray.js');
     var WindowRenderer = require(appPath + '/assets/js/utils/windowrenderer.js');
+    var Configuration = require(appPath + '/assets/js/utils/configuration.js');
 
     var controlPanelWindow = null;
+    var config = new Configuration('/Users/johan/.vuplicity');
 
     /**
      * Inits the main controller when the electron app is ready
@@ -64,11 +66,17 @@
      */
     var _onControlPanelReady = function(evt)
     {
-        // @todo get real config file
-        var sample_settings = JSON.parse(fs.readFileSync(appPath + '/sample.settings.json', {encoding: 'utf8'}));
-        for (var index = 0; index < sample_settings.length; index += 1)
+        try
         {
-            evt.sender.send('set-backup', sample_settings[index], false);
+            var backups = config.getBackups();
+            for (var index = backups.length - 1; index > -1; index -= 1)
+            {
+                evt.sender.send('set-backup', backups[index], false);
+            }
+        }
+        catch (error)
+        {
+            dialog.showErrorBox('Warning', error.message);
         }
     };
 
