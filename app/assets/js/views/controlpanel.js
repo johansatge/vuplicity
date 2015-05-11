@@ -1,4 +1,7 @@
-(function(window, document, ipc, BackupElement)
+/**
+ * Manages the control panel by making the backup items communicate with the app
+ */
+(function(window, document, ipc, BackupItem)
 {
 
     'use strict';
@@ -38,7 +41,7 @@
         document.querySelector('.js-add-backup').addEventListener('click', _onCreateNewBackup);
         removeBackupNode.addEventListener('click', _onRequestBackupDeletion);
         ipc.on('set-backup', _onSetBackup);
-        //ipc.on('directory-selected', _onSelectedDirectory);
+        ipc.on('directory-selected', _onSelectedBackupDirectory);
         ipc.on('confirm-backup-deletion', _onConfirmBackupDeletion);
     };
 
@@ -51,7 +54,7 @@
     {
         if (typeof backups[data.id] === 'undefined')
         {
-            var backup = new BackupElement();
+            var backup = new BackupItem();
             backup.init(_onToggleBackupVisibility, _onTriggerBackupAction);
             backupsListNode.insertBefore(backup.getItemNode(), backupsListNode.firstChild);
             backupsDetailNode.appendChild(backup.getDetailNode());
@@ -75,6 +78,16 @@
     };
 
     /**
+     * Updates the needed backup item when a directory has been selected
+     * @param path
+     * @param id
+     */
+    var _onSelectedBackupDirectory = function(path, id)
+    {
+        backups[id].update({path: path});
+    };
+
+    /**
      * Requests the deletion of the current backup
      * @param evt
      */
@@ -83,32 +96,41 @@
         if (currentBackupID !== null)
         {
             evt.preventDefault();
-            ipc.send('request-backup-deletion');
+            ipc.send('request-backup-deletion', currentBackupID);
         }
     };
 
     /**
      * Deletes the selected backup when the user has confirmed the action
+     * @param backup_id
      */
-    var _onConfirmBackupDeletion = function()
+    var _onConfirmBackupDeletion = function(backup_id)
     {
-        backupsListNode.removeChild(backups[currentBackupID].getItemNode());
-        backupsDetailNode.removeChild(backups[currentBackupID].getDetailNode());
-        backups[currentBackupID] = null;
-        currentBackupID = null;
+        backupsListNode.removeChild(backups[backup_id].getItemNode());
+        backupsDetailNode.removeChild(backups[backup_id].getDetailNode());
+        backups[backup_id] = null;
+        if (backup_id === currentBackupID)
+        {
+            currentBackupID = null;
+        }
     };
 
     /**
      * Triggers an action from a backup item
      * @param action
      * @param id
+     * @param data
      */
-    var _onTriggerBackupAction = function(action, id)
+    var _onTriggerBackupAction = function(action, id, data)
     {
-        backups[id].toggleProcessingStatus(true);
         if (action === 'refresh')
         {
-            ipc.send('refresh-backup', id);
+            backups[id].toggleProcessingStatus(true);
+            ipc.send('refresh-backup', id, data);
+        }
+        if (action === 'select-directory')
+        {
+            ipc.send('select-directory', id);
         }
         // @todo send request to the app for actions: "backup", "restore"
     };
@@ -130,4 +152,4 @@
 
     window.ControlPanel = module;
 
-})(window, document, require('ipc'), BackupElement);
+})(window, document, require('ipc'), BackupItem);

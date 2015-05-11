@@ -1,3 +1,7 @@
+/**
+ * Registers the needed events in the BrowserWindow client context
+ * Used mostly to make the transparent window to behave like a native one (drag, focus, blur...)
+ */
 (function(window, document, ipc)
 {
 
@@ -12,13 +16,13 @@
     module.init = function()
     {
         document.querySelector('.js-window-handler').addEventListener('mousedown', _onDragWindow);
-        document.querySelector('.js-close').addEventListener('click', _onCloseWindow);
+        document.querySelector('.js-window-close').addEventListener('click', _onCloseWindow);
         ipc.on('window-focus', _onWindowFocus);
         ipc.on('window-blur', _onWindowBlur);
     };
 
     /**
-     * Starts dragging the window on toolbar mousedown
+     * Starts dragging the window on mousedown
      * @param evt
      */
     var _onDragWindow = function(evt)
@@ -42,7 +46,7 @@
      */
     var _dragWindow = function(evt)
     {
-        ipc.send('window-move', {x: evt.screenX - mouseOffset.x, y: evt.screenY - mouseOffset.y});
+        ipc.send('window-move', evt.screenX - mouseOffset.x, evt.screenY - mouseOffset.y);
     };
 
     /**
@@ -58,7 +62,6 @@
      */
     var _onWindowBlur = function()
     {
-        // @todo enable this
         document.body.className += ' js-blur';
     };
 
@@ -72,6 +75,6 @@
         ipc.send('window-close');
     };
 
-    window.Window = module;
+    window.WindowClient = module;
 
 })(window, document, require('ipc'));

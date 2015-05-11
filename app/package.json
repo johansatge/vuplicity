@@ -1,5 +1,5 @@
 {
-  "name"    : "Vuplicity",
-  "version" : "1.0.0",
-  "main"    : "assets/js/app.js"
+  "name": "Vuplicity",
+  "version": "1.0.0",
+  "main": "assets/js/app.js"
 }

@@ -1,3 +1,7 @@
+/**
+ * Manages a backup item in the control panel
+ * An item is made of a node in the list view (left panel) and a detailed view (with the file tree, backup status, etc)
+ */
 (function(window, document)
 {
 
@@ -37,12 +41,13 @@
             id = data.id;
             for (var property in data)
             {
-                var node = detailNode.querySelector('.js-field-' + property);
+                var node = detailNode.querySelector('.js-field[rel="' + property + '"');
                 if (node !== null)
                 {
                     node.setAttribute('value', data[property]);
                 }
             }
+            itemNode.querySelector('.js-title').innerHTML = data.title;
         };
 
         /**
@@ -85,7 +90,7 @@
             detailNode.className = detailNodeTemplate.getAttribute('rel');
             detailNode.style.display = 'none';
 
-            detailNode.querySelector('.js-path-select').addEventListener('click', _onSelectDirectory.bind(this));
+            detailNode.querySelector('.js-select-dir').addEventListener('click', _onSelectDirectory.bind(this));
             detailNode.querySelector('.js-actions').addEventListener('click', _onTriggerAction.bind(this));
         };
 
@@ -120,6 +125,20 @@
         };
 
         /**
+         * Gets the currently filled options
+         */
+        var _getCurrentOptions = function()
+        {
+            var fields = detailNode.querySelectorAll('.js-field');
+            var data = {};
+            for (var index = 0; index < fields.length; index += 1)
+            {
+                data[fields[index].getAttribute('rel')] = fields[index].value;
+            }
+            return data;
+        };
+
+        /**
          * Starts an action when using the toolbar of the detail view
          * @param evt
          */
@@ -127,21 +146,17 @@
         {
             evt.preventDefault();
             var action = evt.target.getAttribute('rel');
-            actionCallback(action, id);
+            actionCallback(action, id, _getCurrentOptions.apply(this));
         };
 
-        /**
-         * Selects a directory by using the native file dialog
-         * @param evt
-         */
         var _onSelectDirectory = function(evt)
         {
             evt.preventDefault();
-            // @todo refactor this
-            //ipc.send('select-directory', evt.currentTarget.parentNode.parentNode.parentNode.parentNode.parentNode.getAttribute('id'));
+            actionCallback('select-directory', id, _getCurrentOptions.apply(this));
         };
+
     };
 
-    window.BackupElement = module;
+    window.BackupItem = module;
 
 })(window, document);

@@ -1,0 +1,30 @@
+[
+    {
+        "id": "backup-0",
+        "title": "My first backup",
+        "url": "cf+hubic://AirBackup_Livres",
+        "path": "/Volumes/AirData/Livres",
+        "options": "--size 5"
+    },
+    {
+        "id": "backup-1",
+        "title": "My second backup",
+        "url": "http://test-url-2",
+        "path": "/Users/coucou2",
+        "options": "--size 5"
+    },
+    {
+        "id": "backup-2",
+        "title": "My third backup",
+        "url": "http://test-url-3",
+        "path": "/Users/coucou3",
+        "options": "--size 5"
+    },
+    {
+        "id": "backup-3",
+        "title": "My fourth backup",
+        "url": "http://test-url-4",
+        "path": "/Users/coucou4",
+        "options": "--size 5"
+    }
+]

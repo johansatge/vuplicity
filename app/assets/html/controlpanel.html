@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Vuplicity settings</title>
+        <title></title>
         <!-- @todo use local fonts -->
         <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600">
         <link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css">
@@ -10,40 +10,28 @@
     <body>
         <div class="window">
             <div class="toolbar">
-                <button class="close js-close">
-                    <i class="fa fa-plus"></i>
-                </button>
-                <h1 class="js-window-handler">
-                    Vuplicity
-                </h1>
+                <button class="close js-window-close"><i class="fa fa-plus"></i></button>
+                <h1 class="js-window-handler">Vuplicity</h1>
             </div>
             <div class="backups-list-wrapper">
                 <div class="backups-list js-backups-list"></div>
                 <div class="actions">
-                    <button class="js-add-backup">
-                        <i class="fa fa-plus"></i>
-                    </button>
-                    <button class="js-remove-backup" disabled="disabled">
-                        <i class="fa fa-minus"></i>
-                    </button>
+                    <button class="js-add-backup"><i class="fa fa-plus"></i></button>
+                    <button class="js-remove-backup" disabled="disabled"><i class="fa fa-minus"></i></button>
                 </div>
             </div>
             <div class="backups-detail-wrapper">
                 <div class="empty">
                     <i class="fa fa-cloud-upload"></i>
-                    <span>
-                        No backup selected
-                    </span>
+                    <span>No backup selected</span>
                 </div>
                 <div class="backups-detail js-backups-detail"></div>
             </div>
         </div>
         <script type="text/template" class="js-backup-list-template" rel="backup-item js-backup-item">
-            <div class="title">
-                Titre @todo
-            </div>
+            <div class="title js-title"></div>
             <div class="status">
-                Last backup the 2015-XX-XX at XX:33
+                Last backup: the 2015-XX-XX at @todo
             </div>
             <i class="loader fa fa-refresh fa-spin"></i>
         </script>
@@ -59,13 +47,11 @@
                 </button>
                 <button class="action js-action" rel="refresh">
                     <i class="fa fa-refresh"></i>
-                    Refresh status
+                    Save and refresh
                 </button>
             </div>
             <div class="section">
-                <h2>
-                    Backup status
-                </h2>
+                <h2>Backup status</h2>
                 <p class="col1">
                     Number of contained backup sets
                     <span class="right">--</span>
@@ -80,13 +66,11 @@
                 </p>
             </div>
             <div class="section">
-                <h2>
-                    File tree
-                </h2>
+                <h2>File tree</h2>
                 <label class="col1">
                     <div class="files">
                         <ul>
-                            <li><i class="fa fa-folder-open-o"></i>Root</li>
+                            <li><i class="fa fa-folder-open-o"></i>Root @todo</li>
                             <li><i class="fa fa-file-o"></i>file</li>
                             <li><i class="fa fa-file-o"></i>file</li>
                             <li><i class="fa fa-folder-o"></i>folder</li>
@@ -101,33 +85,29 @@
                 </label>
             </div>
             <div class="section">
-                <h2>
-                    Target
-                </h2>
+                <h2>Target</h2>
                 <label class="col2 left">
                     Backup title
-                    <input type="text" class="js-field-title">
+                    <input type="text" class="js-field" rel="title">
                 </label>
                 <label class="col2">
                     Options
-                    <input type="text" class="js-field-options">
+                    <input type="text" class="js-field" rel="options">
                 </label>
                 <label class="col2 left">
                     Source path
-                    <input type="text" class="js-field-path">
-                    <button class="input-icon js-path-select">
+                    <input type="text" class="js-field" rel="path">
+                    <button class="input-icon js-select-dir" rel="select-directory">
                         <i class="fa fa-folder-open"></i>
                     </button>
                 </label>
                 <label class="col2">
                     Destination URL
-                    <input type="text" class="js-field-url">
+                    <input type="text" class="js-field" rel="url">
                 </label>
             </div>
             <div class="section">
-                <h2>
-                    Automation
-                </h2>
+                <h2>Automation</h2>
                 <label class="col1">
                     <input name="p" type="radio" checked="checked">
                     Backup manually
@@ -153,13 +133,13 @@
             </div>
         </script>
         <script src="../js/jquery-2.1.1.min.js"></script>
-        <script src="../js/views/window.js"></script>
-        <script src="../js/views/backupelement.js"></script>
+        <script src="../js/utils/windowclient.js"></script>
+        <script src="../js/views/backupitem.js"></script>
         <script src="../js/views/controlpanel.js"></script>
         <script>
             window.onload = function()
             {
-                Window.init();
+                WindowClient.init();
                 ControlPanel.init();
             };
         </script>
