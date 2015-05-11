@@ -29,11 +29,11 @@
                 frame: false,
                 transparent: true
             });
-            window.webContents.on('did-finish-load', function()
-            {
-                window.show();
-                window.openDevTools({detach: true});
-            });
+            /*window.webContents.on('did-finish-load', function()
+             {
+             window.show();
+             window.openDevTools({detach: true});
+             });*/
             window.webContents.loadUrl(url);
             window.on('closed', function()
             {
@@ -47,6 +47,22 @@
             {
                 window.webContents.send('window-blur');
             });
+        };
+
+        /**
+         * Brings the window to the first plan
+         */
+        this.makeVisible = function()
+        {
+            if (!window.isVisible())
+            {
+                window.show();
+                window.openDevTools({detach: true});
+            }
+            else
+            {
+                window.focus();
+            }
         };
 
         /**
@@ -76,20 +92,11 @@
         };
 
         /**
-         * Focus status
+         * Hides the BrowserWindow object
          */
-        this.focus = function()
+        this.hide = function()
         {
-            window.focus();
-        };
-
-        /**
-         * Closes BrowserWindow object
-         */
-        this.close = function()
-        {
-            window.close();
-            window = null;
+            window.hide();
         };
     };
 

@@ -33,8 +33,18 @@
         }
         config = new Configuration('/Users/johan/.vuplicity');
         _initTray.apply(this);
+        _initControlPanel.apply(this);
         _initIPC.apply(this);
-        _onControlPanelToggle.apply(this);
+        _onControlPanelShow.apply(this);
+    };
+
+    /**
+     * Inits control panel
+     */
+    var _initControlPanel = function()
+    {
+        controlPanelWindow = new WindowRenderer();
+        controlPanelWindow.load('file://' + appPath + '/assets/html/controlpanel.html');
     };
 
     /**
@@ -44,7 +54,7 @@
     {
         var tray_label = app.getName() + ' ' + app.getVersion();
         var tray_icon = appPath + '/assets/css/images/tray.png';
-        var tray = new Tray(tray_label, tray_icon, _onControlPanelToggle.bind(this), _onQuitFromTray.bind(this));
+        var tray = new Tray(tray_label, tray_icon, _onControlPanelShow.bind(this), _onQuitFromTray.bind(this));
     };
 
     /**
@@ -181,24 +191,15 @@
      */
     var _onWindowClose = function()
     {
-        controlPanelWindow.close();
-        controlPanelWindow = null;
+        controlPanelWindow.hide();
     };
 
     /**
      * Creates the settings window
      */
-    var _onControlPanelToggle = function()
+    var _onControlPanelShow = function()
     {
-        if (controlPanelWindow === null)
-        {
-            controlPanelWindow = new WindowRenderer();
-            controlPanelWindow.load('file://' + appPath + '/assets/html/controlpanel.html');
-        }
-        else
-        {
-            controlPanelWindow.focus();
-        }
+        controlPanelWindow.makeVisible();
     };
 
     /**
