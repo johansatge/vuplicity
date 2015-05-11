@@ -20,7 +20,7 @@
     var Configuration = require(appPath + '/assets/js/utils/configuration.js');
 
     var controlPanelWindow = null;
-    var config = new Configuration('/Users/johan/.vuplicity');
+    var config = null;
 
     /**
      * Inits the main controller when the electron app is ready
@@ -31,6 +31,7 @@
         {
             app.dock.hide();
         }
+        config = new Configuration('/Users/johan/.vuplicity');
         _initTray.apply(this);
         _initIPC.apply(this);
         _onControlPanelToggle.apply(this);
@@ -52,7 +53,6 @@
     var _initIPC = function()
     {
         ipc.on('control-panel-ready', _onControlPanelReady.bind(this));
-        ipc.on('create-backup', _onCreateNewBackup.bind(this));
         ipc.on('request-backup-deletion', _onRequestBackupDeletion.bind(this));
         ipc.on('select-directory', _onSelectBackupDirectory.bind(this));
         ipc.on('refresh-backup', _onRefreshBackup.bind(this));
@@ -66,29 +66,18 @@
      */
     var _onControlPanelReady = function(evt)
     {
-        try
+        var backups = config.getBackups();
+        if (backups !== false)
         {
-            var backups = config.getBackups();
             for (var index = backups.length - 1; index > -1; index -= 1)
             {
-                evt.sender.send('set-backup', backups[index], false);
+                evt.sender.send('set-backup-options', index, backups[index], false);
             }
         }
-        catch (error)
+        else
         {
-            dialog.showErrorBox('Warning', error.message);
+            dialog.showErrorBox('The configuration file was not read correctly.', 'Please check its syntax and restart the app.');
         }
-    };
-
-    /**
-     * Creates a new backup from the control panel
-     * @param evt
-     */
-    var _onCreateNewBackup = function(evt)
-    {
-        // @todo add the item to the config file
-        var new_id = 'backup-' + new Date().getTime();
-        evt.sender.send('set-backup', {id: new_id}, true);
     };
 
     /**
@@ -124,7 +113,7 @@
         {
             if (response === 0)
             {
-                // @todo remove item from the config file
+                // @todo remove item from the config file (if it exists)
                 evt.sender.send('confirm-backup-deletion', backup_id);
             }
         });
@@ -138,14 +127,22 @@
      */
     var _onRefreshBackup = function(evt, backup_id, backup_data)
     {
-        console.log(backup_id);
+        if (config.updateBackup(backup_id, backup_data))
+        {
+            controlPanelWindow.send('set-backup-options', backup_id, backup_data);
 
-        // @todo save data, execute commands, send a "set-backup" command
+            var helper = new Duplicity();
+            helper.getFiles(backup_data.url);
+            helper.getStatus(backup_data.url);
 
-        var helper = new Duplicity();
+            // @todo send with IPC: "set-backup-status"
+        }
+        else
+        {
+            dialog.showErrorBox('The settings could not be written.', 'Please check that the app can write in the file and retry.');
 
-        helper.getFiles(backup_data.url);
-        helper.getStatus(backup_data.url);
+            // @todo here, tell the window to revert the "processing" status
+        }
     };
 
     /**

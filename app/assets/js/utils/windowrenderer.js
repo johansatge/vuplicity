@@ -58,6 +58,14 @@
         };
 
         /**
+         * Sends an IPC message
+         */
+        this.send = function()
+        {
+            window.webContents.send.apply(window.webContents, arguments);
+        };
+
+        /**
          * Sets the position of the window
          * @param x
          * @param y

@@ -7,13 +7,13 @@
 
     'use strict';
 
-    var module = function()
+    var module = function(backup_id)
     {
 
         var backupListTemplate = document.querySelector('.js-backup-list-template');
         var detailNodeTemplate = document.querySelector('.js-backup-detail-template');
 
-        var id = null;
+        var id = backup_id;
         var itemNode = null;
         var detailNode = null;
         var toggleCallback = null;
@@ -38,7 +38,6 @@
          */
         this.update = function(data)
         {
-            id = data.id;
             for (var property in data)
             {
                 var node = detailNode.querySelector('.js-field[rel="' + property + '"');
@@ -47,7 +46,7 @@
                     node.setAttribute('value', data[property]);
                 }
             }
-            itemNode.querySelector('.js-title').innerHTML = data.title;
+            itemNode.querySelector('.js-title').innerHTML = typeof data.title !== 'undefined' ? data.title : 'Unnamed backup';
         };
 
         /**

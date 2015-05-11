@@ -38,11 +38,11 @@
      */
     var _initEvents = function()
     {
-        document.querySelector('.js-add-backup').addEventListener('click', _onCreateNewBackup);
-        removeBackupNode.addEventListener('click', _onRequestBackupDeletion);
-        ipc.on('set-backup', _onSetBackup);
-        ipc.on('directory-selected', _onSelectedBackupDirectory);
-        ipc.on('confirm-backup-deletion', _onConfirmBackupDeletion);
+        document.querySelector('.js-add-backup').addEventListener('click', _onCreateNewBackup.bind(this));
+        removeBackupNode.addEventListener('click', _onRequestBackupDeletion.bind(this));
+        ipc.on('set-backup-options', _onSetBackup.bind(this));
+        ipc.on('directory-selected', _onSelectedBackupDirectory.bind(this));
+        ipc.on('confirm-backup-deletion', _onConfirmBackupDeletion.bind(this));
     };
 
     /**
@@ -50,31 +50,31 @@
      * @param data
      * @param is_visible
      */
-    var _onSetBackup = function(data, is_visible)
+    var _onSetBackup = function(id, data, is_visible)
     {
-        if (typeof backups[data.id] === 'undefined')
+        if (typeof backups[id] === 'undefined')
         {
-            var backup = new BackupItem();
-            backup.init(_onToggleBackupVisibility, _onTriggerBackupAction);
+            var backup = new BackupItem(id);
+            backup.init(_onToggleBackupVisibility, _onTriggerBackupAction.bind(this));
             backupsListNode.insertBefore(backup.getItemNode(), backupsListNode.firstChild);
             backupsDetailNode.appendChild(backup.getDetailNode());
-            backups[data.id] = backup;
+            backups[id] = backup;
         }
         if (is_visible)
         {
-            backups[data.id].toggleVisibility();
+            backups[id].toggleVisibility();
         }
-        backups[data.id].update(data);
+        backups[id].update(data);
     };
 
     /**
-     * Asks the app to build a new backup item
+     * Builds a new backup item
      * @param evt
      */
     var _onCreateNewBackup = function(evt)
     {
         evt.preventDefault();
-        ipc.send('create-backup');
+        _onSetBackup.apply(this, [backupsListNode.childNodes.length, {}, true]);
     };
 
     /**

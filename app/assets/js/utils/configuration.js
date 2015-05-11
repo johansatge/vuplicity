@@ -16,12 +16,45 @@
 
         /**
          * Gets the current backups list
-         * @todo check JSON structure
          */
         this.getBackups = function()
         {
-            var data = _load.apply(this);
-            return data.backups;
+            var current_data = _load.apply(this);
+            if (typeof current_data === 'object' && typeof current_data.backups !== 'undefined' && Array.isArray(current_data.backups))
+            {
+                return current_data.backups;
+            }
+            return false;
+        };
+
+        /**
+         * Updates the needed backup
+         * @param id
+         * @param data
+         */
+        this.updateBackup = function(id, data)
+        {
+            var backups = this.getBackups();
+            if (backups !== false)
+            {
+                if (typeof backups[id] !== 'undefined')
+                {
+                    backups[id] = data;
+                }
+                else
+                {
+                    backups.unshift(data);
+                }
+                try
+                {
+                    fs.writeFileSync(path, JSON.stringify({backups: backups}), {encoding: 'utf8'});
+                    return true;
+                }
+                catch (error)
+                {
+                }
+            }
+            return false;
         };
 
         /**
@@ -47,7 +80,6 @@
             catch (error)
             {
                 data = false;
-                throw new Error('The configuration file was not read correctly.\nPlease check its syntax and restart the app.');
             }
             return data;
         };
