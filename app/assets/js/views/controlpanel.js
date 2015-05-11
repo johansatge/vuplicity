@@ -74,7 +74,7 @@
     var _onCreateNewBackup = function(evt)
     {
         evt.preventDefault();
-        _onSetBackup.apply(this, [backupsListNode.childNodes.length, {}, true]);
+        _onSetBackup.apply(this, ['b-' + new Date().getTime(), {}, true]);
     };
 
     /**

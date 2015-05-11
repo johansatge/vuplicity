@@ -1,6 +1,7 @@
 /**
  * Configuration manager
  * Errors are caught in the main process
+ * @todo refactor this
  */
 (function(require, m)
 {
@@ -20,7 +21,7 @@
         this.getBackups = function()
         {
             var current_data = _load.apply(this);
-            if (typeof current_data === 'object' && typeof current_data.backups !== 'undefined' && Array.isArray(current_data.backups))
+            if (typeof current_data === 'object' && typeof current_data.backups === 'object')
             {
                 return current_data.backups;
             }
@@ -37,16 +38,31 @@
             var backups = this.getBackups();
             if (backups !== false)
             {
-                if (typeof backups[id] !== 'undefined')
-                {
-                    backups[id] = data;
-                }
-                else
-                {
-                    backups.unshift(data);
-                }
                 try
                 {
+                    backups[id] = data;
+                    fs.writeFileSync(path, JSON.stringify({backups: backups}), {encoding: 'utf8'});
+                    return true;
+                }
+                catch (error)
+                {
+                }
+            }
+            return false;
+        };
+
+        /**
+         * Deletes a backup
+         * @param id
+         */
+        this.deleteBackup = function(id)
+        {
+            var backups = this.getBackups();
+            if (backups !== false)
+            {
+                try
+                {
+                    delete backups[id];
                     fs.writeFileSync(path, JSON.stringify({backups: backups}), {encoding: 'utf8'});
                     return true;
                 }
@@ -70,7 +86,7 @@
             }
             catch (error)
             {
-                raw_data = '[]';
+                raw_data = '{}';
             }
             var data;
             try

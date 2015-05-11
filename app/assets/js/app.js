@@ -55,7 +55,7 @@
         ipc.on('control-panel-ready', _onControlPanelReady.bind(this));
         ipc.on('request-backup-deletion', _onRequestBackupDeletion.bind(this));
         ipc.on('select-directory', _onSelectBackupDirectory.bind(this));
-        ipc.on('refresh-backup', _onRefreshBackup.bind(this));
+        ipc.on('refresh-backup', _onSaveAndRefreshBackup.bind(this));
         ipc.on('window-move', _onWindowMove.bind(this));
         ipc.on('window-close', _onWindowClose.bind(this));
     };
@@ -69,7 +69,7 @@
         var backups = config.getBackups();
         if (backups !== false)
         {
-            for (var index = backups.length - 1; index > -1; index -= 1)
+            for (var index in backups)
             {
                 evt.sender.send('set-backup-options', index, backups[index], false);
             }
@@ -113,19 +113,25 @@
         {
             if (response === 0)
             {
-                // @todo remove item from the config file (if it exists)
-                evt.sender.send('confirm-backup-deletion', backup_id);
+                if (config.deleteBackup(backup_id))
+                {
+                    evt.sender.send('confirm-backup-deletion', backup_id);
+                }
+                else
+                {
+                    dialog.showErrorBox('The settings could not be written.', 'Please check that the app can write in the file and retry.');
+                }
             }
         });
     };
 
     /**
-     * Updates the status of a backup
+     * Saves and updates the status of a backup
      * @param evt
      * @param backup_id
      * @param backup_data
      */
-    var _onRefreshBackup = function(evt, backup_id, backup_data)
+    var _onSaveAndRefreshBackup = function(evt, backup_id, backup_data)
     {
         if (config.updateBackup(backup_id, backup_data))
         {
