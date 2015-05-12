@@ -52,11 +52,13 @@
             if (error === false)
             {
                 errorNode.style.display = 'none';
+                itemNode.className = itemNode.className.replace('js-error', '');
             }
             else
             {
                 errorNode.querySelector('.js-error-message').innerHTML = error;
                 errorNode.style.display = 'block';
+                itemNode.className += ' js-error';
             }
         };
 
@@ -204,6 +206,7 @@
         {
             evt.preventDefault();
             errorNode.style.display = 'none';
+            itemNode.className = itemNode.className.replace('js-error', '');
         };
 
 

@@ -22,8 +22,8 @@
         {
             window = new BrowserWindow({
                 width: 900,
-                height: 500,
-                'min-width': 900,
+                height: 770,
+                'min-width': 800,
                 'min-height': 500,
                 show: false,
                 frame: false,

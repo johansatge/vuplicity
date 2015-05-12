@@ -56,59 +56,26 @@
             position  : absolute;
             color     : #292929;
             right     : 12px;
-            top       : 17px;
-            font-size : 18px;
+            top       : 18px;
+            font-size : 16px;
         }
 
         .error
         {
-            color         : #ff4141;
-            z-index       : 4;
-            background    : #fff3f3;
-            font-size     : 11px;
-            padding       : 10px 25px 10px 10px;
-            border-radius : 3px;
-            position      : absolute;
-            width         : auto;
-            margin        : 0;
-            top           : 60px;
-            left          : 0;
-
-            span
-            {
-                cursor : default;
-            }
-
-            &:before
-            {
-                display      : block;
-                content      : ' ';
-                position     : absolute;
-                width        : 0;
-                height       : 0;
-                top          : -6px;
-                left         : 6px;
-                border-style : solid;
-                border-width : 0 5px 6px 5px;
-                border-color : transparent transparent #fff3f3 transparent;
-            }
-
-            button
-            {
-                bottom        : -3px;
-                right         : -3px;
-                width         : 14px;
-                height        : 14px;
-                line-height   : 0;
-                position      : absolute;
-                font-size     : 16px;
-                color         : #ff4141;
-                background    : transparent;
-                border-radius : 50%;
-            }
+            display   : none;
+            position  : absolute;
+            color     : #f6d349;
+            right     : 32px;
+            top       : 19px;
+            font-size : 16px;
         }
 
         &.js-processing .loader
+        {
+            display : block;
+        }
+
+        &.js-error .error
         {
             display : block;
         }
@@ -125,7 +92,8 @@
                 color       : #ffffff;
             }
 
-            .loader
+            .loader,
+            .error
             {
                 color : #ffffff;
             }
