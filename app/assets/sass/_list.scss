@@ -11,6 +11,7 @@
     width        : 40%;
     background   : #292929;
     border-right : 1px solid #212121;
+    z-index      : 2;
 
     .backups-list
     {
@@ -59,6 +60,54 @@
             font-size : 18px;
         }
 
+        .error
+        {
+            color         : #ff4141;
+            z-index       : 4;
+            background    : #fff3f3;
+            font-size     : 11px;
+            padding       : 10px 25px 10px 10px;
+            border-radius : 3px;
+            position      : absolute;
+            width         : auto;
+            margin        : 0;
+            top           : 60px;
+            left          : 0;
+
+            span
+            {
+                cursor : default;
+            }
+
+            &:before
+            {
+                display      : block;
+                content      : ' ';
+                position     : absolute;
+                width        : 0;
+                height       : 0;
+                top          : -6px;
+                left         : 6px;
+                border-style : solid;
+                border-width : 0 5px 6px 5px;
+                border-color : transparent transparent #fff3f3 transparent;
+            }
+
+            button
+            {
+                bottom        : -3px;
+                right         : -3px;
+                width         : 14px;
+                height        : 14px;
+                line-height   : 0;
+                position      : absolute;
+                font-size     : 16px;
+                color         : #ff4141;
+                background    : transparent;
+                border-radius : 50%;
+            }
+        }
+
         &.js-processing .loader
         {
             display : block;
@@ -80,7 +129,6 @@
             {
                 color : #ffffff;
             }
-
         }
     }
 

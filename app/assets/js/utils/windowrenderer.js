@@ -22,18 +22,13 @@
         {
             window = new BrowserWindow({
                 width: 900,
-                height: 790,
+                height: 500,
                 'min-width': 900,
-                'min-height': 790,
+                'min-height': 500,
                 show: false,
                 frame: false,
                 transparent: true
             });
-            /*window.webContents.on('did-finish-load', function()
-             {
-             window.show();
-             window.openDevTools({detach: true});
-             });*/
             window.webContents.loadUrl(url);
             window.on('closed', function()
             {
