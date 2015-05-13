@@ -48,6 +48,10 @@
                 {
                     node.innerHTML = data[property].length > 0 ? data[property] : '--';
                 }
+                if (property === 'chain_end_time')
+                {
+                    itemNode.querySelector('.js-last-update').innerHTML = data[property];
+                }
             }
             if (error === false)
             {
