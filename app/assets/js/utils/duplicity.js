@@ -16,7 +16,7 @@
          * @param url
          * @param pass
          */
-        this.getFiles = function(url, pass)
+        this.getFiles = function(url, pass, callback)
         {
             var options = {env: {PASSPHRASE: pass}};
             exec('duplicity list-current-files ' + url, options, function(error, stdout, stderr)
@@ -24,6 +24,8 @@
                 console.log(error);
                 console.log(stdout);
                 console.log(stderr);
+
+                callback(_parseError.apply(this, [stderr]), '@todo return built tree');
             });
         };
 

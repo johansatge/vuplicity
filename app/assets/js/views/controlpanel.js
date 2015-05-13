@@ -45,17 +45,28 @@
         ipc.on('confirm-backup-deletion', _onConfirmBackupDeletion.bind(this));
         ipc.on('set-backup-status', _onSetBackupStatus.bind(this));
         ipc.on('set-backup-error', _onSetBackupError.bind(this));
-        ipc.on('set-backup-ui', _onBackupUIUpdate.bind(this));
+        ipc.on('set-backup-ui', _onSetBackupUI.bind(this));
+        ipc.on('set-backup-file-tree', _onSetBackupFileTree.bind(this));
     };
 
     /**
-     * Sets the state of the given backup
+     * Updates the file tree of a backup
+     * @param backup_id
+     * @param tree
+     */
+    var _onSetBackupFileTree = function(backup_id, tree)
+    {
+        // @todo send to the backup item
+    };
+
+    /**
+     * Sets the UI state of the given backup
      * @param backup_id
      * @param status
      */
-    var _onBackupUIUpdate = function(backup_id, status)
+    var _onSetBackupUI = function(backup_id, status)
     {
-        backups[backup_id].toggleProcessingStatus(status === 'idle' ? false : true);
+        backups[backup_id].toggleProcessingStatus(status !== 'idle');
     };
 
     /**

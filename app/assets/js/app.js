@@ -151,14 +151,20 @@
             helper.getStatus(backup_data.url, backup_data.passphrase, function(error, status)
             {
                 controlPanelWindow.send('set-backup-status', backup_id, status);
-                controlPanelWindow.send('set-backup-error', backup_id, error);
-                controlPanelWindow.send('set-backup-ui', backup_id, 'idle');
+                if (!error)
+                {
+                    helper.getFiles(backup_data.url, backup_data.passphrase, function(error)
+                    {
+                        controlPanelWindow.send('set-backup-file-tree', backup_id, error);
+                        controlPanelWindow.send('set-backup-ui', backup_id, 'idle');
+                    });
+                }
+                else
+                {
+                    controlPanelWindow.send('set-backup-error', backup_id, error);
+                    controlPanelWindow.send('set-backup-ui', backup_id, 'idle');
+                }
             });
-
-
-            //helper.getFiles(backup_data.url, backup_data.passphrase);
-            // @todo send with IPC: "set-backup-tree"
-
         }
         else
         {
