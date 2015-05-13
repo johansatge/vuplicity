@@ -143,7 +143,7 @@
      */
     var _onSaveAndRefreshBackup = function(evt, backup_id, backup_data)
     {
-        controlPanelWindow.send('backup-process-status', backup_id, true);
+        controlPanelWindow.send('set-backup-ui', backup_id, 'processing');
         if (config.updateBackup(backup_id, backup_data))
         {
             controlPanelWindow.send('set-backup-options', backup_id, backup_data);
@@ -152,7 +152,7 @@
             {
                 controlPanelWindow.send('set-backup-status', backup_id, status);
                 controlPanelWindow.send('set-backup-error', backup_id, error);
-                controlPanelWindow.send('backup-process-status', backup_id, false);
+                controlPanelWindow.send('set-backup-ui', backup_id, 'idle');
             });
 
 
@@ -163,7 +163,7 @@
         else
         {
             dialog.showErrorBox('The settings could not be written.', 'Please check that the app can write in the file and retry.');
-            controlPanelWindow.send('backup-process-status', backup_id, false);
+            controlPanelWindow.send('set-backup-ui', backup_id, 'idle');
         }
     };
 

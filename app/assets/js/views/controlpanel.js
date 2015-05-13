@@ -45,17 +45,17 @@
         ipc.on('confirm-backup-deletion', _onConfirmBackupDeletion.bind(this));
         ipc.on('set-backup-status', _onSetBackupStatus.bind(this));
         ipc.on('set-backup-error', _onSetBackupError.bind(this));
-        ipc.on('backup-process-status', _onBackupProcessingStatus.bind(this));
+        ipc.on('set-backup-ui', _onBackupUIUpdate.bind(this));
     };
 
     /**
      * Sets the state of the given backup
      * @param backup_id
-     * @private
+     * @param status
      */
-    var _onBackupProcessingStatus = function(backup_id, is_processing)
+    var _onBackupUIUpdate = function(backup_id, status)
     {
-        backups[backup_id].toggleProcessingStatus(is_processing);
+        backups[backup_id].toggleProcessingStatus(status === 'idle' ? false : true);
     };
 
     /**
