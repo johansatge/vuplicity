@@ -56,6 +56,7 @@
      */
     var _onSetBackupFileTree = function(backup_id, tree)
     {
+        console.log(tree);
         // @todo send to the backup item
     };
 

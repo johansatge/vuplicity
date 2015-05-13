@@ -153,9 +153,9 @@
                 controlPanelWindow.send('set-backup-status', backup_id, status);
                 if (!error)
                 {
-                    helper.getFiles(backup_data.url, backup_data.passphrase, function(error)
+                    helper.getFiles(backup_data.url, backup_data.passphrase, function(error, tree)
                     {
-                        controlPanelWindow.send('set-backup-file-tree', backup_id, error);
+                        controlPanelWindow.send('set-backup-file-tree', backup_id, tree);
                         controlPanelWindow.send('set-backup-ui', backup_id, 'idle');
                     });
                 }

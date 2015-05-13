@@ -21,11 +21,25 @@
             var options = {env: {PASSPHRASE: pass}};
             exec('duplicity list-current-files ' + url, options, function(error, stdout, stderr)
             {
-                console.log(error);
-                console.log(stdout);
-                console.log(stderr);
-
-                callback(_parseError.apply(this, [stderr]), '@todo return built tree');
+                var regex = /[a-zA-Z]{3}.*[0-9]{4} (.*)\n/gm;
+                var tree = [];
+                var match;
+                while (match = regex.exec(stdout))
+                {
+                    if (match[1] !== 'undefined')
+                    {
+                        var path = match[1];
+                        if (path === '.' || path === '..')
+                        {
+                            continue;
+                        }
+                        tree.push({
+                            dir: path.search('/') !== -1 ? path.substring(0, path.lastIndexOf('/')) : '.',
+                            name: path.substring(path.lastIndexOf('/') + 1)
+                        });
+                    }
+                }
+                callback(_parseError.apply(this, [stderr]), tree);
             });
         };
 
@@ -37,7 +51,7 @@
          */
         this.getStatus = function(url, pass, callback)
         {
-            var options = {};//{env: {PASSPHRASE: pass}};
+            var options = {env: {PASSPHRASE: pass}};
             exec('duplicity collection-status ' + url, options, function(error, stdout, stderr)
             {
                 var data = _parseOutput.apply(this, [stdout, {
