@@ -147,11 +147,12 @@
         if (config.updateBackup(backup_id, backup_data))
         {
             controlPanelWindow.send('set-backup-options', backup_id, backup_data);
-            var self = this;
             var helper = new Duplicity();
             helper.getStatus(backup_data.url, backup_data.passphrase, function(error, status)
             {
-                _onRefreshedBackupStatus.apply(self, [backup_id, error, status]);
+                controlPanelWindow.send('set-backup-status', backup_id, status);
+                controlPanelWindow.send('set-backup-error', backup_id, error);
+                controlPanelWindow.send('backup-process-status', backup_id, false);
             });
 
 
@@ -164,18 +165,6 @@
             dialog.showErrorBox('The settings could not be written.', 'Please check that the app can write in the file and retry.');
             controlPanelWindow.send('backup-process-status', backup_id, false);
         }
-    };
-
-    /**
-     * Updates the control panel when the status of a backup has been retrieved
-     * @param backup_id
-     * @param error
-     * @param status
-     */
-    var _onRefreshedBackupStatus = function(backup_id, error, status)
-    {
-        controlPanelWindow.send('set-backup-status', backup_id, status, error);
-        controlPanelWindow.send('backup-process-status', backup_id, false);
     };
 
     /**

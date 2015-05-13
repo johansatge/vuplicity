@@ -44,6 +44,7 @@
         ipc.on('directory-selected', _onSelectedBackupDirectory.bind(this));
         ipc.on('confirm-backup-deletion', _onConfirmBackupDeletion.bind(this));
         ipc.on('set-backup-status', _onSetBackupStatus.bind(this));
+        ipc.on('set-backup-error', _onSetBackupError.bind(this));
         ipc.on('backup-process-status', _onBackupProcessingStatus.bind(this));
     };
 
@@ -87,9 +88,19 @@
      * @param error
      * @private
      */
-    var _onSetBackupStatus = function(id, data, error)
+    var _onSetBackupStatus = function(id, data)
     {
-        backups[id].updateStatus(data, error);
+        backups[id].updateStatus(data);
+    };
+
+    /**
+     * Sets the error message of a backup (may be FALSE)
+     * @param id
+     * @param error
+     */
+    var _onSetBackupError = function(id, error)
+    {
+        backups[id].updateError(error);
     };
 
     /**

@@ -37,9 +37,8 @@
         /**
          * Updates backup status
          * @param data
-         * @param error
          */
-        this.updateStatus = function(data, error)
+        this.updateStatus = function(data)
         {
             for (var property in data)
             {
@@ -53,6 +52,14 @@
                     itemNode.querySelector('.js-last-update').innerHTML = data[property];
                 }
             }
+        };
+
+        /**
+         * Updates error message
+         * @param error
+         */
+        this.updateError = function(error)
+        {
             if (error === false)
             {
                 errorNode.style.display = 'none';
