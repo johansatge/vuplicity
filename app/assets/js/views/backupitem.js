@@ -92,7 +92,7 @@
                 }
                 if (property === 'chain_end_time')
                 {
-                    itemNode.querySelector('.js-last-update').innerHTML = data[property];
+                    itemNode.querySelector('.js-last-update').innerHTML = data[property].length > 0 ? data[property] : '--';
                 }
             }
         };
@@ -160,7 +160,7 @@
             itemNode.innerHTML = backupListTemplate.innerHTML;
             itemNode.className = backupListTemplate.getAttribute('rel');
             itemNode.addEventListener('click', this.toggleVisibility.bind(this));
-
+            itemNode.querySelector('.js-cancel').addEventListener('click', _onCancelCurrentProcess.bind(this));
         };
 
         /**
@@ -216,6 +216,17 @@
             {
                 toggleCallback(id, !is_visible);
             }
+        };
+
+        /**
+         * Stops the currently running task
+         * @param evt
+         */
+        var _onCancelCurrentProcess = function(evt)
+        {
+            evt.preventDefault();
+            evt.stopPropagation();
+            actionCallback('cancel-process', id);
         };
 
         /**

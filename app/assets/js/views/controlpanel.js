@@ -80,7 +80,7 @@
         if (typeof backups[id] === 'undefined')
         {
             var backup = new BackupItem(id);
-            backup.init(_onToggleBackupVisibility, _onTriggerBackupAction.bind(this));
+            backup.init(_onToggleBackupVisibility.bind(this), _onTriggerBackupAction.bind(this));
             backupsListNode.insertBefore(backup.getItemNode(), backupsListNode.firstChild);
             backupsDetailNode.appendChild(backup.getDetailNode());
             backups[id] = backup;
@@ -96,8 +96,6 @@
      * Updates the status of a backup
      * @param id
      * @param data
-     * @param error
-     * @private
      */
     var _onSetBackupStatus = function(id, data)
     {
@@ -177,6 +175,10 @@
         if (action === 'select-directory')
         {
             ipc.send('select-directory', id);
+        }
+        if (action === 'cancel-process')
+        {
+            ipc.send('cancel-process', id);
         }
         // @todo send request to the app for actions: "backup", "restore"
     };

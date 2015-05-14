@@ -21,6 +21,7 @@
 
     var controlPanelWindow = null;
     var config = null;
+    var duplicityHelpers = {};
 
     /**
      * Inits the main controller when the electron app is ready
@@ -66,6 +67,7 @@
         ipc.on('request-backup-deletion', _onRequestBackupDeletion.bind(this));
         ipc.on('select-directory', _onSelectBackupDirectory.bind(this));
         ipc.on('refresh-backup', _onSaveAndRefreshBackup.bind(this));
+        ipc.on('cancel-process', _onCancelBackupProcess.bind(this));
         ipc.on('window-move', _onWindowMove.bind(this));
         ipc.on('window-close', _onWindowClose.bind(this));
     };
@@ -87,6 +89,19 @@
         else
         {
             dialog.showErrorBox('The configuration file was not read correctly.', 'Please check its syntax and restart the app.');
+        }
+    };
+
+    /**
+     * Cancels the current process of a backup
+     * @param evt
+     * @param backup_id
+     */
+    var _onCancelBackupProcess = function(evt, backup_id)
+    {
+        if (typeof duplicityHelpers[backup_id] !== 'undefined')
+        {
+            duplicityHelpers[backup_id].cancel();
         }
     };
 
@@ -147,22 +162,24 @@
         if (config.updateBackup(backup_id, backup_data))
         {
             controlPanelWindow.send('set-backup-options', backup_id, backup_data);
-            var helper = new Duplicity();
-            helper.getStatus(backup_data.url, backup_data.passphrase, function(error, status)
+            duplicityHelpers[backup_id] = new Duplicity();
+            duplicityHelpers[backup_id].getStatus(backup_data.url, backup_data.passphrase, function(error, status)
             {
                 controlPanelWindow.send('set-backup-status', backup_id, status);
-                if (!error)
+                if (!error && !duplicityHelpers[backup_id].hasBeenCancelled())
                 {
-                    helper.getFiles(backup_data.url, backup_data.passphrase, function(error, tree)
+                    duplicityHelpers[backup_id].getFiles(backup_data.url, backup_data.passphrase, function(error, tree)
                     {
                         controlPanelWindow.send('set-backup-file-tree', backup_id, tree);
                         controlPanelWindow.send('set-backup-ui', backup_id, 'idle');
+                        delete duplicityHelpers[backup_id];
                     });
                 }
                 else
                 {
                     controlPanelWindow.send('set-backup-error', backup_id, error);
                     controlPanelWindow.send('set-backup-ui', backup_id, 'idle');
+                    delete duplicityHelpers[backup_id];
                 }
             });
         }
@@ -170,6 +187,7 @@
         {
             dialog.showErrorBox('The settings could not be written.', 'Please check that the app can write in the file and retry.');
             controlPanelWindow.send('set-backup-ui', backup_id, 'idle');
+            delete duplicityHelpers[backup_id];
         }
     };
 

@@ -31,10 +31,15 @@
         <script type="text/template" class="js-backup-list-template" rel="backup-item js-backup-item">
             <div class="title js-title"></div>
             <div class="status">
-                Last backup: <span class="js-last-update">unknown</span>
+                Last backup: <span class="js-last-update">--</span>
             </div>
             <i class="error js-error fa fa-exclamation-triangle"></i>
-            <i class="loader fa fa-refresh fa-spin"></i>
+            <div class="progressbar">
+                <button class="cancel js-cancel">
+                    <i class="fa fa-times-circle"></i>
+                </button>
+                <div class="progress" style="width: 100%"></div>
+            </div>
         </script>
         <script type="text/template" class="js-backup-detail-template" rel="backup-detail js-backup-detail">
             <div class="actions js-actions">

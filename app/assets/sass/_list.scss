@@ -50,14 +50,87 @@
             text-shadow : 0 1px 0 #1d1d1d;
         }
 
-        .loader
+        .progressbar
         {
-            display   : none;
-            position  : absolute;
-            color     : #292929;
-            right     : 12px;
-            top       : 18px;
-            font-size : 16px;
+            display       : none;
+            position      : relative;
+            left          : 0;
+            right         : 0;
+            height        : 8px;
+            margin        : 6px 15px 0 0;
+            border-radius : 4px;
+            background    : #4d4e4d;
+            border        : 1px solid #2b2b2b;
+            box-shadow    : 0 1px 0 #4d4e4d, inset 0 5px 10px #313132;
+
+            .cancel
+            {
+                position    : absolute;
+                top         : -5px;
+                right       : -20px;
+                line-height : 0;
+                font-size   : 15px;
+                background  : transparent;
+                color       : #cccccc;
+                text-shadow : 0 1px 0 #2b2b2b;
+            }
+
+            .progress
+            {
+                position      : absolute;
+                height        : 100%;
+                background    : linear-gradient(to bottom, #78aadc, #7ebedf);
+                border-radius : 4px;
+
+                @-webkit-keyframes move
+                {
+                    0%
+                    {
+                        background-position : 0 0;
+                    }
+                    100%
+                    {
+                        background-position : 60px 60px;
+                    }
+                }
+
+                &:after
+                {
+                    border-radius     : 4px;
+                    content           : "";
+                    position          : absolute;
+                    top               : 0;
+                    left              : 0;
+                    bottom            : 0;
+                    right             : 0;
+                    background-image  : -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #729bd4), color-stop(.25, transparent), color-stop(.5, transparent), color-stop(.5, #729bd4), color-stop(.75, #729bd4), color-stop(.75, transparent), to(transparent));
+                    background-size   : 30px 30px;
+                    -webkit-animation : move 2s linear infinite;
+                }
+            }
+        }
+
+        &.js-processing .progressbar
+        {
+            display : block;
+        }
+
+        &.js-active .progressbar
+        {
+            border     : 1px solid #6e96cd;
+            background : #90d6fa;
+            box-shadow : 0 1px 0 #9bcde6, inset 0 5px 10px #759fda;
+
+            .cancel
+            {
+                color       : #ffffff;
+                text-shadow : 0 1px 0 #6788b6;
+            }
+
+            .progress:after
+            {
+                background-image : -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #9bcde6), color-stop(.25, transparent), color-stop(.5, transparent), color-stop(.5, #9bcde6), color-stop(.75, #9bcde6), color-stop(.75, transparent), to(transparent));
+            }
         }
 
         .error
@@ -68,11 +141,6 @@
             right     : 32px;
             top       : 19px;
             font-size : 16px;
-        }
-
-        &.js-processing .loader
-        {
-            display : block;
         }
 
         &.js-error .error

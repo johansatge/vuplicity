@@ -8,6 +8,8 @@
 
     var exec = require('child_process').exec;
     var moment = require('moment');
+    var process = null;
+    var cancelled = false;
 
     var module = function()
     {
@@ -20,7 +22,7 @@
         this.getFiles = function(url, pass, callback)
         {
             var options = {env: {PASSPHRASE: pass}};
-            exec('duplicity list-current-files ' + url, options, function(error, stdout, stderr)
+            process = exec('duplicity list-current-files ' + url, options, function(error, stdout, stderr)
             {
                 var regex = /[a-zA-Z]{3}.*[0-9]{4} (.*)\n/gm;
                 var tree = [];
@@ -53,19 +55,36 @@
         this.getStatus = function(url, pass, callback)
         {
             var options = {env: {PASSPHRASE: pass}};
-            exec('duplicity collection-status ' + url, options, function(error, stdout, stderr)
+            process = exec('duplicity collection-status ' + url, options, function(error, stdout, stderr)
             {
                 var data = {};
                 var chain_start_time = new RegExp('Chain start time: ([^\n]+)', 'gm').exec(stdout);
                 var chain_end_time = new RegExp('Chain end time: ([^\n]+)', 'gm').exec(stdout);
                 var backup_sets = new RegExp('Number of contained backup sets: ([0-9]+)', 'gm').exec(stdout);
-                data.chain_start_time = chain_start_time !== null && typeof chain_start_time[1] !== 'undefined' ? chain_start_time[1] : '';
-                data.chain_end_time = chain_end_time !== null && typeof chain_end_time[1] !== 'undefined' ? chain_end_time[1] : '';
+                data.chain_start_time = chain_start_time !== null && typeof chain_start_time[1] !== 'undefined' ? Date.parse(chain_start_time[1]) : '';
+                data.chain_end_time = chain_end_time !== null && typeof chain_end_time[1] !== 'undefined' ? Date.parse(chain_end_time[1]) : '';
                 data.backup_sets = backup_sets !== null && typeof backup_sets[1] !== 'undefined' ? backup_sets[1] : '';
-                data.chain_start_time = moment(Date.parse(data.chain_start_time)).format('YYYY-MM-DD HH:mm');
-                data.chain_end_time = moment(Date.parse(data.chain_end_time)).format('YYYY-MM-DD HH:mm');
+                data.chain_start_time = data.chain_start_time !== '' ? moment(data.chain_start_time).format('YYYY-MM-DD HH:mm') : '';
+                data.chain_end_time = data.chain_end_time !== '' ? moment(data.chain_end_time).format('YYYY-MM-DD HH:mm') : '';
                 callback(_parseError.apply(this, [stderr]), data);
             });
+        };
+
+        /**
+         * Kills the current process
+         */
+        this.cancel = function()
+        {
+            process.kill('SIGTERM');
+            cancelled = true;
+        };
+
+        /**
+         * Checks if the current helper has been killed by the user
+         */
+        this.hasBeenCancelled = function()
+        {
+            return cancelled;
         };
 
         /**
@@ -74,11 +93,7 @@
          */
         var _parseError = function(stderr)
         {
-            if (stderr.replace(/[ \n\t]*/gm, '').length > 0)
-            {
-                return stderr;
-            }
-            return false;
+            return stderr.replace(/[ \n\t]*/gm, '').length > 0 ? stderr : false;
         };
 
     };
