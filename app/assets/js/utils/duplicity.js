@@ -17,16 +17,15 @@
 
         /**
          * Tries to get a file and save it on the given path
-         * @param url
-         * @param pass
+         * @param data
          * @param path
          * @param dest_path
          * @param callback
          */
-        this.restoreFile = function(url, pass, path, dest_path, callback)
+        this.restoreFile = function(data, path, dest_path, callback)
         {
-            var options = {env: {PASSPHRASE: pass, TMPDIR: os.tmpdir()}};
-            var command = 'duplicity restore --file-to-restore "' + path + '" "' + url + '" "' + dest_path + '"';
+            var options = {env: {PASSPHRASE: data.passphrase, TMPDIR: os.tmpdir()}};
+            var command = 'duplicity restore --file-to-restore "' + path + '" "' + data.url + '" "' + dest_path + '"';
             process = exec(command, options, function(error, stdout, stderr)
             {
 
@@ -39,13 +38,13 @@
 
         /**
          * Lists the current files in a backup
-         * @param url
-         * @param pass
+         * @param data
+         * @param callback
          */
-        this.getFiles = function(url, pass, callback)
+        this.getFiles = function(data, callback)
         {
-            var options = {env: {PASSPHRASE: pass, TMPDIR: os.tmpdir()}};
-            process = exec('duplicity list-current-files ' + url, options, function(error, stdout, stderr)
+            var options = {env: {PASSPHRASE: data.passphrase, TMPDIR: os.tmpdir()}};
+            process = exec('duplicity list-current-files ' + data.url, options, function(error, stdout, stderr)
             {
                 var regex = /[a-zA-Z]{3}.*[0-9]{4} (.*)\n/gm;
                 var tree = [];
@@ -72,14 +71,13 @@
 
         /**
          * Gets the current status of a backup
-         * @param url
-         * @param pass
+         * @param data
          * @param callback
          */
-        this.getStatus = function(url, pass, callback)
+        this.getStatus = function(data, callback)
         {
-            var options = {env: {PASSPHRASE: pass, TMPDIR: os.tmpdir()}};
-            process = exec('duplicity collection-status ' + url, options, function(error, stdout, stderr)
+            var options = {env: {PASSPHRASE: data.passphrase, TMPDIR: os.tmpdir()}};
+            process = exec('duplicity collection-status ' + data.url, options, function(error, stdout, stderr)
             {
                 var data = {};
                 var chain_start_time = new RegExp('Chain start time: ([^\n]+)', 'gm').exec(stdout);

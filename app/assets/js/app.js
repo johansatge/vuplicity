@@ -164,12 +164,12 @@
         {
             controlPanelWindow.send('set-backup-options', backup_id, backup_data);
             duplicityHelpers[backup_id] = new Duplicity();
-            duplicityHelpers[backup_id].getStatus(backup_data.url, backup_data.passphrase, function(error, status)
+            duplicityHelpers[backup_id].getStatus(backup_data, function(error, status)
             {
                 controlPanelWindow.send('set-backup-status', backup_id, status);
                 if (!error && !duplicityHelpers[backup_id].hasBeenCancelled())
                 {
-                    duplicityHelpers[backup_id].getFiles(backup_data.url, backup_data.passphrase, function(error, tree)
+                    duplicityHelpers[backup_id].getFiles(backup_data, function(error, tree)
                     {
                         controlPanelWindow.send('set-backup-file-tree', backup_id, tree);
                         controlPanelWindow.send('set-backup-error', backup_id, error);
@@ -208,11 +208,13 @@
         };
         dialog.showSaveDialog(controlPanelWindow.getWindow(), params, function(destination_path)
         {
-            // @todo check destination_path (on cancel for instance)
-            var backup_data = config.getBackupData(backup_id);
+            if (typeof destination_path === 'undefined')
+            {
+                return;
+            }
             controlPanelWindow.send('set-backup-ui', backup_id, 'processing');
             duplicityHelpers[backup_id] = new Duplicity();
-            duplicityHelpers[backup_id].restoreFile(backup_data.url, backup_data.passphrase, path, destination_path, function(error)
+            duplicityHelpers[backup_id].restoreFile(config.getBackupData(backup_id), path, destination_path, function(error)
             {
                 controlPanelWindow.send('set-backup-error', backup_id, error);
                 controlPanelWindow.send('set-backup-ui', backup_id, 'idle');
