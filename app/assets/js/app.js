@@ -66,7 +66,9 @@
         ipc.on('control-panel-ready', _onControlPanelReady.bind(this));
         ipc.on('request-backup-deletion', _onRequestBackupDeletion.bind(this));
         ipc.on('select-directory', _onSelectBackupDirectory.bind(this));
-        ipc.on('refresh-backup', _onSaveAndRefreshBackup.bind(this));
+        ipc.on('refresh-file-tree', _onRefreshBackupFileTree.bind(this));
+        ipc.on('refresh-status', _onRefreshBackupStatus.bind(this));
+        ipc.on('save-settings', _onSaveBackupSettings.bind(this));
         ipc.on('cancel-process', _onCancelBackupProcess.bind(this));
         ipc.on('restore-file', _onRestoreBackupFile.bind(this));
         ipc.on('window-move', _onWindowMove.bind(this));
@@ -152,39 +154,55 @@
     };
 
     /**
-     * Saves and updates the status of a backup
+     * Gets the status of a backup
+     * @param evt
+     * @param backup_id
+     */
+    var _onRefreshBackupStatus = function(evt, backup_id)
+    {
+        controlPanelWindow.send('set-backup-ui', backup_id, 'processing');
+        var backup_data = config.getBackupData(backup_id);
+        duplicityHelpers[backup_id] = new Duplicity();
+        duplicityHelpers[backup_id].getStatus(backup_data, function(error, status)
+        {
+            controlPanelWindow.send('set-backup-status', backup_id, status);
+            controlPanelWindow.send('set-backup-error', backup_id, error);
+            controlPanelWindow.send('set-backup-ui', backup_id, 'idle');
+            delete duplicityHelpers[backup_id];
+        });
+    };
+
+    /**
+     * Gets the file tree of a backup
+     * @param evt
+     * @param backup_id
+     */
+    var _onRefreshBackupFileTree = function(evt, backup_id)
+    {
+        controlPanelWindow.send('set-backup-ui', backup_id, 'processing');
+        var backup_data = config.getBackupData(backup_id);
+        duplicityHelpers[backup_id] = new Duplicity();
+        duplicityHelpers[backup_id].getFiles(backup_data, function(error, tree)
+        {
+            controlPanelWindow.send('set-backup-file-tree', backup_id, tree);
+            controlPanelWindow.send('set-backup-error', backup_id, error);
+            controlPanelWindow.send('set-backup-ui', backup_id, 'idle');
+            delete duplicityHelpers[backup_id];
+        });
+    };
+
+    /**
+     * Saves the options of a backup
      * @param evt
      * @param backup_id
      * @param backup_data
      */
-    var _onSaveAndRefreshBackup = function(evt, backup_id, backup_data)
+    var _onSaveBackupSettings = function(evt, backup_id, backup_data)
     {
         controlPanelWindow.send('set-backup-ui', backup_id, 'processing');
-        if (config.updateBackup(backup_id, backup_data))
+        if (config.updateBackup(backup_id, backup_data)) // @todo make async
         {
-            controlPanelWindow.send('set-backup-options', backup_id, backup_data);
-            duplicityHelpers[backup_id] = new Duplicity();
-            duplicityHelpers[backup_id].getStatus(backup_data, function(error, status)
-            {
-                controlPanelWindow.send('set-backup-status', backup_id, status);
-                if (!error && !duplicityHelpers[backup_id].hasBeenCancelled())
-                {
-                    duplicityHelpers[backup_id].getFiles(backup_data, function(error, tree)
-                    {
-                        controlPanelWindow.send('set-backup-file-tree', backup_id, tree);
-                        controlPanelWindow.send('set-backup-error', backup_id, error);
-                        controlPanelWindow.send('set-backup-ui', backup_id, 'idle');
-                        delete duplicityHelpers[backup_id];
-                    });
-                }
-                else
-                {
-                    controlPanelWindow.send('set-backup-file-tree', backup_id, {});
-                    controlPanelWindow.send('set-backup-error', backup_id, error);
-                    controlPanelWindow.send('set-backup-ui', backup_id, 'idle');
-                    delete duplicityHelpers[backup_id];
-                }
-            });
+            controlPanelWindow.send('set-backup-ui', backup_id, 'idle');
         }
         else
         {
@@ -212,9 +230,10 @@
             {
                 return;
             }
+            var backup_data = config.getBackupData(backup_id);
             controlPanelWindow.send('set-backup-ui', backup_id, 'processing');
             duplicityHelpers[backup_id] = new Duplicity();
-            duplicityHelpers[backup_id].restoreFile(config.getBackupData(backup_id), path, destination_path, function(error)
+            duplicityHelpers[backup_id].restoreFile(backup_data, path, destination_path, function(error)
             {
                 controlPanelWindow.send('set-backup-error', backup_id, error);
                 controlPanelWindow.send('set-backup-ui', backup_id, 'idle');

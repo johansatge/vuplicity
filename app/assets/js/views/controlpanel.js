@@ -170,9 +170,17 @@
      */
     var _onTriggerBackupAction = function(action, id, data)
     {
-        if (action === 'refresh-backup')
+        if (action === 'refresh-file-tree')
         {
-            ipc.send('refresh-backup', id, data);
+            ipc.send('refresh-file-tree', id);
+        }
+        if (action === 'refresh-status')
+        {
+            ipc.send('refresh-status', id);
+        }
+        if (action === 'save-settings')
+        {
+            ipc.send('send-settings', id, data);
         }
         if (action === 'select-directory')
         {
