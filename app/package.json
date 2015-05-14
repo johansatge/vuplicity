@@ -1,5 +1,8 @@
 {
   "name": "Vuplicity",
   "version": "1.0.0",
-  "main": "assets/js/app.js"
+  "main": "assets/js/app.js",
+  "dependencies": {
+    "moment": "~2.10.3"
+  }
 }

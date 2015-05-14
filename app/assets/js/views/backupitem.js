@@ -48,9 +48,8 @@
                 var file = tree[index];
                 var file_node = document.createElement('li');
                 current_dir_node.appendChild(file_node);
-                file_node.innerHTML = '<i class="fa fa-file"></i>' + file.name;
-
-
+                file_node.className += ' js-file';
+                file_node.innerHTML = '<span class="name">' + file.name + '</span>';
                 if (index < tree.length - 1)
                 {
                     var next_file = tree[index + 1];
@@ -60,6 +59,7 @@
                         {
                             var subdir_node = document.createElement('ul');
                             file_node.appendChild(subdir_node);
+                            file_node.className += ' js-dir';
                             current_dir_node = subdir_node;
                             current_hierarchy.push(next_file.dir);
                         }
