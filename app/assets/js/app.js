@@ -71,6 +71,7 @@
         ipc.on('save-settings', _onSaveBackupSettings.bind(this));
         ipc.on('cancel-process', _onCancelBackupProcess.bind(this));
         ipc.on('restore-file', _onRestoreBackupFile.bind(this));
+        ipc.on('restore-all', _onRestoreBackupTree.bind(this));
         ipc.on('window-move', _onWindowMove.bind(this));
         ipc.on('window-close', _onWindowClose.bind(this));
     };
@@ -240,6 +241,16 @@
                 // @todo return message ?
             });
         });
+    };
+
+    /**
+     * Restores a backup
+     * @param evt
+     * @param backup_id
+     */
+    var _onRestoreBackupTree = function(evt, backup_id)
+    {
+        console.log('@todo task');
     };
 
     /**

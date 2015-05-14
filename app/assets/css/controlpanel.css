@@ -324,41 +324,6 @@ html, body {
   margin: 20px 0 0 0;
 }
 /* line 43, ../sass/_detail.scss */
-.backups-detail-wrapper .actions {
-  position: fixed;
-  width: 60%;
-  right: 15px;
-  height: 40px;
-  bottom: 15px;
-  border-top: 1px solid #CBCBCB;
-  background: linear-gradient(to bottom, #FEFEFE, #E7E7E7);
-  box-shadow: inset 0 1px 0 #ffffff;
-  border-radius: 0 0 6px 0;
-}
-/* line 55, ../sass/_detail.scss */
-.backups-detail-wrapper .actions button {
-  position: relative;
-  font-size: 12px;
-  color: #646464;
-  float: right;
-  height: 100%;
-  background: transparent;
-  padding: 0 14px 0 28px;
-  border-left: 1px solid #CBCBCB;
-}
-/* line 66, ../sass/_detail.scss */
-.backups-detail-wrapper .actions button i {
-  position: absolute;
-  top: 13px;
-  left: 8px;
-  font-size: 13px;
-  color: #bbbbbb;
-}
-/* line 75, ../sass/_detail.scss */
-.backups-detail-wrapper .actions button:active {
-  background: linear-gradient(to top, #FEFEFE, #E7E7E7);
-}
-/* line 82, ../sass/_detail.scss */
 .backups-detail-wrapper .backups-detail {
   z-index: 2;
   position: absolute;
@@ -367,7 +332,7 @@ html, body {
   width: 100%;
 }
 
-/* line 92, ../sass/_detail.scss */
+/* line 53, ../sass/_detail.scss */
 .section {
   position: relative;
   float: left;
@@ -376,12 +341,12 @@ html, body {
   background: linear-gradient(to bottom, #Ffffff, #FAFAFA);
   border-bottom: 1px solid #cbcbcb;
 }
-/* line 101, ../sass/_detail.scss */
+/* line 62, ../sass/_detail.scss */
 .section:last-child {
   border-bottom: 0;
 }
 
-/* line 107, ../sass/_detail.scss */
+/* line 68, ../sass/_detail.scss */
 h2 {
   font-weight: 600;
   cursor: default;
@@ -394,12 +359,34 @@ h2 {
   color: #646464;
   text-shadow: 0 1px 0 #ffffff;
 }
-/* line 120, ../sass/_detail.scss */
-h2 i {
+/* line 81, ../sass/_detail.scss */
+h2 .buttons {
+  position: absolute;
+  right: 15px;
+  top: 11px;
+}
+/* line 88, ../sass/_detail.scss */
+h2 button {
   float: right;
+  background: linear-gradient(to bottom, #fefefe, #f2f2f2);
+  padding: 2px 8px 3px 6px;
+  border: 1px solid #CBCBCB;
+  box-shadow: inset 0 1px 0 #ffffff;
+  border-radius: 3px;
+  font-size: 11px;
+  color: #646464;
+  margin: 0 0 0 5px;
+}
+/* line 100, ../sass/_detail.scss */
+h2 button i {
+  margin: 0 2px 0 0;
+}
+/* line 105, ../sass/_detail.scss */
+h2 button:active {
+  background: linear-gradient(to top, #fefefe, #FAFAFA);
 }
 
-/* line 126, ../sass/_detail.scss */
+/* line 112, ../sass/_detail.scss */
 .backup-detail.js-processing:after {
   content: ' ';
   display: block;
@@ -414,16 +401,16 @@ h2 i {
   border-radius: 0 0 4px 0;
 }
 
-/* line 141, ../sass/_detail.scss */
+/* line 127, ../sass/_detail.scss */
 .backup-detail {
   z-index: 1;
   position: absolute;
   width: 100%;
   top: 0;
-  bottom: 40px;
+  bottom: 0;
   overflow-y: auto;
 }
-/* line 150, ../sass/_detail.scss */
+/* line 136, ../sass/_detail.scss */
 .backup-detail label,
 .backup-detail p {
   cursor: default;
@@ -431,38 +418,38 @@ h2 i {
   position: relative;
   font-size: 13px;
 }
-/* line 158, ../sass/_detail.scss */
+/* line 144, ../sass/_detail.scss */
 .backup-detail label .right,
 .backup-detail p .right {
   float: right;
 }
-/* line 164, ../sass/_detail.scss */
+/* line 150, ../sass/_detail.scss */
 .backup-detail .col1 {
   float: left;
   width: 100%;
   margin: 0 0 10px 0;
 }
-/* line 171, ../sass/_detail.scss */
+/* line 157, ../sass/_detail.scss */
 .backup-detail .col2 {
   float: left;
   width: 49%;
   margin: 0 0 10px 0;
 }
-/* line 177, ../sass/_detail.scss */
+/* line 163, ../sass/_detail.scss */
 .backup-detail .col2.left {
   margin-right: 2%;
 }
-/* line 183, ../sass/_detail.scss */
+/* line 169, ../sass/_detail.scss */
 .backup-detail .col3 {
   float: left;
   width: 32%;
   margin: 0 0 10px 0;
 }
-/* line 189, ../sass/_detail.scss */
+/* line 175, ../sass/_detail.scss */
 .backup-detail .col3.left {
   margin-right: 2%;
 }
-/* line 195, ../sass/_detail.scss */
+/* line 181, ../sass/_detail.scss */
 .backup-detail input[type="text"],
 .backup-detail input[type="password"] {
   color: #282828;
@@ -477,7 +464,7 @@ h2 i {
   padding: 0 5px 0 5px;
   font-weight: 400;
 }
-/* line 211, ../sass/_detail.scss */
+/* line 197, ../sass/_detail.scss */
 .backup-detail select {
   color: #282828;
   width: 100%;
@@ -490,7 +477,7 @@ h2 i {
   padding: 0 5px 0 5px;
   font-weight: 400;
 }
-/* line 225, ../sass/_detail.scss */
+/* line 211, ../sass/_detail.scss */
 .backup-detail input[type="radio"] {
   position: relative;
   -webkit-appearance: none;
@@ -502,11 +489,11 @@ h2 i {
   float: left;
   margin: 2px 4px 0 0;
 }
-/* line 237, ../sass/_detail.scss */
+/* line 223, ../sass/_detail.scss */
 .backup-detail input[type="radio"]:disabled {
   opacity: 0.5;
 }
-/* line 242, ../sass/_detail.scss */
+/* line 228, ../sass/_detail.scss */
 .backup-detail input[type="radio"]:checked:after {
   content: ' ';
   display: block;
@@ -518,7 +505,7 @@ h2 i {
   background: linear-gradient(to bottom, #7ebfdf, #759fda);
   border-radius: 50%;
 }
-/* line 256, ../sass/_detail.scss */
+/* line 242, ../sass/_detail.scss */
 .backup-detail .error {
   color: #ff4141;
   z-index: 4;
@@ -530,12 +517,12 @@ h2 i {
   position: relative;
   margin: 5px 0 15px 0;
 }
-/* line 268, ../sass/_detail.scss */
+/* line 254, ../sass/_detail.scss */
 .backup-detail .error span {
   display: block;
   margin: 10px;
 }
-/* line 274, ../sass/_detail.scss */
+/* line 260, ../sass/_detail.scss */
 .backup-detail .error button {
   bottom: -7px;
   right: -7px;
@@ -548,7 +535,7 @@ h2 i {
   background: #FDFDFD;
   border-radius: 50%;
 }
-/* line 289, ../sass/_detail.scss */
+/* line 275, ../sass/_detail.scss */
 .backup-detail .input-icon {
   color: #282828;
   background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, white 40%);
@@ -557,7 +544,7 @@ h2 i {
   right: 2px;
   padding: 5px 3px 5px 16px;
 }
-/* line 299, ../sass/_detail.scss */
+/* line 285, ../sass/_detail.scss */
 .backup-detail .files {
   color: #333333;
   height: 200px;
@@ -570,16 +557,16 @@ h2 i {
   box-shadow: inset 0 1px 0 #f6f6f6;
   overflow-y: auto;
 }
-/* line 312, ../sass/_detail.scss */
+/* line 298, ../sass/_detail.scss */
 .backup-detail .files ul {
   list-style-type: none;
   margin: 0 0 0 14px;
 }
-/* line 317, ../sass/_detail.scss */
+/* line 303, ../sass/_detail.scss */
 .backup-detail .files ul:first-child {
   margin-left: 5px;
 }
-/* line 323, ../sass/_detail.scss */
+/* line 309, ../sass/_detail.scss */
 .backup-detail .files li {
   position: relative;
   font-weight: 400;
@@ -587,7 +574,7 @@ h2 i {
   border-radius: 3px;
   font-size: 11px;
 }
-/* line 331, ../sass/_detail.scss */
+/* line 317, ../sass/_detail.scss */
 .backup-detail .files li .toggle {
   position: absolute;
   top: 0;
@@ -596,18 +583,18 @@ h2 i {
   height: 20px;
   background: transparent;
 }
-/* line 341, ../sass/_detail.scss */
+/* line 327, ../sass/_detail.scss */
 .backup-detail .files li .name {
   display: block;
   padding: 7px 5px 0 14px;
   height: 22px;
   line-height: 7px;
 }
-/* line 348, ../sass/_detail.scss */
+/* line 334, ../sass/_detail.scss */
 .backup-detail .files li .name:hover button {
   display: block;
 }
-/* line 353, ../sass/_detail.scss */
+/* line 339, ../sass/_detail.scss */
 .backup-detail .files li .name button {
   display: none;
   position: absolute;
@@ -620,11 +607,11 @@ h2 i {
   border-radius: 2px;
   font-size: 9px;
 }
-/* line 366, ../sass/_detail.scss */
+/* line 352, ../sass/_detail.scss */
 .backup-detail .files li .name button:active {
   background: linear-gradient(to top, #fdfdfd, #e7e7e7);
 }
-/* line 373, ../sass/_detail.scss */
+/* line 359, ../sass/_detail.scss */
 .backup-detail .files li.js-file:before, .backup-detail .files li.js-dir:before {
   display: block;
   font-family: "FontAwesome", sans-serif;
@@ -633,19 +620,19 @@ h2 i {
   left: 0;
   opacity: 0.3;
 }
-/* line 384, ../sass/_detail.scss */
+/* line 370, ../sass/_detail.scss */
 .backup-detail .files li.js-file:before {
   content: '\f15b';
   top: 6px;
   font-size: 9px;
 }
-/* line 392, ../sass/_detail.scss */
+/* line 378, ../sass/_detail.scss */
 .backup-detail .files li.js-dir:before {
   content: '\f07c';
   top: 6px;
   font-size: 10px;
 }
-/* line 400, ../sass/_detail.scss */
+/* line 386, ../sass/_detail.scss */
 .backup-detail .files li.js-dir.js-closed:before {
   content: '\f07b';
   top: 6px;

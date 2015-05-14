@@ -183,8 +183,12 @@
             detailNode.style.display = 'none';
 
             detailNode.querySelector('.js-select-dir').addEventListener('click', _onSelectDirectory.bind(this));
-            detailNode.querySelector('.js-actions').addEventListener('click', _onTriggerAction.bind(this));
             detailNode.querySelector('.js-file-tree').addEventListener('click', _onFileTreeClick.bind(this));
+            var actions = detailNode.querySelectorAll('.js-action');
+            for (var index = 0; index < actions.length; index += 1)
+            {
+                actions[index].addEventListener('click', _onTriggerAction.bind(this));
+            }
         };
 
         /**
@@ -253,14 +257,14 @@
         };
 
         /**
-         * Starts an action when using the toolbar of the detail view
+         * Starts an action when using one of the detail buttons
          * @param evt
          */
         var _onTriggerAction = function(evt)
         {
             evt.preventDefault();
-            var action = evt.target.getAttribute('rel');
-            actionCallback(action, id, _getCurrentOptions.apply(this));
+            console.log(evt.currentTarget.getAttribute('rel'));
+            actionCallback(evt.currentTarget.getAttribute('rel'), id, _getCurrentOptions.apply(this));
         };
 
         /**

@@ -170,7 +170,15 @@
      */
     var _onTriggerBackupAction = function(action, id, data)
     {
-        var actions = ['refresh-file-tree', 'refresh-status', 'save-settings', 'select-directory', 'cancel-process', 'restore-file'];
+        var actions = [
+            'refresh-file-tree',
+            'refresh-status',
+            'save-settings',
+            'select-directory',
+            'cancel-process',
+            'restore-file',
+            'restore-all'
+        ];
         if (actions.indexOf(action) !== -1)
         {
             ipc.send(action, id, data);

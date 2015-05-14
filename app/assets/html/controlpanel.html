@@ -42,30 +42,16 @@
             </div>
         </script>
         <script type="text/template" class="js-backup-detail-template" rel="backup-detail js-backup-detail">
-            <div class="actions js-actions">
-                <button class="action js-action" rel="restore">
-                    <i class="fa fa-cloud-download"></i>
-                    Restore...
-                </button>
-                <button class="action js-action" rel="backup">
-                    <i class="fa fa-cloud-upload"></i>
-                    Backup now
-                </button>
-                <button class="action js-action" rel="save-settings">
-                    <i class="fa fa-floppy-o"></i>
-                    Save settings
-                </button>
-                <button class="action js-action" rel="refresh-file-tree">
-                    <i class="fa fa-refresh"></i>
-                    File tree
-                </button>
-                <button class="action js-action" rel="refresh-status">
-                    <i class="fa fa-refresh"></i>
-                    Status
-                </button>
-            </div>
             <div class="section">
-                <h2>Backup status</h2>
+                <h2>
+                    Backup status
+                    <div class="buttons">
+                        <button class="js-action" rel="refresh-status">
+                            <i class="fa fa-refresh"></i>
+                            Refresh
+                        </button>
+                    </div>
+                </h2>
                 <p class="col1">
                     Number of contained backup sets
                     <span class="right js-status" rel="backup_sets">--</span>
@@ -86,7 +72,19 @@
                 </div>
             </div>
             <div class="section">
-                <h2>File tree</h2>
+                <h2>
+                    File tree
+                    <div class="buttons">
+                        <button class="js-action" rel="restore-all">
+                            <i class="fa fa-cloud-download"></i>
+                            Restore...
+                        </button>
+                        <button class="js-action" rel="refresh-file-tree">
+                            <i class="fa fa-refresh"></i>
+                            Refresh
+                        </button>
+                    </div>
+                </h2>
                 <label class="col1">
                     <div class="files">
                         <ul class="js-file-tree"></ul>
@@ -94,7 +92,26 @@
                 </label>
             </div>
             <div class="section">
-                <h2>Target</h2>
+                <h2>
+                    Target
+                    <div class="buttons">
+                        <button class="js-action" rel="save-settings">
+                            <i class="fa fa-floppy-o"></i>
+                            Save settings
+                        </button>
+                    </div>
+                </h2>
+                <label class="col2 left">
+                    Source path
+                    <input type="text" class="js-option" rel="path">
+                    <button class="input-icon js-select-dir" rel="select-directory">
+                        <i class="fa fa-folder-open"></i>
+                    </button>
+                </label>
+                <label class="col2">
+                    Destination URL
+                    <input type="text" class="js-option" rel="url">
+                </label>
                 <label class="col3 left">
                     Backup title
                     <input type="text" class="js-option" rel="title">
@@ -106,17 +123,6 @@
                 <label class="col3">
                     Options
                     <input type="text" class="js-option" rel="options">
-                </label>
-                <label class="col2 left">
-                    Source path
-                    <input type="text" class="js-option" rel="path">
-                    <button class="input-icon js-select-dir" rel="select-directory">
-                        <i class="fa fa-folder-open"></i>
-                    </button>
-                </label>
-                <label class="col2">
-                    Destination URL
-                    <input type="text" class="js-option" rel="url">
                 </label>
             </div>
             <div class="section">
