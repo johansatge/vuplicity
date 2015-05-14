@@ -12,6 +12,7 @@
 
         var backupListTemplate = document.querySelector('.js-backup-list-template');
         var detailNodeTemplate = document.querySelector('.js-backup-detail-template');
+        var treeNodeTemplate = document.querySelector('.js-backup-filetree-template');
 
         var id = backup_id;
         var itemNode = null;
@@ -49,7 +50,7 @@
                 var file_node = document.createElement('li');
                 current_dir_node.appendChild(file_node);
                 file_node.className += ' js-file';
-                file_node.innerHTML = '<span class="name">' + file.name + '</span>';
+                file_node.innerHTML = treeNodeTemplate.innerHTML.replace('{{name}}', file.name);
                 if (index < tree.length - 1)
                 {
                     var next_file = tree[index + 1];
@@ -174,6 +175,7 @@
 
             detailNode.querySelector('.js-select-dir').addEventListener('click', _onSelectDirectory.bind(this));
             detailNode.querySelector('.js-actions').addEventListener('click', _onTriggerAction.bind(this));
+            detailNode.querySelector('.js-file-tree').addEventListener('click', _onFileTreeClick.bind(this));
         };
 
         /**
@@ -260,6 +262,17 @@
             evt.preventDefault();
             errorNode.style.display = 'none';
             itemNode.className = itemNode.className.replace('js-error', '');
+        };
+
+        /**
+         * Handles clicks on the file tree
+         * @param evt
+         */
+        var _onFileTreeClick = function(evt)
+        {
+            evt.preventDefault();
+            console.log(evt.target);
+            // @todo handle tree toggle & restore requests
         };
 
 
