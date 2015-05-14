@@ -170,7 +170,7 @@
      */
     var _onTriggerBackupAction = function(action, id, data)
     {
-        if (action === 'refresh')
+        if (action === 'refresh-backup')
         {
             ipc.send('refresh-backup', id, data);
         }
@@ -181,6 +181,10 @@
         if (action === 'cancel-process')
         {
             ipc.send('cancel-process', id);
+        }
+        if (action === 'restore-file')
+        {
+            ipc.send('restore-file', id, data);
         }
         // @todo send request to the app for actions: "backup", "restore"
     };

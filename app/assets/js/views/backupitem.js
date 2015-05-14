@@ -51,6 +51,7 @@
                 current_dir_node.appendChild(file_node);
                 file_node.className += ' js-file';
                 file_node.innerHTML = treeNodeTemplate.innerHTML.replace('{{name}}', file.name);
+                file_node.setAttribute('rel', file.path);
                 if (index < tree.length - 1)
                 {
                     var next_file = tree[index + 1];
@@ -290,10 +291,37 @@
         var _onFileTreeClick = function(evt)
         {
             evt.preventDefault();
-            console.log(evt.target);
-            // @todo handle tree toggle & restore requests
+            if (evt.target.className.search('js-restore') !== -1)
+            {
+                actionCallback('restore-file', id, evt.target.parentNode.parentNode.getAttribute('rel'));
+            }
+            if (evt.target.className.search('js-toggle') !== -1)
+            {
+                _toggleFileTreeNode.apply(this, [evt.target.parentNode]);
+            }
         };
 
+        /**
+         * Toggles the given tree
+         * @param tree_node
+         */
+        var _toggleFileTreeNode = function(tree_node)
+        {
+            var child_list = tree_node.querySelector('ul');
+            if (child_list !== null)
+            {
+                if (child_list.style.display === 'none')
+                {
+                    child_list.style.display = 'block';
+                    tree_node.className = tree_node.className.replace('js-closed', '');
+                }
+                else
+                {
+                    child_list.style.display = 'none';
+                    tree_node.className += ' js-closed';
+                }
+            }
+        };
 
     };
 

@@ -68,6 +68,7 @@
         ipc.on('select-directory', _onSelectBackupDirectory.bind(this));
         ipc.on('refresh-backup', _onSaveAndRefreshBackup.bind(this));
         ipc.on('cancel-process', _onCancelBackupProcess.bind(this));
+        ipc.on('restore-file', _onRestoreBackupFile.bind(this));
         ipc.on('window-move', _onWindowMove.bind(this));
         ipc.on('window-close', _onWindowClose.bind(this));
     };
@@ -171,12 +172,14 @@
                     duplicityHelpers[backup_id].getFiles(backup_data.url, backup_data.passphrase, function(error, tree)
                     {
                         controlPanelWindow.send('set-backup-file-tree', backup_id, tree);
+                        controlPanelWindow.send('set-backup-error', backup_id, error);
                         controlPanelWindow.send('set-backup-ui', backup_id, 'idle');
                         delete duplicityHelpers[backup_id];
                     });
                 }
                 else
                 {
+                    controlPanelWindow.send('set-backup-file-tree', backup_id, {});
                     controlPanelWindow.send('set-backup-error', backup_id, error);
                     controlPanelWindow.send('set-backup-ui', backup_id, 'idle');
                     delete duplicityHelpers[backup_id];
@@ -189,6 +192,33 @@
             controlPanelWindow.send('set-backup-ui', backup_id, 'idle');
             delete duplicityHelpers[backup_id];
         }
+    };
+
+    /**
+     * Restores the file of a backup
+     * @param evt
+     * @param backup_id
+     * @param path
+     */
+    var _onRestoreBackupFile = function(evt, backup_id, path)
+    {
+        var params = {
+            title: 'Select the restore destination',
+            defaultPath: '/Users/johan/Desktop' // @todo select current file path, if available
+        };
+        dialog.showSaveDialog(controlPanelWindow.getWindow(), params, function(destination_path)
+        {
+            // @todo check destination_path (on cancel for instance)
+            var backup_data = config.getBackupData(backup_id);
+            controlPanelWindow.send('set-backup-ui', backup_id, 'processing');
+            duplicityHelpers[backup_id] = new Duplicity();
+            duplicityHelpers[backup_id].restoreFile(backup_data.url, backup_data.passphrase, path, destination_path, function(error)
+            {
+                controlPanelWindow.send('set-backup-error', backup_id, error);
+                controlPanelWindow.send('set-backup-ui', backup_id, 'idle');
+                // @todo return message ?
+            });
+        });
     };
 
     /**

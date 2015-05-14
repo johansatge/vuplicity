@@ -15,6 +15,28 @@
     {
 
         /**
+         * Tries to get a file and save it on the given path
+         * @param url
+         * @param pass
+         * @param path
+         * @param dest_path
+         * @param callback
+         */
+        this.restoreFile = function(url, pass, path, dest_path, callback)
+        {
+            var options = {env: {PASSPHRASE: pass}};
+            var command = 'duplicity restore --file-to-restore "' + path + '" "' + url + '" "' + dest_path + '"';
+            process = exec(command, options, function(error, stdout, stderr)
+            {
+
+                console.log(stdout);
+                console.log(stderr);
+
+                callback(_parseError.apply(this, [stderr]));
+            });
+        };
+
+        /**
          * Lists the current files in a backup
          * @param url
          * @param pass
@@ -37,6 +59,7 @@
                             continue;
                         }
                         tree.push({
+                            path: path,
                             dir: path.search('/') !== -1 ? path.substring(0, path.lastIndexOf('/')) : '.',
                             name: path.substring(path.lastIndexOf('/') + 1)
                         });

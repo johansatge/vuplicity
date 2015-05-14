@@ -14,6 +14,16 @@
     {
 
         var path = config_path;
+        var items = {};
+
+        /**
+         * Returns the informations of a backup
+         * @param id
+         */
+        this.getBackupData = function(id)
+        {
+            return typeof items[id] !== 'undefined' ? items[id] : {};
+        };
 
         /**
          * Gets the current backups list
@@ -23,6 +33,7 @@
             var current_data = _load.apply(this);
             if (typeof current_data === 'object' && typeof current_data.backups === 'object')
             {
+                items = current_data.backups;
                 return current_data.backups;
             }
             return false;
@@ -42,6 +53,7 @@
                 {
                     backups[id] = data;
                     fs.writeFileSync(path, JSON.stringify({backups: backups}), {encoding: 'utf8'});
+                    items[id] = data;
                     return true;
                 }
                 catch (error)

@@ -328,6 +328,16 @@ h2
             border-radius : 3px;
             font-size     : 11px;
 
+            .toggle
+            {
+                position   : absolute;
+                top        : 0;
+                left       : -5px;
+                width      : 18px;
+                height     : 20px;
+                background : transparent;
+            }
+
             .name
             {
                 display     : block;
@@ -386,6 +396,15 @@ h2
                 top       : 6px;
                 font-size : 10px;
             }
+
+            &.js-dir.js-closed:before
+            {
+                //content : '\f114';
+                content   : '\f07b';
+                top       : 6px;
+                font-size : 10px;
+            }
+
         }
     }
 
