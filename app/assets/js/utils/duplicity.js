@@ -8,6 +8,7 @@
 
     var exec = require('child_process').exec;
     var moment = require('moment');
+    var os = require('os');
     var process = null;
     var cancelled = false;
 
@@ -24,7 +25,7 @@
          */
         this.restoreFile = function(url, pass, path, dest_path, callback)
         {
-            var options = {env: {PASSPHRASE: pass}};
+            var options = {env: {PASSPHRASE: pass, TMPDIR: os.tmpdir()}};
             var command = 'duplicity restore --file-to-restore "' + path + '" "' + url + '" "' + dest_path + '"';
             process = exec(command, options, function(error, stdout, stderr)
             {
@@ -43,7 +44,7 @@
          */
         this.getFiles = function(url, pass, callback)
         {
-            var options = {env: {PASSPHRASE: pass}};
+            var options = {env: {PASSPHRASE: pass, TMPDIR: os.tmpdir()}};
             process = exec('duplicity list-current-files ' + url, options, function(error, stdout, stderr)
             {
                 var regex = /[a-zA-Z]{3}.*[0-9]{4} (.*)\n/gm;
@@ -77,7 +78,7 @@
          */
         this.getStatus = function(url, pass, callback)
         {
-            var options = {env: {PASSPHRASE: pass}};
+            var options = {env: {PASSPHRASE: pass, TMPDIR: os.tmpdir()}};
             process = exec('duplicity collection-status ' + url, options, function(error, stdout, stderr)
             {
                 var data = {};
