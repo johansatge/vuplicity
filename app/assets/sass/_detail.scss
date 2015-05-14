@@ -261,11 +261,15 @@ h2
         border        : 1px solid #ffc5c5;
         background    : #fff3f3;
         font-size     : 11px;
-        padding       : 10px 25px 10px 10px;
         border-radius : 3px;
         position      : relative;
-        width         : auto;
         margin        : 5px 0 15px 0;
+
+        span
+        {
+            display : block;
+            margin  : 10px;
+        }
 
         button
         {
