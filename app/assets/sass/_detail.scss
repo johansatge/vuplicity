@@ -309,6 +309,12 @@ h2
     ul
     {
         list-style-type : none;
+        margin          : 0 0 0 15px;
+
+        &:first-child
+        {
+            margin-left : 0;
+        }
     }
 
     li
@@ -316,7 +322,6 @@ h2
         font-weight   : 400;
         cursor        : default;
         border-radius : 3px;
-        border        : 1px solid transparent;
 
         i
         {

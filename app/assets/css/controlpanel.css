@@ -513,15 +513,19 @@ h2 i {
 /* line 309, ../sass/_detail.scss */
 .files ul {
   list-style-type: none;
+  margin: 0 0 0 15px;
 }
 /* line 314, ../sass/_detail.scss */
+.files ul:first-child {
+  margin-left: 0;
+}
+/* line 320, ../sass/_detail.scss */
 .files li {
   font-weight: 400;
   cursor: default;
   border-radius: 3px;
-  border: 1px solid transparent;
 }
-/* line 321, ../sass/_detail.scss */
+/* line 326, ../sass/_detail.scss */
 .files li i {
   color: #999999;
   margin: 2px 2px 2px 0;

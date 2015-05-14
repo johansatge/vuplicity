@@ -35,6 +35,48 @@
         };
 
         /**
+         * Updates file tree
+         * @param tree
+         */
+        this.updateFileTree = function(tree)
+        {
+            var current_dir_node = detailNode.querySelector('.js-file-tree');
+            current_dir_node.innerHTML = '';
+            var current_hierarchy = ['.'];
+            for (var index = 0; index < tree.length; index += 1)
+            {
+                var file = tree[index];
+                var file_node = document.createElement('li');
+                current_dir_node.appendChild(file_node);
+                file_node.innerHTML = '<i class="fa fa-file"></i>' + file.name;
+
+
+                if (index < tree.length - 1)
+                {
+                    var next_file = tree[index + 1];
+                    if (next_file.dir !== current_hierarchy[current_hierarchy.length - 1])
+                    {
+                        if (current_hierarchy.indexOf(next_file.dir) === -1)
+                        {
+                            var subdir_node = document.createElement('ul');
+                            file_node.appendChild(subdir_node);
+                            current_dir_node = subdir_node;
+                            current_hierarchy.push(next_file.dir);
+                        }
+                        else
+                        {
+                            while (next_file.dir !== current_hierarchy[current_hierarchy.length - 1])
+                            {
+                                current_dir_node = current_dir_node.parentNode.parentNode;
+                                current_hierarchy.pop();
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        /**
          * Updates backup status
          * @param data
          */

@@ -51,13 +51,12 @@
 
     /**
      * Updates the file tree of a backup
-     * @param backup_id
+     * @param id
      * @param tree
      */
-    var _onSetBackupFileTree = function(backup_id, tree)
+    var _onSetBackupFileTree = function(id, tree)
     {
-        console.log(tree);
-        // @todo send to the backup item
+        backups[id].updateFileTree(tree);
     };
 
     /**
