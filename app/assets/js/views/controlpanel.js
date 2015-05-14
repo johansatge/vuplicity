@@ -180,7 +180,7 @@
         }
         if (action === 'save-settings')
         {
-            ipc.send('send-settings', id, data);
+            ipc.send('save-settings', id, data);
         }
         if (action === 'select-directory')
         {
