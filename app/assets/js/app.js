@@ -72,6 +72,7 @@
         ipc.on('cancel-process', _onCancelBackupProcess.bind(this));
         ipc.on('restore-file', _onRestoreBackupFile.bind(this));
         ipc.on('restore-all', _onRestoreBackupTree.bind(this));
+        ipc.on('start-backup', _onStartBackup.bind(this));
         ipc.on('window-move', _onWindowMove.bind(this));
         ipc.on('window-close', _onWindowClose.bind(this));
     };
@@ -107,6 +108,16 @@
         {
             duplicityHelpers[backup_id].cancel();
         }
+    };
+
+    /**
+     * Starts a backup task
+     * @param evt
+     * @param backup_id
+     */
+    var _onStartBackup = function(evt, backup_id)
+    {
+        console.log('@todo task - ask if incremental or full');
     };
 
     /**
@@ -161,7 +172,7 @@
      */
     var _onRefreshBackupStatus = function(evt, backup_id)
     {
-        controlPanelWindow.send('set-backup-ui', backup_id, 'processing');
+        controlPanelWindow.send('set-backup-ui', backup_id, 'processing', 'Refreshing status...');
         var backup_data = config.getBackupData(backup_id);
         duplicityHelpers[backup_id] = new Duplicity();
         duplicityHelpers[backup_id].getStatus(backup_data, function(error, status)
@@ -180,7 +191,7 @@
      */
     var _onRefreshBackupFileTree = function(evt, backup_id)
     {
-        controlPanelWindow.send('set-backup-ui', backup_id, 'processing');
+        controlPanelWindow.send('set-backup-ui', backup_id, 'processing', 'Refreshing file tree...');
         var backup_data = config.getBackupData(backup_id);
         duplicityHelpers[backup_id] = new Duplicity();
         duplicityHelpers[backup_id].getFiles(backup_data, function(error, tree)
@@ -200,7 +211,7 @@
      */
     var _onSaveBackupSettings = function(evt, backup_id, backup_data)
     {
-        controlPanelWindow.send('set-backup-ui', backup_id, 'processing');
+        controlPanelWindow.send('set-backup-ui', backup_id, 'processing', 'Saving settings...');
         if (config.updateBackup(backup_id, backup_data)) // @todo make async
         {
             controlPanelWindow.send('set-backup-ui', backup_id, 'idle');
@@ -232,7 +243,7 @@
                 return;
             }
             var backup_data = config.getBackupData(backup_id);
-            controlPanelWindow.send('set-backup-ui', backup_id, 'processing');
+            controlPanelWindow.send('set-backup-ui', backup_id, 'processing', 'Restoring file...');
             duplicityHelpers[backup_id] = new Duplicity();
             duplicityHelpers[backup_id].restoreFile(backup_data, path, destination_path, function(error)
             {

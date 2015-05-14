@@ -33,6 +33,7 @@
             <div class="status">
                 Last backup: <span class="js-last-update">--</span>
             </div>
+            <div class="process-message js-process-message"></div>
             <i class="error js-error fa fa-exclamation-triangle"></i>
             <div class="progressbar">
                 <button class="cancel js-cancel">
@@ -46,6 +47,10 @@
                 <h2>
                     Backup status
                     <div class="buttons">
+                        <button class="js-action" rel="start-backup">
+                            <i class="fa fa-cloud-upload"></i>
+                            Backup now...
+                        </button>
                         <button class="js-action" rel="refresh-status">
                             <i class="fa fa-refresh"></i>
                             Refresh

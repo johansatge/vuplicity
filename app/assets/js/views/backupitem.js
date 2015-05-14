@@ -137,8 +137,9 @@
         /**
          * Sets the processing status of the backup (displays a loader)
          * @param is_processing
+         * @param message
          */
-        this.toggleProcessingStatus = function(is_processing)
+        this.toggleProcessingStatus = function(is_processing, message)
         {
             if (is_processing)
             {
@@ -149,6 +150,10 @@
             {
                 itemNode.className = itemNode.className.replace('js-processing', '');
                 detailNode.className = detailNode.className.replace('js-processing', '');
+            }
+            if (typeof message !== 'undefined')
+            {
+                itemNode.querySelector('.js-process-message').innerHTML = message;
             }
         };
 
@@ -263,7 +268,6 @@
         var _onTriggerAction = function(evt)
         {
             evt.preventDefault();
-            console.log(evt.currentTarget.getAttribute('rel'));
             actionCallback(evt.currentTarget.getAttribute('rel'), id, _getCurrentOptions.apply(this));
         };
 

@@ -145,13 +145,19 @@ html, body {
   margin: 0 0 4px 0;
 }
 /* line 45, ../sass/_list.scss */
-.backups-list-wrapper .backup-item .status {
+.backups-list-wrapper .backup-item .status,
+.backups-list-wrapper .backup-item .process-message {
+  display: block;
   cursor: default;
   font-size: 11px;
   color: #999999;
   text-shadow: 0 1px 0 #1d1d1d;
 }
-/* line 53, ../sass/_list.scss */
+/* line 55, ../sass/_list.scss */
+.backups-list-wrapper .backup-item .process-message {
+  display: none;
+}
+/* line 60, ../sass/_list.scss */
 .backups-list-wrapper .backup-item .progressbar {
   display: none;
   position: relative;
@@ -164,7 +170,7 @@ html, body {
   border: 1px solid #2b2b2b;
   box-shadow: 0 1px 0 #4d4e4d, inset 0 5px 10px #313132;
 }
-/* line 66, ../sass/_list.scss */
+/* line 73, ../sass/_list.scss */
 .backups-list-wrapper .backup-item .progressbar .cancel {
   position: absolute;
   top: -5px;
@@ -175,7 +181,7 @@ html, body {
   color: #cccccc;
   text-shadow: 0 1px 0 #2b2b2b;
 }
-/* line 78, ../sass/_list.scss */
+/* line 85, ../sass/_list.scss */
 .backups-list-wrapper .backup-item .progressbar .progress {
   position: absolute;
   height: 100%;
@@ -190,7 +196,7 @@ html, body {
     background-position: 60px 60px;
   }
 }
-/* line 97, ../sass/_list.scss */
+/* line 104, ../sass/_list.scss */
 .backups-list-wrapper .backup-item .progressbar .progress:after {
   border-radius: 4px;
   content: "";
@@ -203,26 +209,34 @@ html, body {
   background-size: 30px 30px;
   -webkit-animation: move 2s linear infinite;
 }
-/* line 113, ../sass/_list.scss */
+/* line 122, ../sass/_list.scss */
 .backups-list-wrapper .backup-item.js-processing .progressbar {
   display: block;
 }
-/* line 118, ../sass/_list.scss */
+/* line 126, ../sass/_list.scss */
+.backups-list-wrapper .backup-item.js-processing .status {
+  display: none;
+}
+/* line 130, ../sass/_list.scss */
+.backups-list-wrapper .backup-item.js-processing .process-message {
+  display: block;
+}
+/* line 136, ../sass/_list.scss */
 .backups-list-wrapper .backup-item.js-active .progressbar {
   border: 1px solid #6e96cd;
   background: #90d6fa;
   box-shadow: 0 1px 0 #9bcde6, inset 0 5px 10px #759fda;
 }
-/* line 124, ../sass/_list.scss */
+/* line 142, ../sass/_list.scss */
 .backups-list-wrapper .backup-item.js-active .progressbar .cancel {
   color: #ffffff;
   text-shadow: 0 1px 0 #6788b6;
 }
-/* line 130, ../sass/_list.scss */
+/* line 148, ../sass/_list.scss */
 .backups-list-wrapper .backup-item.js-active .progressbar .progress:after {
   background-image: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(0.25, #9bcde6), color-stop(0.25, transparent), color-stop(0.5, transparent), color-stop(0.5, #9bcde6), color-stop(0.75, #9bcde6), color-stop(0.75, transparent), to(transparent));
 }
-/* line 136, ../sass/_list.scss */
+/* line 154, ../sass/_list.scss */
 .backups-list-wrapper .backup-item .error {
   display: none;
   position: absolute;
@@ -231,27 +245,28 @@ html, body {
   top: 19px;
   font-size: 16px;
 }
-/* line 146, ../sass/_list.scss */
+/* line 164, ../sass/_list.scss */
 .backups-list-wrapper .backup-item.js-error .error {
   display: block;
 }
-/* line 151, ../sass/_list.scss */
+/* line 169, ../sass/_list.scss */
 .backups-list-wrapper .backup-item.js-active {
   background: linear-gradient(to top, #7ebfdf, #759fda);
   box-shadow: inset 0 0 1px #ffffff;
 }
-/* line 156, ../sass/_list.scss */
+/* line 174, ../sass/_list.scss */
 .backups-list-wrapper .backup-item.js-active .status,
+.backups-list-wrapper .backup-item.js-active .process-message,
 .backups-list-wrapper .backup-item.js-active .title {
   text-shadow: 0 1px 0 #6788b6;
   color: #ffffff;
 }
-/* line 163, ../sass/_list.scss */
+/* line 182, ../sass/_list.scss */
 .backups-list-wrapper .backup-item.js-active .loader,
 .backups-list-wrapper .backup-item.js-active .error {
   color: #ffffff;
 }
-/* line 171, ../sass/_list.scss */
+/* line 190, ../sass/_list.scss */
 .backups-list-wrapper .actions {
   position: absolute;
   width: 100%;
@@ -261,7 +276,7 @@ html, body {
   background: linear-gradient(to bottom, #4e4f4e, #383839);
   box-shadow: inset 0 1px 0 #666666;
 }
-/* line 181, ../sass/_list.scss */
+/* line 200, ../sass/_list.scss */
 .backups-list-wrapper .actions button {
   font-size: 12px;
   color: #cccccc;
@@ -272,15 +287,15 @@ html, body {
   padding: 0 14px 0 14px;
   border-right: 1px solid #212121;
 }
-/* line 191, ../sass/_list.scss */
+/* line 210, ../sass/_list.scss */
 .backups-list-wrapper .actions button:active {
   background: linear-gradient(to top, #4e4f4e, #383839);
 }
-/* line 196, ../sass/_list.scss */
+/* line 215, ../sass/_list.scss */
 .backups-list-wrapper .actions button:disabled i {
   opacity: 0.3;
 }
-/* line 201, ../sass/_list.scss */
+/* line 220, ../sass/_list.scss */
 .backups-list-wrapper .actions button:disabled:active {
   background: linear-gradient(to bottom, #4e4f4e, #383839);
 }

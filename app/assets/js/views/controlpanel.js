@@ -63,10 +63,11 @@
      * Sets the UI state of the given backup
      * @param backup_id
      * @param status
+     * @param message
      */
-    var _onSetBackupUI = function(backup_id, status)
+    var _onSetBackupUI = function(backup_id, status, message)
     {
-        backups[backup_id].toggleProcessingStatus(status !== 'idle');
+        backups[backup_id].toggleProcessingStatus(status !== 'idle', message);
         _updateDeleteButton.apply(this);
     };
 
@@ -177,7 +178,8 @@
             'select-directory',
             'cancel-process',
             'restore-file',
-            'restore-all'
+            'restore-all',
+            'start-backup'
         ];
         if (actions.indexOf(action) !== -1)
         {

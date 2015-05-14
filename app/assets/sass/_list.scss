@@ -42,12 +42,19 @@
             margin      : 0 0 4px 0;
         }
 
-        .status
+        .status,
+        .process-message
         {
+            display     : block;
             cursor      : default;
             font-size   : 11px;
             color       : #999999;
             text-shadow : 0 1px 0 #1d1d1d;
+        }
+
+        .process-message
+        {
+            display : none;
         }
 
         .progressbar
@@ -110,9 +117,20 @@
             }
         }
 
-        &.js-processing .progressbar
+        &.js-processing
         {
-            display : block;
+            .progressbar
+            {
+                display : block;
+            }
+            .status
+            {
+                display : none;
+            }
+            .process-message
+            {
+                display : block;
+            }
         }
 
         &.js-active .progressbar
@@ -154,6 +172,7 @@
             box-shadow : inset 0 0 1px #ffffff;
 
             .status,
+            .process-message,
             .title
             {
                 text-shadow : 0 1px 0 #6788b6;
