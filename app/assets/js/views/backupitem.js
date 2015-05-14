@@ -152,6 +152,14 @@
         };
 
         /**
+         * Checks if the backup is processing a task
+         */
+        this.isProcessing = function()
+        {
+            return itemNode.className.search('js-processing') !== -1;
+        };
+
+        /**
          * Inits the item node (left panel)
          */
         var _initItemNode = function()

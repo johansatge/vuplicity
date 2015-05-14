@@ -67,6 +67,7 @@
     var _onSetBackupUI = function(backup_id, status)
     {
         backups[backup_id].toggleProcessingStatus(status !== 'idle');
+        _updateDeleteButton.apply(this);
     };
 
     /**
@@ -157,6 +158,7 @@
         if (backup_id === currentBackupID)
         {
             currentBackupID = null;
+            _updateDeleteButton.apply(this);
         }
     };
 
@@ -194,8 +196,17 @@
         {
             backups[currentBackupID].toggleVisibility();
         }
-        is_visible ? removeBackupNode.removeAttribute('disabled') : removeBackupNode.setAttribute('disabled', 'disabled');
         currentBackupID = is_visible ? id : null;
+        _updateDeleteButton.apply(this);
+    };
+
+    /**
+     * Updates the "-" button of the left panel
+     */
+    var _updateDeleteButton = function()
+    {
+        var enabled = currentBackupID !== null && !backups[currentBackupID].isProcessing();
+        enabled ? removeBackupNode.removeAttribute('disabled') : removeBackupNode.setAttribute('disabled', 'disabled');
     };
 
     window.ControlPanel = module;
