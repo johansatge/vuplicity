@@ -170,29 +170,10 @@
      */
     var _onTriggerBackupAction = function(action, id, data)
     {
-        if (action === 'refresh-file-tree')
+        var actions = ['refresh-file-tree', 'refresh-status', 'save-settings', 'select-directory', 'cancel-process', 'restore-file'];
+        if (actions.indexOf(action) !== -1)
         {
-            ipc.send('refresh-file-tree', id);
-        }
-        if (action === 'refresh-status')
-        {
-            ipc.send('refresh-status', id);
-        }
-        if (action === 'save-settings')
-        {
-            ipc.send('save-settings', id, data);
-        }
-        if (action === 'select-directory')
-        {
-            ipc.send('select-directory', id);
-        }
-        if (action === 'cancel-process')
-        {
-            ipc.send('cancel-process', id);
-        }
-        if (action === 'restore-file')
-        {
-            ipc.send('restore-file', id, data);
+            ipc.send(action, id, data);
         }
         // @todo send request to the app for actions: "backup", "restore"
     };
