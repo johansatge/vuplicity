@@ -13,8 +13,16 @@ html, body, div, span, p, form, input, textarea, select, h1, h2, h3, table, tbod
 
 html, body
 {
-    -webkit-user-select    : none;
-    overflow               : hidden;
+    -webkit-user-select : none;
+    overflow            : hidden;
+}
+
+@font-face
+{
+    font-family : 'Open Sans';
+    font-style  : normal;
+    font-weight : 400;
+    src         : url(../fonts/OpenSans.woff2) format('woff2');
 }
 
 .window

@@ -16,7 +16,13 @@ html, body {
   overflow: hidden;
 }
 
-/* line 20, ../sass/_base.scss */
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: url(../fonts/OpenSans.woff2) format("woff2");
+}
+/* line 28, ../sass/_base.scss */
 .window {
   background: #fafafa;
   position: absolute;
