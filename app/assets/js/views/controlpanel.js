@@ -47,6 +47,17 @@
         ipc.on('set-backup-error', _onSetBackupError.bind(this));
         ipc.on('set-backup-ui', _onSetBackupUI.bind(this));
         ipc.on('set-backup-file-tree', _onSetBackupFileTree.bind(this));
+        ipc.on('set-backup-history', _onSetBackupHistory.bind(this));
+    };
+
+    /**
+     * Updates the history of a backup
+     * @param id
+     * @param history
+     */
+    var _onSetBackupHistory = function(id, history)
+    {
+        backups[id].updateHistory(history);
     };
 
     /**
@@ -184,6 +195,10 @@
         if (actions.indexOf(action) !== -1)
         {
             ipc.send(action, id, data);
+        }
+        if (action === 'clear-history')
+        {
+            backups[id].clearHistory();
         }
         // @todo send request to the app for actions: "backup", "restore"
     };

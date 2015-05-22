@@ -166,6 +166,27 @@
         };
 
         /**
+         * Clears the item history
+         */
+        this.clearHistory = function()
+        {
+            detailNode.querySelector('.js-history').innerHTML = '';
+        };
+
+        /**
+         * Updates history
+         * @param history
+         */
+        this.updateHistory = function(history)
+        {
+            if (history.search(/\n$/g) === -1)
+            {
+                history += '\n';
+            }
+            detailNode.querySelector('.js-history').innerHTML += history;
+        };
+
+        /**
          * Inits the item node (left panel)
          */
         var _initItemNode = function()

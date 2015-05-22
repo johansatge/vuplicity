@@ -14,6 +14,7 @@
     var ipc = require('ipc');
     var dialog = require('dialog');
     var util = require('util');
+    var moment = require('moment');
     var Duplicity = require(appPath + '/assets/js/utils/duplicity.js');
     var Tray = require(appPath + '/assets/js/utils/tray.js');
     var WindowRenderer = require(appPath + '/assets/js/utils/windowrenderer.js');
@@ -173,6 +174,7 @@
     var _onRefreshBackupStatus = function(evt, backup_id)
     {
         controlPanelWindow.send('set-backup-ui', backup_id, 'processing', 'Refreshing status...');
+        _updateBackupHistory.apply(this, [backup_id, 'Refreshing status...']);
         var backup_data = config.getBackupData(backup_id);
         duplicityHelpers[backup_id] = new Duplicity();
         duplicityHelpers[backup_id].getStatus(backup_data, function(error, status)
@@ -192,6 +194,7 @@
     var _onRefreshBackupFileTree = function(evt, backup_id)
     {
         controlPanelWindow.send('set-backup-ui', backup_id, 'processing', 'Refreshing file tree...');
+        _updateBackupHistory.apply(this, [backup_id, 'Refreshing file tree...']);
         var backup_data = config.getBackupData(backup_id);
         duplicityHelpers[backup_id] = new Duplicity();
         duplicityHelpers[backup_id].getFiles(backup_data, function(error, tree)
@@ -212,6 +215,7 @@
     var _onSaveBackupSettings = function(evt, backup_id, backup_data)
     {
         controlPanelWindow.send('set-backup-ui', backup_id, 'processing', 'Saving settings...');
+        _updateBackupHistory.apply(this, [backup_id, 'Saving settings...']);
         if (config.updateBackup(backup_id, backup_data)) // @todo make async
         {
             controlPanelWindow.send('set-backup-ui', backup_id, 'idle');
@@ -244,6 +248,7 @@
             }
             var backup_data = config.getBackupData(backup_id);
             controlPanelWindow.send('set-backup-ui', backup_id, 'processing', 'Restoring file...');
+            _updateBackupHistory.apply(this, [backup_id, 'Restoring file...']);
             duplicityHelpers[backup_id] = new Duplicity();
             duplicityHelpers[backup_id].restoreFile(backup_data, path, destination_path, function(error)
             {
@@ -252,6 +257,17 @@
                 // @todo return message ?
             });
         });
+    };
+
+    /**
+     * Sends a history update to the view
+     * @param backup_id
+     * @param message
+     */
+    var _updateBackupHistory = function(backup_id, message)
+    {
+        message = moment().format('YYYY-MM-DD HH:mm:ss') + '\n' + message;
+        controlPanelWindow.send('set-backup-history', backup_id, message);
     };
 
     /**
