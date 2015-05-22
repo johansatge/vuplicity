@@ -567,6 +567,8 @@ h2 button:active {
 }
 /* line 285, ../sass/_detail.scss */
 .backup-detail .history {
+  cursor: text;
+  -webkit-user-select: auto;
   color: #474747;
   height: 70px;
   border: 1px solid #dddddd;
@@ -579,7 +581,7 @@ h2 button:active {
   box-shadow: inset 0 1px 0 #f6f6f6;
   overflow-y: auto;
 }
-/* line 300, ../sass/_detail.scss */
+/* line 302, ../sass/_detail.scss */
 .backup-detail .files {
   color: #333333;
   height: 200px;
@@ -592,16 +594,16 @@ h2 button:active {
   box-shadow: inset 0 1px 0 #f6f6f6;
   overflow-y: auto;
 }
-/* line 313, ../sass/_detail.scss */
+/* line 315, ../sass/_detail.scss */
 .backup-detail .files ul {
   list-style-type: none;
   margin: 0 0 0 14px;
 }
-/* line 318, ../sass/_detail.scss */
+/* line 320, ../sass/_detail.scss */
 .backup-detail .files ul:first-child {
   margin-left: 5px;
 }
-/* line 324, ../sass/_detail.scss */
+/* line 326, ../sass/_detail.scss */
 .backup-detail .files li {
   position: relative;
   font-weight: 400;
@@ -609,7 +611,7 @@ h2 button:active {
   border-radius: 3px;
   font-size: 11px;
 }
-/* line 332, ../sass/_detail.scss */
+/* line 334, ../sass/_detail.scss */
 .backup-detail .files li .toggle {
   position: absolute;
   top: 0;
@@ -618,18 +620,18 @@ h2 button:active {
   height: 20px;
   background: transparent;
 }
-/* line 342, ../sass/_detail.scss */
+/* line 344, ../sass/_detail.scss */
 .backup-detail .files li .name {
   display: block;
   padding: 7px 5px 0 14px;
   height: 22px;
   line-height: 7px;
 }
-/* line 349, ../sass/_detail.scss */
+/* line 351, ../sass/_detail.scss */
 .backup-detail .files li .name:hover button {
   display: block;
 }
-/* line 354, ../sass/_detail.scss */
+/* line 356, ../sass/_detail.scss */
 .backup-detail .files li .name button {
   display: none;
   position: absolute;
@@ -642,11 +644,11 @@ h2 button:active {
   border-radius: 2px;
   font-size: 9px;
 }
-/* line 367, ../sass/_detail.scss */
+/* line 369, ../sass/_detail.scss */
 .backup-detail .files li .name button:active {
   background: linear-gradient(to top, #fdfdfd, #e7e7e7);
 }
-/* line 374, ../sass/_detail.scss */
+/* line 376, ../sass/_detail.scss */
 .backup-detail .files li.js-file:before, .backup-detail .files li.js-dir:before {
   display: block;
   font-family: "FontAwesome", sans-serif;
@@ -655,19 +657,19 @@ h2 button:active {
   left: 0;
   opacity: 0.3;
 }
-/* line 385, ../sass/_detail.scss */
+/* line 387, ../sass/_detail.scss */
 .backup-detail .files li.js-file:before {
   content: '\f15b';
   top: 6px;
   font-size: 9px;
 }
-/* line 393, ../sass/_detail.scss */
+/* line 395, ../sass/_detail.scss */
 .backup-detail .files li.js-dir:before {
   content: '\f07c';
   top: 6px;
   font-size: 10px;
 }
-/* line 401, ../sass/_detail.scss */
+/* line 403, ../sass/_detail.scss */
 .backup-detail .files li.js-dir.js-closed:before {
   content: '\f07b';
   top: 6px;
