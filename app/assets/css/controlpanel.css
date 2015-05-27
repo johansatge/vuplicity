@@ -550,8 +550,9 @@ h2 button:active {
   padding: 8px;
   box-shadow: inset 0 1px 0 #f6f6f6;
   overflow-y: auto;
+  word-wrap: break-word;
 }
-/* line 269, ../sass/_detail.scss */
+/* line 270, ../sass/_detail.scss */
 .backup-detail .files {
   color: #333333;
   height: 200px;
@@ -564,16 +565,16 @@ h2 button:active {
   box-shadow: inset 0 1px 0 #f6f6f6;
   overflow-y: auto;
 }
-/* line 282, ../sass/_detail.scss */
+/* line 283, ../sass/_detail.scss */
 .backup-detail .files ul {
   list-style-type: none;
   margin: 0 0 0 14px;
 }
-/* line 287, ../sass/_detail.scss */
+/* line 288, ../sass/_detail.scss */
 .backup-detail .files ul:first-child {
   margin-left: 5px;
 }
-/* line 293, ../sass/_detail.scss */
+/* line 294, ../sass/_detail.scss */
 .backup-detail .files li {
   position: relative;
   font-weight: 400;
@@ -581,7 +582,7 @@ h2 button:active {
   border-radius: 3px;
   font-size: 11px;
 }
-/* line 301, ../sass/_detail.scss */
+/* line 302, ../sass/_detail.scss */
 .backup-detail .files li .toggle {
   position: absolute;
   top: 0;
@@ -590,18 +591,18 @@ h2 button:active {
   height: 20px;
   background: transparent;
 }
-/* line 311, ../sass/_detail.scss */
+/* line 312, ../sass/_detail.scss */
 .backup-detail .files li .name {
   display: block;
   padding: 7px 5px 0 14px;
   height: 22px;
   line-height: 7px;
 }
-/* line 318, ../sass/_detail.scss */
+/* line 319, ../sass/_detail.scss */
 .backup-detail .files li .name:hover button {
   display: block;
 }
-/* line 323, ../sass/_detail.scss */
+/* line 324, ../sass/_detail.scss */
 .backup-detail .files li .name button {
   display: none;
   position: absolute;
@@ -614,11 +615,11 @@ h2 button:active {
   border-radius: 2px;
   font-size: 9px;
 }
-/* line 336, ../sass/_detail.scss */
+/* line 337, ../sass/_detail.scss */
 .backup-detail .files li .name button:active {
   background: linear-gradient(to top, #fdfdfd, #e7e7e7);
 }
-/* line 343, ../sass/_detail.scss */
+/* line 344, ../sass/_detail.scss */
 .backup-detail .files li.js-file:before, .backup-detail .files li.js-dir:before {
   display: block;
   font-family: "FontAwesome", sans-serif;
@@ -627,19 +628,19 @@ h2 button:active {
   left: 0;
   opacity: 0.3;
 }
-/* line 354, ../sass/_detail.scss */
+/* line 355, ../sass/_detail.scss */
 .backup-detail .files li.js-file:before {
   content: '\f15b';
   top: 6px;
   font-size: 9px;
 }
-/* line 362, ../sass/_detail.scss */
+/* line 363, ../sass/_detail.scss */
 .backup-detail .files li.js-dir:before {
   content: '\f07c';
   top: 6px;
   font-size: 10px;
 }
-/* line 370, ../sass/_detail.scss */
+/* line 371, ../sass/_detail.scss */
 .backup-detail .files li.js-dir.js-closed:before {
   content: '\f07b';
   top: 6px;

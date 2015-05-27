@@ -16,6 +16,22 @@
     {
 
         /**
+         * Starts a backup task
+         * @param data
+         * @param type (full | "")
+         * @param callback
+         */
+        this.doBackup = function(data, type, callback)
+        {
+            var options = {env: {PASSPHRASE: data.passphrase, TMPDIR: os.tmpdir()}};
+            var command = 'duplicity ' + type + ' "' + data.path + '" "' + data.url + '" ' + data.options;
+            process = exec(command, options, function(error, stdout, stderr)
+            {
+                callback(_parseError.apply(this, [stderr]));
+            });
+        };
+
+        /**
          * Tries to get a file and save it on the given path
          * @param data
          * @param path

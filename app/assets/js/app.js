@@ -118,7 +118,31 @@
      */
     var _onStartBackup = function(evt, backup_id)
     {
-        console.log('@todo task - ask if incremental or full');
+        var params = {
+            type: 'info',
+            message: 'What task do you want to start ?',
+            detail: '@todo help message.',
+            buttons: ['Automatic backup', 'Full backup']
+        };
+        dialog.showMessageBox(controlPanelWindow.getWindow(), params, function(response)
+        {
+            controlPanelWindow.send('set-backup-ui', backup_id, 'processing', 'Backup in progress...');
+            _updateBackupHistory.apply(this, [backup_id, 'Backup in progress...']);
+            var backup_data = config.getBackupData(backup_id);
+            duplicityHelpers[backup_id] = new Duplicity();
+            var type = response === 0 ? '' : 'full';
+            duplicityHelpers[backup_id].doBackup(backup_data, type, function(error, status)
+            {
+                controlPanelWindow.send('set-backup-status', backup_id, status);
+                _updateBackupHistory.apply(this, [backup_id, error ? error : 'Backup done.']);
+                controlPanelWindow.send('set-backup-ui', backup_id, 'idle', '', error);
+                delete duplicityHelpers[backup_id];
+                if (!error)
+                {
+                    _onRefreshBackupStatus.apply(this, [null, backup_id]);
+                }
+            });
+        });
     };
 
     /**
