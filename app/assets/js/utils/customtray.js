@@ -9,11 +9,18 @@
     var Tray = require('tray');
     var Menu = require('menu');
 
-    var module = function(label, icon_path, icon_pressed_path, controlPanelCallback, quitCallback)
+    var tray = null;
+    var idleIcon = null;
+    var processIcon = null;
+
+    var module = function(label, idle_icon, process_icon, controlPanelCallback, quitCallback)
     {
-        var tray = new Tray(icon_path);
+        idleIcon = idle_icon;
+        processIcon = process_icon;
+
+        tray = new Tray(idleIcon.normal);
         tray.setToolTip(label);
-        tray.setPressedImage(icon_pressed_path);
+        tray.setPressedImage(idleIcon.pressed);
         tray.setContextMenu(Menu.buildFromTemplate(
             [
                 {
@@ -47,6 +54,18 @@
                 }
             ]
         ));
+
+        this.setIdle = function()
+        {
+            tray.setImage(idleIcon.normal);
+            tray.setPressedImage(idleIcon.pressed);
+        };
+
+        this.setProcessing = function()
+        {
+            tray.setImage(processIcon.normal);
+            tray.setPressedImage(processIcon.pressed);
+        };
     };
 
     m.exports = module;

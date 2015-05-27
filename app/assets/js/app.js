@@ -23,6 +23,7 @@
     var controlPanelWindow = null;
     var config = null;
     var duplicityHelpers = {};
+    var tray = null;
 
     /**
      * Inits the main controller when the electron app is ready
@@ -55,9 +56,15 @@
     var _initTray = function()
     {
         var tray_label = app.getName() + ' ' + app.getVersion();
-        var tray_icon = appPath + '/assets/css/images/tray.png';
-        var tray_icon_pressed = appPath + '/assets/css/images/tray_pressed.png';
-        var tray = new CustomTray(tray_label, tray_icon, tray_icon_pressed, _onControlPanelShow.bind(this), _onQuitFromTray.bind(this));
+        var idle_icon = {
+            normal: appPath + '/assets/css/images/tray.png',
+            pressed: appPath + '/assets/css/images/tray_pressed.png'
+        };
+        var process_icon = {
+            normal: appPath + '/assets/css/images/tray_process.png',
+            pressed: appPath + '/assets/css/images/tray_process_pressed.png'
+        };
+        tray = new CustomTray(tray_label, idle_icon, process_icon, _onControlPanelShow.bind(this), _onQuitFromTray.bind(this));
     };
 
     /**
@@ -127,6 +134,7 @@
         };
         dialog.showMessageBox(controlPanelWindow.getWindow(), params, function(response)
         {
+            tray.setProcessing();
             controlPanelWindow.send('set-backup-ui', backup_id, 'processing', 'Backup in progress...');
             _updateBackupHistory.apply(this, [backup_id, 'Backup in progress...']);
             var backup_data = config.getBackupData(backup_id);
@@ -138,6 +146,7 @@
                 _updateBackupHistory.apply(this, [backup_id, error ? error : 'Backup done.']);
                 controlPanelWindow.send('set-backup-ui', backup_id, 'idle', '', error);
                 delete duplicityHelpers[backup_id];
+                tray.setIdle();
                 if (!error)
                 {
                     _onRefreshBackupStatus.apply(this, [null, backup_id]);
@@ -198,6 +207,7 @@
      */
     var _onRefreshBackupStatus = function(evt, backup_id)
     {
+        tray.setProcessing();
         controlPanelWindow.send('set-backup-ui', backup_id, 'processing', 'Refreshing status...');
         _updateBackupHistory.apply(this, [backup_id, 'Refreshing status...']);
         var backup_data = config.getBackupData(backup_id);
@@ -208,6 +218,7 @@
             _updateBackupHistory.apply(this, [backup_id, error ? error : 'Status updated.']);
             controlPanelWindow.send('set-backup-ui', backup_id, 'idle', '', error);
             delete duplicityHelpers[backup_id];
+            tray.setIdle();
         });
     };
 
@@ -218,6 +229,7 @@
      */
     var _onRefreshBackupFileTree = function(evt, backup_id)
     {
+        tray.setProcessing();
         controlPanelWindow.send('set-backup-ui', backup_id, 'processing', 'Refreshing file tree...');
         _updateBackupHistory.apply(this, [backup_id, 'Refreshing file tree...']);
         var backup_data = config.getBackupData(backup_id);
@@ -228,6 +240,7 @@
             _updateBackupHistory.apply(this, [backup_id, error ? error : 'Files refreshed.']);
             controlPanelWindow.send('set-backup-ui', backup_id, 'idle', '', error);
             delete duplicityHelpers[backup_id];
+            tray.setIdle();
         });
     };
 
@@ -239,6 +252,7 @@
      */
     var _onSaveBackupSettings = function(evt, backup_id, backup_data)
     {
+        tray.setProcessing();
         controlPanelWindow.send('set-backup-ui', backup_id, 'processing', 'Saving settings...');
         _updateBackupHistory.apply(this, [backup_id, 'Saving settings...']);
         if (config.updateBackup(backup_id, backup_data)) // @todo make async
@@ -272,6 +286,7 @@
             {
                 return;
             }
+            tray.setProcessing();
             var backup_data = config.getBackupData(backup_id);
             controlPanelWindow.send('set-backup-ui', backup_id, 'processing', 'Restoring file...');
             _updateBackupHistory.apply(this, [backup_id, 'Restoring file...']);
@@ -281,6 +296,7 @@
                 _updateBackupHistory.apply(this, [backup_id, error ? error : 'File restored.']);
                 controlPanelWindow.send('set-backup-ui', backup_id, 'idle', '', error);
             });
+            tray.setIdle();
         });
     };
 
@@ -313,6 +329,7 @@
             {
                 return;
             }
+            tray.setProcessing();
             var backup_data = config.getBackupData(backup_id);
             controlPanelWindow.send('set-backup-ui', backup_id, 'processing', 'Restoring backup tree...');
             _updateBackupHistory.apply(this, [backup_id, 'Restoring all files...']);
@@ -321,6 +338,7 @@
             {
                 _updateBackupHistory.apply(this, [backup_id, error ? error : 'Backup tree restored.']);
                 controlPanelWindow.send('set-backup-ui', backup_id, 'idle', '', error);
+                tray.setIdle();
             });
         });
     };
