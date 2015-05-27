@@ -396,7 +396,7 @@ h2 {
   line-height: 14px;
   color: #646464;
   text-shadow: 0 1px 0 #ffffff;
-  padding: 0 0 0 25px;
+  padding: 0 0 0 22px;
 }
 /* line 98, ../sass/_detail.scss */
 h2.no-toggle {
@@ -410,7 +410,7 @@ h2 .toggle {
   background: transparent;
   position: absolute;
   top: 12px;
-  left: 15px;
+  left: 12px;
   line-height: 0;
   color: #dddddd;
   transition: transform 150ms;
@@ -576,7 +576,7 @@ h2 .buttons button:active {
   cursor: text;
   -webkit-user-select: auto;
   color: #474747;
-  height: 70px;
+  height: 126px;
   border: 1px solid #dddddd;
   border-radius: 3px;
   font-size: 11px;
