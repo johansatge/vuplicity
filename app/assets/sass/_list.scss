@@ -33,6 +33,11 @@
         padding       : 6px 10px 8px 10px;
         background    : linear-gradient(to bottom, #4e4f4e, #383839);
 
+        &:active
+        {
+            background : linear-gradient(to top, #4e4f4e, #383839);
+        }
+
         .title
         {
             cursor      : default;
