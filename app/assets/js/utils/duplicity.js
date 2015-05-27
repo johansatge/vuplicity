@@ -97,16 +97,8 @@
          */
         this.cancel = function()
         {
-            process.kill('SIGTERM');
             cancelled = true;
-        };
-
-        /**
-         * Checks if the current helper has been killed by the user
-         */
-        this.hasBeenCancelled = function()
-        {
-            return cancelled;
+            process.kill('SIGTERM');
         };
 
         /**
@@ -115,6 +107,10 @@
          */
         var _parseError = function(stderr)
         {
+            if (cancelled)
+            {
+                return 'User has cancelled.';
+            }
             return stderr.replace(/[ \n\t]*/gm, '').length > 0 ? stderr.replace(/\n/g, '<br>') : false;
         };
 
