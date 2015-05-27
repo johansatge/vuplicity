@@ -89,7 +89,7 @@
         {
             for (var index in backups)
             {
-                evt.sender.send('set-backup-options', index, backups[index], false);
+                controlPanelWindow.send('set-backup-options', index, backups[index], false);
             }
         }
         else
@@ -156,7 +156,7 @@
         {
             if (typeof paths !== 'undefined')
             {
-                evt.sender.send('directory-selected', paths[0], backup_id);
+                controlPanelWindow.send('directory-selected', paths[0], backup_id);
             }
         });
     };
@@ -180,7 +180,7 @@
             {
                 if (config.deleteBackup(backup_id))
                 {
-                    evt.sender.send('confirm-backup-deletion', backup_id);
+                    controlPanelWindow.send('confirm-backup-deletion', backup_id);
                 }
                 else
                 {

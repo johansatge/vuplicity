@@ -42,26 +42,16 @@
         </script>
         <script type="text/template" class="js-backup-detail-template" rel="backup-detail js-backup-detail">
             <div class="section">
-                <h2>
-                    Activity
+                <h2 class="no-toggle">
+                    Status
                     <div class="buttons">
-                        <button class="js-action" rel="clear-history">
-                            <i class="fa fa-eraser"></i>
-                            Clear
+                        <button class="js-action" rel="restore-all">
+                            <i class="fa fa-cloud-download"></i>
+                            Restore...
                         </button>
-                    </div>
-                </h2>
-                <label class="col1">
-                    <pre class="history js-history"></pre>
-                </label>
-            </div>
-            <div class="section">
-                <h2>
-                    Backup status
-                    <div class="buttons">
                         <button class="js-action" rel="start-backup">
                             <i class="fa fa-cloud-upload"></i>
-                            Backup now...
+                            Backup...
                         </button>
                         <button class="js-action" rel="refresh-status">
                             <i class="fa fa-refresh"></i>
@@ -83,13 +73,29 @@
                 </p>
             </div>
             <div class="section">
-                <h2>
+                <h2 class="js-toggle">
+                    <button class="toggle">
+                        <i class="fa fa-chevron-down"></i>
+                    </button>
+                    Activity
+                    <div class="buttons">
+                        <button class="js-action" rel="clear-history">
+                            <i class="fa fa-eraser"></i>
+                            Clear
+                        </button>
+                    </div>
+                </h2>
+                <label class="col1">
+                    <pre class="history js-history"></pre>
+                </label>
+            </div>
+            <div class="section">
+                <h2 class="js-toggle">
+                    <button class="toggle">
+                        <i class="fa fa-chevron-down"></i>
+                    </button>
                     File tree
                     <div class="buttons">
-                        <button class="js-action" rel="restore-all">
-                            <i class="fa fa-cloud-download"></i>
-                            Restore...
-                        </button>
                         <button class="js-action" rel="refresh-file-tree">
                             <i class="fa fa-refresh"></i>
                             Refresh
@@ -103,7 +109,10 @@
                 </label>
             </div>
             <div class="section">
-                <h2>
+                <h2 class="js-toggle">
+                    <button class="toggle">
+                        <i class="fa fa-chevron-down"></i>
+                    </button>
                     Target
                     <div class="buttons">
                         <button class="js-action" rel="save-settings">
@@ -137,7 +146,12 @@
                 </label>
             </div>
             <div class="section">
-                <h2>Automation</h2>
+                <h2 class="js-toggle">
+                    <button class="toggle">
+                        <i class="fa fa-chevron-down"></i>
+                    </button>
+                    Automation
+                </h2>
                 <label class="col1">
                     <input name="p" type="radio" checked="checked">
                     Backup manually

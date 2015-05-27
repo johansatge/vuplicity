@@ -206,6 +206,11 @@
             {
                 actions[index].addEventListener('click', _onTriggerAction.bind(this));
             }
+            var toggles = detailNode.querySelectorAll('h2');
+            for (index = 0; index < toggles.length; index += 1)
+            {
+                toggles[index].addEventListener('click', _onToggleSection.bind(this));
+            }
         };
 
         /**
@@ -270,6 +275,7 @@
         var _onTriggerAction = function(evt)
         {
             evt.preventDefault();
+            evt.stopPropagation();
             actionCallback(evt.currentTarget.getAttribute('rel'), id, _getCurrentOptions.apply(this));
         };
 
@@ -319,6 +325,24 @@
                     child_list.style.display = 'none';
                     tree_node.className += ' js-closed';
                 }
+            }
+        };
+
+        /**
+         * Toggles a section
+         * @param evt
+         */
+        var _onToggleSection = function(evt)
+        {
+            evt.preventDefault();
+            var section = evt.currentTarget.parentNode;
+            if (section.className.search('js-section-hidden') !== -1)
+            {
+                section.className = section.className.replace('js-section-hidden', '');
+            }
+            else
+            {
+                section.className += ' js-section-hidden';
             }
         };
 
