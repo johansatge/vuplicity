@@ -28,10 +28,22 @@
             var command = 'duplicity restore --file-to-restore "' + path + '" "' + data.url + '" "' + dest_path + '"' + ' ' + data.options;
             process = exec(command, options, function(error, stdout, stderr)
             {
+                callback(_parseError.apply(this, [stderr]));
+            });
+        };
 
-                console.log(stdout);
-                console.log(stderr);
-
+        /**
+         * Tries to restore a backup
+         * @param data
+         * @param dest_path
+         * @param callback
+         */
+        this.restoreTree = function(data, dest_path, callback)
+        {
+            var options = {env: {PASSPHRASE: data.passphrase, TMPDIR: os.tmpdir()}};
+            var command = 'duplicity restore "' + data.url + '" "' + dest_path + '"' + ' ' + data.options;
+            process = exec(command, options, function(error, stdout, stderr)
+            {
                 callback(_parseError.apply(this, [stderr]));
             });
         };

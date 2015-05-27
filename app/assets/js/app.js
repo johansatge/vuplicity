@@ -255,7 +255,6 @@
             {
                 _updateBackupHistory.apply(this, [backup_id, error ? error : 'File restored.']);
                 controlPanelWindow.send('set-backup-ui', backup_id, 'idle', '', error);
-                // @todo return message ?
             });
         });
     };
@@ -278,7 +277,27 @@
      */
     var _onRestoreBackupTree = function(evt, backup_id)
     {
-        console.log('@todo task');
+        var params = {
+            title: 'Select the restore destination',
+            defaultPath: '/Users/johan/Desktop', // @todo select backup path, if available
+            properties: ['openDirectory', 'createDirectory']
+        };
+        dialog.showOpenDialog(controlPanelWindow.getWindow(), params, function(destination_path)
+        {
+            if (typeof destination_path === 'undefined')
+            {
+                return;
+            }
+            var backup_data = config.getBackupData(backup_id);
+            controlPanelWindow.send('set-backup-ui', backup_id, 'processing', 'Restoring backup tree...');
+            _updateBackupHistory.apply(this, [backup_id, 'Restoring all files...']);
+            duplicityHelpers[backup_id] = new Duplicity();
+            duplicityHelpers[backup_id].restoreTree(backup_data, destination_path, function(error)
+            {
+                _updateBackupHistory.apply(this, [backup_id, error ? error : 'Backup tree restored.']);
+                controlPanelWindow.send('set-backup-ui', backup_id, 'idle', '', error);
+            });
+        });
     };
 
     /**
