@@ -180,8 +180,8 @@
         duplicityHelpers[backup_id].getStatus(backup_data, function(error, status)
         {
             controlPanelWindow.send('set-backup-status', backup_id, status);
-            controlPanelWindow.send('set-backup-error', backup_id, error);
-            controlPanelWindow.send('set-backup-ui', backup_id, 'idle');
+            _updateBackupHistory.apply(this, [backup_id, error ? error : 'Status updated.']);
+            controlPanelWindow.send('set-backup-ui', backup_id, 'idle', '', error);
             delete duplicityHelpers[backup_id];
         });
     };
@@ -200,8 +200,8 @@
         duplicityHelpers[backup_id].getFiles(backup_data, function(error, tree)
         {
             controlPanelWindow.send('set-backup-file-tree', backup_id, tree);
-            controlPanelWindow.send('set-backup-error', backup_id, error);
-            controlPanelWindow.send('set-backup-ui', backup_id, 'idle');
+            _updateBackupHistory.apply(this, [backup_id, error ? error : 'Files refreshed.']);
+            controlPanelWindow.send('set-backup-ui', backup_id, 'idle', '', error);
             delete duplicityHelpers[backup_id];
         });
     };
@@ -218,12 +218,13 @@
         _updateBackupHistory.apply(this, [backup_id, 'Saving settings...']);
         if (config.updateBackup(backup_id, backup_data)) // @todo make async
         {
-            controlPanelWindow.send('set-backup-ui', backup_id, 'idle');
+            controlPanelWindow.send('set-backup-ui', backup_id, 'idle', '', false);
+            _updateBackupHistory.apply(this, [backup_id, 'Settings saved.']);
         }
         else
         {
-            dialog.showErrorBox('The settings could not be written.', 'Please check that the app can write in the file and retry.');
-            controlPanelWindow.send('set-backup-ui', backup_id, 'idle');
+            _updateBackupHistory.apply(this, [backup_id, 'Settings could not be written.']);
+            controlPanelWindow.send('set-backup-ui', backup_id, 'idle', '', true);
             delete duplicityHelpers[backup_id];
         }
     };
@@ -252,8 +253,8 @@
             duplicityHelpers[backup_id] = new Duplicity();
             duplicityHelpers[backup_id].restoreFile(backup_data, path, destination_path, function(error)
             {
-                controlPanelWindow.send('set-backup-error', backup_id, error);
-                controlPanelWindow.send('set-backup-ui', backup_id, 'idle');
+                _updateBackupHistory.apply(this, [backup_id, error ? error : 'File restored.']);
+                controlPanelWindow.send('set-backup-ui', backup_id, 'idle', '', error);
                 // @todo return message ?
             });
         });

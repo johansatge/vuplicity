@@ -239,39 +239,6 @@ h2
         }
     }
 
-    .error
-    {
-        color         : #ff4141;
-        z-index       : 4;
-        float         : left;
-        border        : 1px solid #ffc5c5;
-        background    : #fff3f3;
-        font-size     : 11px;
-        border-radius : 3px;
-        position      : relative;
-        margin        : 5px 0 15px 0;
-
-        span
-        {
-            display : block;
-            margin  : 10px;
-        }
-
-        button
-        {
-            bottom        : -7px;
-            right         : -7px;
-            width         : 14px;
-            height        : 14px;
-            line-height   : 0;
-            position      : absolute;
-            font-size     : 16px;
-            color         : #ff4141;
-            background    : #FDFDFD;
-            border-radius : 50%;
-        }
-    }
-
     .input-icon
     {
         color      : #282828;

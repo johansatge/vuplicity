@@ -17,7 +17,6 @@
         var id = backup_id;
         var itemNode = null;
         var detailNode = null;
-        var errorNode = null;
         var toggleCallback = null;
         var actionCallback = null;
 
@@ -32,7 +31,6 @@
             actionCallback = action_callback;
             _initItemNode.apply(this);
             _initDetailNode.apply(this);
-            _initErrors.apply(this);
         };
 
         /**
@@ -99,25 +97,6 @@
         };
 
         /**
-         * Updates error message
-         * @param error
-         */
-        this.updateError = function(error)
-        {
-            if (error === false)
-            {
-                errorNode.style.display = 'none';
-                itemNode.className = itemNode.className.replace('js-error', '');
-            }
-            else
-            {
-                errorNode.querySelector('.js-error-message').innerHTML = error;
-                errorNode.style.display = 'block';
-                itemNode.className += ' js-error';
-            }
-        };
-
-        /**
          * Updates backup options
          * @param data
          */
@@ -138,8 +117,9 @@
          * Sets the processing status of the backup (displays a loader)
          * @param is_processing
          * @param message
+         * @param has_error
          */
-        this.toggleProcessingStatus = function(is_processing, message)
+        this.toggleProcessingStatus = function(is_processing, message, has_error)
         {
             if (is_processing)
             {
@@ -154,6 +134,14 @@
             if (typeof message !== 'undefined')
             {
                 itemNode.querySelector('.js-process-message').innerHTML = message;
+            }
+            if (has_error)
+            {
+                itemNode.className += ' js-error';
+            }
+            else
+            {
+                itemNode.className = itemNode.className.replace('js-error', '');
             }
         };
 
@@ -171,6 +159,7 @@
         this.clearHistory = function()
         {
             detailNode.querySelector('.js-history').innerHTML = '';
+            itemNode.className = itemNode.className.replace('js-error', '');
         };
 
         /**
@@ -183,7 +172,9 @@
             {
                 history += '\n';
             }
-            detailNode.querySelector('.js-history').innerHTML += history;
+            var node = detailNode.querySelector('.js-history');
+            node.innerHTML += history;
+            node.scrollTop = node.scrollHeight - node.offsetHeight;
         };
 
         /**
@@ -215,16 +206,6 @@
             {
                 actions[index].addEventListener('click', _onTriggerAction.bind(this));
             }
-        };
-
-        /**
-         * Inits error messages
-         */
-        var _initErrors = function()
-        {
-            errorNode = detailNode.querySelector('.js-error');
-            errorNode.querySelector('.js-error-close').addEventListener('click', _onCloseError.bind(this));
-            errorNode.style.display = 'none';
         };
 
         /**
@@ -300,17 +281,6 @@
         {
             evt.preventDefault();
             actionCallback('select-directory', id, _getCurrentOptions.apply(this));
-        };
-
-        /**
-         * Closes the error message
-         * @param evt
-         */
-        var _onCloseError = function(evt)
-        {
-            evt.preventDefault();
-            errorNode.style.display = 'none';
-            itemNode.className = itemNode.className.replace('js-error', '');
         };
 
         /**

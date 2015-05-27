@@ -44,7 +44,6 @@
         ipc.on('directory-selected', _onSelectedBackupDirectory.bind(this));
         ipc.on('confirm-backup-deletion', _onConfirmBackupDeletion.bind(this));
         ipc.on('set-backup-status', _onSetBackupStatus.bind(this));
-        ipc.on('set-backup-error', _onSetBackupError.bind(this));
         ipc.on('set-backup-ui', _onSetBackupUI.bind(this));
         ipc.on('set-backup-file-tree', _onSetBackupFileTree.bind(this));
         ipc.on('set-backup-history', _onSetBackupHistory.bind(this));
@@ -75,10 +74,11 @@
      * @param backup_id
      * @param status
      * @param message
+     * @param has_error
      */
-    var _onSetBackupUI = function(backup_id, status, message)
+    var _onSetBackupUI = function(backup_id, status, message, has_error)
     {
-        backups[backup_id].toggleProcessingStatus(status !== 'idle', message);
+        backups[backup_id].toggleProcessingStatus(status !== 'idle', message, has_error);
         _updateDeleteButton.apply(this);
     };
 
@@ -113,16 +113,6 @@
     var _onSetBackupStatus = function(id, data)
     {
         backups[id].updateStatus(data);
-    };
-
-    /**
-     * Sets the error message of a backup (may be FALSE)
-     * @param id
-     * @param error
-     */
-    var _onSetBackupError = function(id, error)
-    {
-        backups[id].updateError(error);
     };
 
     /**

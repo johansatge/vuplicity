@@ -527,36 +527,6 @@ h2 button:active {
   border-radius: 50%;
 }
 /* line 242, ../sass/_detail.scss */
-.backup-detail .error {
-  color: #ff4141;
-  z-index: 4;
-  float: left;
-  border: 1px solid #ffc5c5;
-  background: #fff3f3;
-  font-size: 11px;
-  border-radius: 3px;
-  position: relative;
-  margin: 5px 0 15px 0;
-}
-/* line 254, ../sass/_detail.scss */
-.backup-detail .error span {
-  display: block;
-  margin: 10px;
-}
-/* line 260, ../sass/_detail.scss */
-.backup-detail .error button {
-  bottom: -7px;
-  right: -7px;
-  width: 14px;
-  height: 14px;
-  line-height: 0;
-  position: absolute;
-  font-size: 16px;
-  color: #ff4141;
-  background: #FDFDFD;
-  border-radius: 50%;
-}
-/* line 275, ../sass/_detail.scss */
 .backup-detail .input-icon {
   color: #282828;
   background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, white 40%);
@@ -565,7 +535,7 @@ h2 button:active {
   right: 2px;
   padding: 5px 3px 5px 16px;
 }
-/* line 285, ../sass/_detail.scss */
+/* line 252, ../sass/_detail.scss */
 .backup-detail .history {
   cursor: text;
   -webkit-user-select: auto;
@@ -581,7 +551,7 @@ h2 button:active {
   box-shadow: inset 0 1px 0 #f6f6f6;
   overflow-y: auto;
 }
-/* line 302, ../sass/_detail.scss */
+/* line 269, ../sass/_detail.scss */
 .backup-detail .files {
   color: #333333;
   height: 200px;
@@ -594,16 +564,16 @@ h2 button:active {
   box-shadow: inset 0 1px 0 #f6f6f6;
   overflow-y: auto;
 }
-/* line 315, ../sass/_detail.scss */
+/* line 282, ../sass/_detail.scss */
 .backup-detail .files ul {
   list-style-type: none;
   margin: 0 0 0 14px;
 }
-/* line 320, ../sass/_detail.scss */
+/* line 287, ../sass/_detail.scss */
 .backup-detail .files ul:first-child {
   margin-left: 5px;
 }
-/* line 326, ../sass/_detail.scss */
+/* line 293, ../sass/_detail.scss */
 .backup-detail .files li {
   position: relative;
   font-weight: 400;
@@ -611,7 +581,7 @@ h2 button:active {
   border-radius: 3px;
   font-size: 11px;
 }
-/* line 334, ../sass/_detail.scss */
+/* line 301, ../sass/_detail.scss */
 .backup-detail .files li .toggle {
   position: absolute;
   top: 0;
@@ -620,18 +590,18 @@ h2 button:active {
   height: 20px;
   background: transparent;
 }
-/* line 344, ../sass/_detail.scss */
+/* line 311, ../sass/_detail.scss */
 .backup-detail .files li .name {
   display: block;
   padding: 7px 5px 0 14px;
   height: 22px;
   line-height: 7px;
 }
-/* line 351, ../sass/_detail.scss */
+/* line 318, ../sass/_detail.scss */
 .backup-detail .files li .name:hover button {
   display: block;
 }
-/* line 356, ../sass/_detail.scss */
+/* line 323, ../sass/_detail.scss */
 .backup-detail .files li .name button {
   display: none;
   position: absolute;
@@ -644,11 +614,11 @@ h2 button:active {
   border-radius: 2px;
   font-size: 9px;
 }
-/* line 369, ../sass/_detail.scss */
+/* line 336, ../sass/_detail.scss */
 .backup-detail .files li .name button:active {
   background: linear-gradient(to top, #fdfdfd, #e7e7e7);
 }
-/* line 376, ../sass/_detail.scss */
+/* line 343, ../sass/_detail.scss */
 .backup-detail .files li.js-file:before, .backup-detail .files li.js-dir:before {
   display: block;
   font-family: "FontAwesome", sans-serif;
@@ -657,19 +627,19 @@ h2 button:active {
   left: 0;
   opacity: 0.3;
 }
-/* line 387, ../sass/_detail.scss */
+/* line 354, ../sass/_detail.scss */
 .backup-detail .files li.js-file:before {
   content: '\f15b';
   top: 6px;
   font-size: 9px;
 }
-/* line 395, ../sass/_detail.scss */
+/* line 362, ../sass/_detail.scss */
 .backup-detail .files li.js-dir:before {
   content: '\f07c';
   top: 6px;
   font-size: 10px;
 }
-/* line 403, ../sass/_detail.scss */
+/* line 370, ../sass/_detail.scss */
 .backup-detail .files li.js-dir.js-closed:before {
   content: '\f07b';
   top: 6px;
