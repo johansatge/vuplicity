@@ -9,12 +9,11 @@
     var Tray = require('tray');
     var Menu = require('menu');
 
-    var module = function(label, icon_path, controlPanelCallback, quitCallback)
+    var module = function(label, icon_path, icon_pressed_path, controlPanelCallback, quitCallback)
     {
-
         var tray = new Tray(icon_path);
         tray.setToolTip(label);
-
+        tray.setPressedImage(icon_pressed_path);
         tray.setContextMenu(Menu.buildFromTemplate(
             [
                 {
@@ -48,7 +47,6 @@
                 }
             ]
         ));
-
     };
 
     m.exports = module;

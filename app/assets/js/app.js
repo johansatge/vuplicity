@@ -16,7 +16,7 @@
     var util = require('util');
     var moment = require('moment');
     var Duplicity = require(appPath + '/assets/js/utils/duplicity.js');
-    var Tray = require(appPath + '/assets/js/utils/tray.js');
+    var CustomTray = require(appPath + '/assets/js/utils/customtray.js');
     var WindowRenderer = require(appPath + '/assets/js/utils/windowrenderer.js');
     var Configuration = require(appPath + '/assets/js/utils/configuration.js');
 
@@ -56,7 +56,8 @@
     {
         var tray_label = app.getName() + ' ' + app.getVersion();
         var tray_icon = appPath + '/assets/css/images/tray.png';
-        var tray = new Tray(tray_label, tray_icon, _onControlPanelShow.bind(this), _onQuitFromTray.bind(this));
+        var tray_icon_pressed = appPath + '/assets/css/images/tray_pressed.png';
+        var tray = new CustomTray(tray_label, tray_icon, tray_icon_pressed, _onControlPanelShow.bind(this), _onQuitFromTray.bind(this));
     };
 
     /**
