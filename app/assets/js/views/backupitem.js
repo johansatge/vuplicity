@@ -111,7 +111,7 @@
                     node.setAttribute('value', data[property]);
                 }
             }
-            itemNode.querySelector('.js-title').innerHTML = typeof data.title !== 'undefined' ? data.title : 'Unnamed backup';
+            itemNode.querySelector('.js-title').innerHTML = typeof data.title !== 'undefined' && data.title.length > 0 ? data.title : 'Unnamed backup';
         };
 
         /**

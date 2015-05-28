@@ -88,9 +88,8 @@
 
     /**
      * Sends the current configuration to the control panel when it has been opened
-     * @param evt
      */
-    var _onControlPanelReady = function(evt)
+    var _onControlPanelReady = function()
     {
         var backups = config.getBackups();
         if (backups !== false)

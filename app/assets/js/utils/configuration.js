@@ -1,7 +1,7 @@
 /**
  * Configuration manager
  * Errors are caught in the main process
- * @todo refactor this
+ * @todo refactor this and check file structure
  */
 (function(require, m)
 {
@@ -36,7 +36,7 @@
                 items = current_data.backups;
                 return current_data.backups;
             }
-            return false;
+            return {};
         };
 
         /**
@@ -47,18 +47,15 @@
         this.updateBackup = function(id, data)
         {
             var backups = this.getBackups();
-            if (backups !== false)
+            try
             {
-                try
-                {
-                    backups[id] = data;
-                    fs.writeFileSync(path, JSON.stringify({backups: backups}), {encoding: 'utf8'});
-                    items[id] = data;
-                    return true;
-                }
-                catch (error)
-                {
-                }
+                backups[id] = data;
+                fs.writeFileSync(path, JSON.stringify({backups: backups}), {encoding: 'utf8'});
+                items[id] = data;
+                return true;
+            }
+            catch (error)
+            {
             }
             return false;
         };
@@ -70,17 +67,14 @@
         this.deleteBackup = function(id)
         {
             var backups = this.getBackups();
-            if (backups !== false)
+            try
             {
-                try
-                {
-                    delete backups[id];
-                    fs.writeFileSync(path, JSON.stringify({backups: backups}), {encoding: 'utf8'});
-                    return true;
-                }
-                catch (error)
-                {
-                }
+                delete backups[id];
+                fs.writeFileSync(path, JSON.stringify({backups: backups}), {encoding: 'utf8'});
+                return true;
+            }
+            catch (error)
+            {
             }
             return false;
         };
