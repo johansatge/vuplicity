@@ -373,25 +373,35 @@ html, body {
 
 /* line 1, ../sass/detail/_tabs.scss */
 .backup-tabs {
-  height: 30px;
+  position: relative;
+  z-index: 2;
+  margin: 0 0 0 18px;
 }
-/* line 5, ../sass/detail/_tabs.scss */
+/* line 7, ../sass/detail/_tabs.scss */
 .backup-tabs .tab {
   float: left;
-  font-size: 12px;
+  font-size: 13px;
   line-height: 14px;
   color: #646464;
   text-shadow: 0 1px 0 #ffffff;
   background: linear-gradient(to bottom, #fefefe, #f2f2f2);
-  padding: 2px 8px 3px 6px;
-  border: 1px solid #CBCBCB;
+  padding: 5px 10px 7px 9px;
+  border: 1px solid #cbcbcb;
   box-shadow: inset 0 1px 0 #ffffff;
   border-radius: 4px 4px 0 0;
-  margin: 5px 2px 0 0;
+  margin: 12px 5px 0 0;
 }
-/* line 19, ../sass/detail/_tabs.scss */
+/* line 21, ../sass/detail/_tabs.scss */
+.backup-tabs .tab:active {
+  background: linear-gradient(to top, #fefefe, #f2f2f2);
+}
+/* line 26, ../sass/detail/_tabs.scss */
 .backup-tabs .tab.js-active {
-  text-transform: uppercase;
+  border-bottom: 1px solid #f2f2f2;
+}
+/* line 29, ../sass/detail/_tabs.scss */
+.backup-tabs .tab.js-active:active {
+  background: linear-gradient(to bottom, #fefefe, #f2f2f2);
 }
 
 /* line 1, ../sass/detail/_history.scss */
@@ -536,27 +546,32 @@ html, body {
 
 /* line 1, ../sass/detail/_sections.scss */
 .backup-sections {
+  z-index: 1;
   position: absolute;
-  top: 30px;
-  width: 100%;
-  bottom: 143px;
+  top: 39px;
+  left: 12px;
+  right: 12px;
+  bottom: 155px;
   overflow-y: auto;
+  border: 1px solid #cbcbcb;
+  border-radius: 4px;
+  background: #f2f2f2;
+  box-shadow: 0 1px 0 #ffffff;
 }
-/* line 9, ../sass/detail/_sections.scss */
+/* line 15, ../sass/detail/_sections.scss */
 .backup-sections .section {
   position: relative;
   float: left;
   width: 100%;
-  padding: 15px 15px 5px 15px;
+  padding: 12px 12px 6px 12px;
 }
-/* line 17, ../sass/detail/_sections.scss */
+/* line 23, ../sass/detail/_sections.scss */
 .backup-sections .buttons {
   width: 100%;
   position: relative;
-  top: 11px;
-  height: 40px;
+  height: 30px;
 }
-/* line 24, ../sass/detail/_sections.scss */
+/* line 29, ../sass/detail/_sections.scss */
 .backup-sections .buttons button {
   float: right;
   background: linear-gradient(to bottom, #fefefe, #f2f2f2);
@@ -568,15 +583,15 @@ html, body {
   color: #646464;
   margin: 0 0 0 5px;
 }
-/* line 36, ../sass/detail/_sections.scss */
+/* line 41, ../sass/detail/_sections.scss */
 .backup-sections .buttons button i {
   margin: 0 2px 0 0;
 }
-/* line 41, ../sass/detail/_sections.scss */
+/* line 46, ../sass/detail/_sections.scss */
 .backup-sections .buttons button:active {
   background: linear-gradient(to top, #fefefe, #fafafa);
 }
-/* line 48, ../sass/detail/_sections.scss */
+/* line 53, ../sass/detail/_sections.scss */
 .backup-sections label,
 .backup-sections p {
   cursor: default;
@@ -584,38 +599,38 @@ html, body {
   position: relative;
   font-size: 13px;
 }
-/* line 56, ../sass/detail/_sections.scss */
+/* line 61, ../sass/detail/_sections.scss */
 .backup-sections label .right,
 .backup-sections p .right {
   float: right;
 }
-/* line 62, ../sass/detail/_sections.scss */
+/* line 67, ../sass/detail/_sections.scss */
 .backup-sections .col1 {
   float: left;
   width: 100%;
   margin: 0 0 10px 0;
 }
-/* line 69, ../sass/detail/_sections.scss */
+/* line 74, ../sass/detail/_sections.scss */
 .backup-sections .col2 {
   float: left;
   width: 49%;
   margin: 0 0 10px 0;
 }
-/* line 75, ../sass/detail/_sections.scss */
+/* line 80, ../sass/detail/_sections.scss */
 .backup-sections .col2.left {
   margin-right: 2%;
 }
-/* line 81, ../sass/detail/_sections.scss */
+/* line 86, ../sass/detail/_sections.scss */
 .backup-sections .col3 {
   float: left;
   width: 32%;
   margin: 0 0 10px 0;
 }
-/* line 87, ../sass/detail/_sections.scss */
+/* line 92, ../sass/detail/_sections.scss */
 .backup-sections .col3.left {
   margin-right: 2%;
 }
-/* line 93, ../sass/detail/_sections.scss */
+/* line 98, ../sass/detail/_sections.scss */
 .backup-sections input[type="text"],
 .backup-sections input[type="password"] {
   color: #282828;
@@ -630,7 +645,7 @@ html, body {
   padding: 0 5px 0 5px;
   font-weight: 400;
 }
-/* line 109, ../sass/detail/_sections.scss */
+/* line 114, ../sass/detail/_sections.scss */
 .backup-sections select {
   color: #282828;
   width: 100%;
@@ -643,7 +658,7 @@ html, body {
   padding: 0 5px 0 5px;
   font-weight: 400;
 }
-/* line 123, ../sass/detail/_sections.scss */
+/* line 128, ../sass/detail/_sections.scss */
 .backup-sections input[type="radio"] {
   position: relative;
   -webkit-appearance: none;
@@ -655,11 +670,11 @@ html, body {
   float: left;
   margin: 2px 4px 0 0;
 }
-/* line 135, ../sass/detail/_sections.scss */
+/* line 140, ../sass/detail/_sections.scss */
 .backup-sections input[type="radio"]:disabled {
   opacity: 0.5;
 }
-/* line 140, ../sass/detail/_sections.scss */
+/* line 145, ../sass/detail/_sections.scss */
 .backup-sections input[type="radio"]:checked:after {
   content: ' ';
   display: block;
@@ -671,7 +686,7 @@ html, body {
   background: linear-gradient(to bottom, #7ebfdf, #759fda);
   border-radius: 50%;
 }
-/* line 154, ../sass/detail/_sections.scss */
+/* line 159, ../sass/detail/_sections.scss */
 .backup-sections .input-icon {
   color: #282828;
   background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, white 40%);
