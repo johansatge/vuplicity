@@ -1,7 +1,7 @@
 .backup-filetree
 {
     position              : absolute;
-    top                   : 42px;
+    top                   : 50px;
     left                  : 12px;
     right                 : 12px;
     bottom                : 12px;
@@ -11,7 +11,7 @@
     font-size             : 12px;
     background            : #ffffff url(images/filetree.png) repeat 0 0;
     background-attachment : local;
-    margin                : 5px 0 0 0;
+    /* margin: 5px 0 0 0; */
     box-shadow            : inset 0 1px 0 #f6f6f6;
     overflow-y            : auto;
 

@@ -63,20 +63,6 @@
             </div>
             <div class="backup-sections">
                 <div class="section js-section" rel="status">
-                    <div class="buttons">
-                        <button class="js-action" rel="restore-all">
-                            <i class="fa fa-cloud-download"></i>
-                            Restore...
-                        </button>
-                        <button class="js-action" rel="start-backup">
-                            <i class="fa fa-cloud-upload"></i>
-                            Backup...
-                        </button>
-                        <button class="js-action" rel="refresh-status">
-                            <i class="fa fa-refresh"></i>
-                            Refresh
-                        </button>
-                    </div>
                     <p class="col1">
                         Number of contained backup sets
                         <span class="right js-status" rel="backup_sets">--</span>
@@ -89,6 +75,20 @@
                         Chain end time
                         <span class="right js-status" rel="chain_end_time">--</span>
                     </p>
+                    <div class="buttons">
+                        <button class="js-action" rel="refresh-status">
+                            <i class="fa fa-refresh"></i>
+                            Refresh
+                        </button>
+                        <button class="js-action" rel="start-backup">
+                            <i class="fa fa-cloud-upload"></i>
+                            Backup...
+                        </button>
+                        <button class="js-action" rel="restore-all">
+                            <i class="fa fa-cloud-download"></i>
+                            Restore...
+                        </button>
+                    </div>
                 </div>
                 <div class="section js-section" rel="filetree">
                     <div class="buttons">
@@ -102,12 +102,6 @@
                     </div>
                 </div>
                 <div class="section js-section" rel="settings">
-                    <div class="buttons">
-                        <button class="js-action" rel="save-settings">
-                            <i class="fa fa-floppy-o"></i>
-                            Save settings
-                        </button>
-                    </div>
                     <label class="col2 left">
                         Source path
                         <input type="text" class="js-option" rel="path">
@@ -131,6 +125,12 @@
                         Options
                         <input type="text" class="js-option" rel="options">
                     </label>
+                    <div class="buttons">
+                        <button class="js-action" rel="save-settings">
+                            <i class="fa fa-floppy-o"></i>
+                            Save settings
+                        </button>
+                    </div>
                 </div>
                 <div class="section js-section" rel="automation">
                     <label class="col1">

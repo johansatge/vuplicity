@@ -7,15 +7,13 @@
     button
     {
         position      : absolute;
-        right         : 5px;
-        top           : 12px;
-        background    : linear-gradient(to bottom, #fefefe, #f2f2f2);
-        padding       : 2px 8px 3px 6px;
-        border        : 1px solid #cbcbcb;
-        box-shadow    : inset 0 1px 0 #ffffff;
+        right         : 6px;
+        top           : 8px;
+        background    : #cbcbcb;
+        padding       : 2px 6px 3px 4px;
         border-radius : 3px;
-        font-size     : 11px;
-        color         : #646464;
+        font-size     : 9px;
+        color         : #ffffff;
         margin        : 0 0 0 5px;
 
         i
@@ -25,7 +23,7 @@
 
         &:active
         {
-            background : linear-gradient(to top, #fefefe, #fafafa);
+            background : #c5c5c5;
         }
     }
 
@@ -34,12 +32,11 @@
         cursor              : text;
         -webkit-user-select : auto;
         color               : #474747;
-        height              : 126px;
-        border-top          : 1px solid #dddddd;
+        height              : 142px;
+        border-top          : 1px solid #cbcbcb;
         font-size           : 11px;
         font-family         : "Courier", sans-serif;
         background          : #ffffff;
-        margin              : 5px 0 0 0;
         padding             : 8px;
         box-shadow          : inset 0 1px 0 #f6f6f6;
         overflow-y          : auto;
