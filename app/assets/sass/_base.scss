@@ -24,17 +24,3 @@ html, body
     font-weight : 400;
     src         : url(../fonts/OpenSans.woff2) format('woff2');
 }
-
-.window
-{
-    background    : #fafafa;
-    position      : absolute;
-    top           : 0;
-    left          : 0;
-    margin        : 15px;
-    bottom        : 0;
-    right         : 0;
-    border-radius : 5px;
-    overflow      : hidden;
-    box-shadow    : 0 0 22px rgba(0, 0, 0, 0.5);
-}
