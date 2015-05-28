@@ -149,12 +149,11 @@ html, body {
 /* line 41, ../sass/_list.scss */
 .backups-list-wrapper .backup-item .title {
   cursor: default;
-  font-size: 14px;
+  font-size: 13px;
   color: #cccccc;
   text-shadow: 0 1px 0 #000000;
-  margin: 0 0 4px 0;
 }
-/* line 50, ../sass/_list.scss */
+/* line 49, ../sass/_list.scss */
 .backups-list-wrapper .backup-item .status,
 .backups-list-wrapper .backup-item .process-message {
   display: block;
@@ -163,11 +162,11 @@ html, body {
   color: #999999;
   text-shadow: 0 1px 0 #1d1d1d;
 }
-/* line 60, ../sass/_list.scss */
+/* line 59, ../sass/_list.scss */
 .backups-list-wrapper .backup-item .process-message {
   display: none;
 }
-/* line 65, ../sass/_list.scss */
+/* line 64, ../sass/_list.scss */
 .backups-list-wrapper .backup-item .progressbar {
   display: none;
   position: relative;
@@ -180,7 +179,7 @@ html, body {
   border: 1px solid #2b2b2b;
   box-shadow: 0 1px 0 #4d4e4d, inset 0 5px 10px #313132;
 }
-/* line 78, ../sass/_list.scss */
+/* line 77, ../sass/_list.scss */
 .backups-list-wrapper .backup-item .progressbar .cancel {
   position: absolute;
   top: -5px;
@@ -191,7 +190,7 @@ html, body {
   color: #cccccc;
   text-shadow: 0 1px 0 #2b2b2b;
 }
-/* line 90, ../sass/_list.scss */
+/* line 89, ../sass/_list.scss */
 .backups-list-wrapper .backup-item .progressbar .progress {
   position: absolute;
   height: 100%;
@@ -206,7 +205,7 @@ html, body {
     background-position: 60px 60px;
   }
 }
-/* line 109, ../sass/_list.scss */
+/* line 108, ../sass/_list.scss */
 .backups-list-wrapper .backup-item .progressbar .progress:after {
   border-radius: 4px;
   content: "";
@@ -219,64 +218,64 @@ html, body {
   background-size: 30px 30px;
   -webkit-animation: move 2s linear infinite;
 }
-/* line 127, ../sass/_list.scss */
+/* line 126, ../sass/_list.scss */
 .backups-list-wrapper .backup-item.js-processing .progressbar {
   display: block;
 }
-/* line 131, ../sass/_list.scss */
+/* line 130, ../sass/_list.scss */
 .backups-list-wrapper .backup-item.js-processing .status {
   display: none;
 }
-/* line 135, ../sass/_list.scss */
+/* line 134, ../sass/_list.scss */
 .backups-list-wrapper .backup-item.js-processing .process-message {
   display: block;
 }
-/* line 141, ../sass/_list.scss */
+/* line 140, ../sass/_list.scss */
 .backups-list-wrapper .backup-item.js-active .progressbar {
   border: 1px solid #6e96cd;
   background: #90d6fa;
   box-shadow: 0 1px 0 #9bcde6, inset 0 5px 10px #759fda;
 }
-/* line 147, ../sass/_list.scss */
+/* line 146, ../sass/_list.scss */
 .backups-list-wrapper .backup-item.js-active .progressbar .cancel {
   color: #ffffff;
   text-shadow: 0 1px 0 #6788b6;
 }
-/* line 153, ../sass/_list.scss */
+/* line 152, ../sass/_list.scss */
 .backups-list-wrapper .backup-item.js-active .progressbar .progress:after {
   background-image: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(0.25, #9bcde6), color-stop(0.25, transparent), color-stop(0.5, transparent), color-stop(0.5, #9bcde6), color-stop(0.75, #9bcde6), color-stop(0.75, transparent), to(transparent));
 }
-/* line 159, ../sass/_list.scss */
+/* line 158, ../sass/_list.scss */
 .backups-list-wrapper .backup-item .error {
   display: none;
   position: absolute;
   color: #f6d349;
   right: 10px;
-  top: 19px;
+  top: 17px;
   font-size: 16px;
 }
-/* line 169, ../sass/_list.scss */
+/* line 168, ../sass/_list.scss */
 .backups-list-wrapper .backup-item.js-error .error {
   display: block;
 }
-/* line 174, ../sass/_list.scss */
+/* line 173, ../sass/_list.scss */
 .backups-list-wrapper .backup-item.js-active {
   background: linear-gradient(to top, #7ebfdf, #759fda);
   box-shadow: inset 0 0 1px #ffffff;
 }
-/* line 179, ../sass/_list.scss */
+/* line 178, ../sass/_list.scss */
 .backups-list-wrapper .backup-item.js-active .status,
 .backups-list-wrapper .backup-item.js-active .process-message,
 .backups-list-wrapper .backup-item.js-active .title {
   text-shadow: 0 1px 0 #6788b6;
   color: #ffffff;
 }
-/* line 187, ../sass/_list.scss */
+/* line 186, ../sass/_list.scss */
 .backups-list-wrapper .backup-item.js-active .loader,
 .backups-list-wrapper .backup-item.js-active .error {
   color: #ffffff;
 }
-/* line 195, ../sass/_list.scss */
+/* line 194, ../sass/_list.scss */
 .backups-list-wrapper .actions {
   position: absolute;
   width: 100%;
@@ -286,7 +285,7 @@ html, body {
   background: linear-gradient(to bottom, #4e4f4e, #383839);
   box-shadow: inset 0 1px 0 #666666;
 }
-/* line 205, ../sass/_list.scss */
+/* line 204, ../sass/_list.scss */
 .backups-list-wrapper .actions button {
   font-size: 12px;
   color: #cccccc;
@@ -297,15 +296,15 @@ html, body {
   padding: 0 14px 0 14px;
   border-right: 1px solid #212121;
 }
-/* line 215, ../sass/_list.scss */
+/* line 214, ../sass/_list.scss */
 .backups-list-wrapper .actions button:active {
   background: linear-gradient(to top, #4e4f4e, #383839);
 }
-/* line 220, ../sass/_list.scss */
+/* line 219, ../sass/_list.scss */
 .backups-list-wrapper .actions button:disabled i {
   opacity: 0.3;
 }
-/* line 225, ../sass/_list.scss */
+/* line 224, ../sass/_list.scss */
 .backups-list-wrapper .actions button:disabled:active {
   background: linear-gradient(to bottom, #4e4f4e, #383839);
 }
