@@ -172,25 +172,14 @@
      */
     var _onTriggerBackupAction = function(action, id, data)
     {
-        var actions = [
-            'refresh-file-tree',
-            'refresh-status',
-            'save-settings',
-            'select-directory',
-            'cancel-process',
-            'restore-file',
-            'restore-all',
-            'start-backup'
-        ];
-        if (actions.indexOf(action) !== -1)
-        {
-            ipc.send(action, id, data);
-        }
         if (action === 'clear-history')
         {
             backups[id].clearHistory();
         }
-        // @todo send request to the app for actions: "backup", "restore"
+        else
+        {
+            ipc.send(action, id, data);
+        }
     };
 
     /**

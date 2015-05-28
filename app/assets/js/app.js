@@ -128,7 +128,6 @@
         var params = {
             type: 'info',
             message: 'What task do you want to start ?',
-            detail: '@todo help message.',
             buttons: ['Automatic backup', 'Full backup']
         };
         dialog.showMessageBox(controlPanelWindow.getWindow(), params, function(response)
