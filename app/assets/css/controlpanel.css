@@ -64,7 +64,7 @@ html, body {
   font-weight: 300;
   width: 100%;
   text-align: center;
-  line-height: 42px;
+  line-height: 44px;
 }
 /* line 46, ../sass/_window.scss */
 .toolbar .close {
@@ -626,16 +626,6 @@ html, body {
   margin-right: 2%;
 }
 /* line 85, ../sass/detail/_sections.scss */
-.backup-sections .col3 {
-  float: left;
-  width: 32%;
-  margin: 0 0 12px 0;
-}
-/* line 91, ../sass/detail/_sections.scss */
-.backup-sections .col3.left {
-  margin-right: 2%;
-}
-/* line 97, ../sass/detail/_sections.scss */
 .backup-sections input[type="text"],
 .backup-sections input[type="password"] {
   color: #282828;
@@ -650,7 +640,7 @@ html, body {
   padding: 0 5px 0 5px;
   font-weight: 400;
 }
-/* line 113, ../sass/detail/_sections.scss */
+/* line 101, ../sass/detail/_sections.scss */
 .backup-sections select {
   color: #282828;
   width: 100%;
@@ -663,7 +653,7 @@ html, body {
   padding: 0 5px 0 5px;
   font-weight: 400;
 }
-/* line 127, ../sass/detail/_sections.scss */
+/* line 115, ../sass/detail/_sections.scss */
 .backup-sections input[type="radio"] {
   position: relative;
   -webkit-appearance: none;
@@ -675,11 +665,11 @@ html, body {
   float: left;
   margin: 2px 4px 0 0;
 }
-/* line 139, ../sass/detail/_sections.scss */
+/* line 127, ../sass/detail/_sections.scss */
 .backup-sections input[type="radio"]:disabled {
   opacity: 0.5;
 }
-/* line 144, ../sass/detail/_sections.scss */
+/* line 132, ../sass/detail/_sections.scss */
 .backup-sections input[type="radio"]:checked:after {
   content: ' ';
   display: block;
@@ -691,7 +681,7 @@ html, body {
   background: linear-gradient(to bottom, #7ebfdf, #759fda);
   border-radius: 50%;
 }
-/* line 158, ../sass/detail/_sections.scss */
+/* line 146, ../sass/detail/_sections.scss */
 .backup-sections .input-icon {
   color: #282828;
   background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, white 40%);
