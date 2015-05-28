@@ -133,6 +133,11 @@
         background : linear-gradient(to top, #7ebfdf, #759fda);
         box-shadow : inset 0 0 1px #ffffff;
 
+        &:active
+        {
+            background : linear-gradient(to top, #7ebfdf, #6b91c7);
+        }
+
         .progressbar
         {
             border     : 1px solid #6e96cd;

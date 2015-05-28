@@ -283,28 +283,32 @@ html, body {
   box-shadow: inset 0 0 1px #ffffff;
 }
 /* line 136, ../sass/list/_item.scss */
+.backup-item.js-active:active {
+  background: linear-gradient(to top, #7ebfdf, #6b91c7);
+}
+/* line 141, ../sass/list/_item.scss */
 .backup-item.js-active .progressbar {
   border: 1px solid #6e96cd;
   background: #90d6fa;
   box-shadow: 0 1px 0 #9bcde6, inset 0 5px 10px #759fda;
 }
-/* line 142, ../sass/list/_item.scss */
+/* line 147, ../sass/list/_item.scss */
 .backup-item.js-active .progressbar .cancel {
   color: #ffffff;
   text-shadow: 0 1px 0 #6788b6;
 }
-/* line 148, ../sass/list/_item.scss */
+/* line 153, ../sass/list/_item.scss */
 .backup-item.js-active .progressbar .progress:after {
   background-image: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(0.25, #9bcde6), color-stop(0.25, transparent), color-stop(0.5, transparent), color-stop(0.5, #9bcde6), color-stop(0.75, #9bcde6), color-stop(0.75, transparent), to(transparent));
 }
-/* line 154, ../sass/list/_item.scss */
+/* line 159, ../sass/list/_item.scss */
 .backup-item.js-active .status,
 .backup-item.js-active .process-message,
 .backup-item.js-active .title {
   text-shadow: 0 1px 0 #6788b6;
   color: #ffffff;
 }
-/* line 162, ../sass/list/_item.scss */
+/* line 167, ../sass/list/_item.scss */
 .backup-item.js-active .loader,
 .backup-item.js-active .error {
   color: #ffffff;

@@ -199,7 +199,6 @@
             detailNode.innerHTML = detailNodeTemplate.innerHTML;
             detailNode.className = detailNodeTemplate.getAttribute('rel');
             detailNode.style.display = 'none';
-
             detailNode.querySelector('.js-select-dir').addEventListener('click', _onSelectDirectory.bind(this));
             detailNode.querySelector('.js-file-tree').addEventListener('click', _onFileTreeClick.bind(this));
             var actions = detailNode.querySelectorAll('.js-action');
@@ -217,6 +216,7 @@
             {
                 tabs[index].addEventListener('click', _onTabClick.bind(this));
             }
+            _toggleTab.apply(this, [tabs[0]]);
         };
 
         /**
@@ -226,7 +226,15 @@
         var _onTabClick = function(evt)
         {
             evt.preventDefault();
-            var tab = evt.currentTarget;
+            _toggleTab.apply(this, [evt.currentTarget]);
+        };
+
+        /**
+         * Toggles the given tab
+         * @param tab
+         */
+        var _toggleTab = function(tab)
+        {
             if (tab.className.search('js-active') === -1)
             {
                 if (currentTab !== null)
@@ -235,8 +243,8 @@
                     currentTab.section.style.display = 'none';
                 }
                 currentTab = {};
-                currentTab.tab = evt.currentTarget;
-                currentTab.section = detailNode.querySelector('.js-section[rel="' + evt.currentTarget.getAttribute('rel') + '"]');
+                currentTab.tab = tab;
+                currentTab.section = detailNode.querySelector('.js-section[rel="' + tab.getAttribute('rel') + '"]');
                 currentTab.tab.className += ' js-active';
                 currentTab.section.style.display = 'block';
             }
