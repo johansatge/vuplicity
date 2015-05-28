@@ -1,7 +1,7 @@
 /**
  * App bootstrap
  */
-(function(require, js_path)
+(function(process, require, js_path)
 {
 
     'use strict';
@@ -34,7 +34,8 @@
         {
             app.dock.hide();
         }
-        config = new Configuration('/Users/johan/.vuplicity');
+        var config_path = process.env[process.platform !== 'win32' ? 'HOME' : 'USERPROFILE'].replace(/\/$/, '') + '/.vuplicity';
+        config = new Configuration(config_path);
         _initTray.apply(this);
         _initControlPanel.apply(this);
         _initIPC.apply(this);
@@ -388,4 +389,4 @@
     app.on('ready', _onAppReady);
     app.on('before-quit', _onBeforeQuit);
 
-})(require, __dirname);
+})(process, require, __dirname);
