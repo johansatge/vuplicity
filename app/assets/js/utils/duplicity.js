@@ -138,6 +138,7 @@
             if (cancelled)
             {
                 return 'User has cancelled.';
+                cancelled = false;
             }
             return stderr.replace(/[ \n\t]*/gm, '').length > 0 ? stderr.replace(/\n/g, '<br>') : false;
         };

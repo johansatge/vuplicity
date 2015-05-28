@@ -19,6 +19,7 @@
         var detailNode = null;
         var toggleCallback = null;
         var actionCallback = null;
+        var currentTab = null;
 
         /**
          * Inits the item
@@ -206,10 +207,38 @@
             {
                 actions[index].addEventListener('click', _onTriggerAction.bind(this));
             }
-            var toggles = detailNode.querySelectorAll('h2');
-            for (index = 0; index < toggles.length; index += 1)
+            var sections = detailNode.querySelectorAll('.js-section');
+            for (index = 0; index < sections.length; index += 1)
             {
-                toggles[index].addEventListener('click', _onToggleSection.bind(this));
+                sections[index].style.display = 'none';
+            }
+            var tabs = detailNode.querySelectorAll('.js-tab');
+            for (index = 0; index < tabs.length; index += 1)
+            {
+                tabs[index].addEventListener('click', _onTabClick.bind(this));
+            }
+        };
+
+        /**
+         * Clicks on a tab
+         * @param evt
+         */
+        var _onTabClick = function(evt)
+        {
+            evt.preventDefault();
+            var tab = evt.currentTarget;
+            if (tab.className.search('js-active') === -1)
+            {
+                if (currentTab !== null)
+                {
+                    currentTab.tab.className = currentTab.tab.className.replace('js-active', '');
+                    currentTab.section.style.display = 'none';
+                }
+                currentTab = {};
+                currentTab.tab = evt.currentTarget;
+                currentTab.section = detailNode.querySelector('.js-section[rel="' + evt.currentTarget.getAttribute('rel') + '"]');
+                currentTab.tab.className += ' js-active';
+                currentTab.section.style.display = 'block';
             }
         };
 
@@ -325,24 +354,6 @@
                     child_list.style.display = 'none';
                     tree_node.className += ' js-closed';
                 }
-            }
-        };
-
-        /**
-         * Toggles a section
-         * @param evt
-         */
-        var _onToggleSection = function(evt)
-        {
-            evt.preventDefault();
-            var section = evt.currentTarget.parentNode;
-            if (section.className.search('js-section-hidden') !== -1)
-            {
-                section.className = section.className.replace('js-section-hidden', '');
-            }
-            else
-            {
-                section.className += ' js-section-hidden';
             }
         };
 
