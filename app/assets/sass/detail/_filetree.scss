@@ -1,7 +1,11 @@
 .backup-filetree
 {
+    position              : absolute;
+    top                   : 42px;
+    left                  : 12px;
+    right                 : 12px;
+    bottom                : 12px;
     color                 : #333333;
-    height                : 200px;
     border                : 1px solid #dddddd;
     border-radius         : 3px;
     font-size             : 12px;
@@ -108,4 +112,5 @@
         }
 
     }
+
 }

@@ -14,10 +14,11 @@
 
     .section
     {
-        position : relative;
-        float    : left;
-        width    : 100%;
-        padding  : 12px 12px 6px 12px;
+        position   : relative;
+        float      : left;
+        width      : 100%;
+        padding    : 12px 12px 6px 12px;
+        min-height : 100%;
     }
 
     .buttons
