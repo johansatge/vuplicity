@@ -275,9 +275,10 @@
      */
     var _onRestoreBackupFile = function(evt, backup_id, path)
     {
+        var backup_data = config.getBackupData(backup_id);
         var params = {
             title: 'Select the restore destination',
-            defaultPath: '/Users/johan/Desktop' // @todo select current file path, if available
+            defaultPath: backup_data.path
         };
         dialog.showSaveDialog(controlPanelWindow.getWindow(), params, function(destination_path)
         {
@@ -286,7 +287,6 @@
                 return;
             }
             tray.setProcessing();
-            var backup_data = config.getBackupData(backup_id);
             controlPanelWindow.send('set-backup-ui', backup_id, 'processing', 'Restoring file...');
             _updateBackupHistory.apply(this, [backup_id, 'Restoring file...']);
             duplicityHelpers[backup_id] = new Duplicity();
@@ -317,9 +317,10 @@
      */
     var _onRestoreBackupTree = function(evt, backup_id)
     {
+        var backup_data = config.getBackupData(backup_id);
         var params = {
             title: 'Select the restore destination',
-            defaultPath: '/Users/johan/Desktop', // @todo select backup path, if available
+            defaultPath: backup_data.path,
             properties: ['openDirectory', 'createDirectory']
         };
         dialog.showOpenDialog(controlPanelWindow.getWindow(), params, function(destination_path)
@@ -329,7 +330,6 @@
                 return;
             }
             tray.setProcessing();
-            var backup_data = config.getBackupData(backup_id);
             controlPanelWindow.send('set-backup-ui', backup_id, 'processing', 'Restoring backup tree...');
             _updateBackupHistory.apply(this, [backup_id, 'Restoring all files...']);
             duplicityHelpers[backup_id] = new Duplicity();
