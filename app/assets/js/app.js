@@ -259,6 +259,7 @@
         {
             controlPanelWindow.send('set-backup-ui', backup_id, 'idle', '', false);
             _updateBackupHistory.apply(this, [backup_id, 'Settings saved.']);
+            controlPanelWindow.send('set-backup-options', backup_id, backup_data, false);
         }
         else
         {
