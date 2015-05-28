@@ -9,7 +9,7 @@ A cross-platform GUI for Duplicity backups, powered by Atom Electron.
 * [License](#license)
 * [Credits](#credits)
 
-![Screen capture](https://raw.github.com/johansatge/vuplicity/master/screenshot.png)
+![Vuplicity](https://raw.github.com/johansatge/vuplicity/master/screenshot.png)
 
 <a id="installation"></a>
 ## Installation
@@ -57,6 +57,8 @@ You can do most of the things duplicity provide:
 4. Browse the backup files
 5. Restore a single file to the specified location
 
+![Features](https://raw.github.com/johansatge/vuplicity/master/screenshot-features.png)
+
 The configuration of the GUI is stored in the following file: `~/.vuplicity`. Its content looks like this:
 
 ```json
@@ -101,21 +103,26 @@ Display the progression of a backup by using the `--progress` Duplicity option.
 
 *On my machine the progress does not show when using the cli tool, I'm a victim of the [ETA stalled bug](https://www.google.com/#q=duplicity+eta+stalled) - I will have to figure out why, before being able to develop this.*
 
+### Fix unsecure passphrases
+
+Passphrases are stored in clear text in the configuration file.
+
+It may be nice to encrypt the file and ask for the password when starting the GUI.
+
+### Interactive CLI
+
+For now, there is no way to interact with the CLI tool.
+
+For instance, when using the Dropbox backend, you have to load an authorization URL, and then tell the script to continue.
+
+This step has to be executed manually; when it's done, you will be able to use the GUI.
+
 <a id="changelog"></a>
 ## Changelog
 
 Version | Notes
 ------- | ---------------
 `1.0.0 beta` | Current version (work in progress)
-
-## Todos and known issues
-
-* Add updates checker
-  * Add an item in the cog contextuel menu
-  * Check to enable the feature
-  * Display the last version in the panel footer
-* Add MySQL Support
-* Add support to custom Apache installation (using Brew)
 
 <a id="license"></a>
 ## License
