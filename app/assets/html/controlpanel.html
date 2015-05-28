@@ -12,7 +12,7 @@
                 <h1 class="js-window-handler">Vuplicity</h1>
             </div>
             <div class="backups-list-wrapper">
-                <div class="backups-list js-backups-list"></div>
+                <div class="list js-backups-list"></div>
                 <div class="actions">
                     <button class="js-add-backup"><i class="fa fa-plus"></i></button>
                     <button class="js-remove-backup" disabled="disabled"><i class="fa fa-minus"></i></button>
@@ -39,8 +39,8 @@
                 <div class="progress" style="width: 100%"></div>
             </div>
         </script>
-        <script type="text/template" class="js-backup-detail-template" rel="backup-detail js-backup-detail">
-            <div class="tabs">
+        <script type="text/template" class="js-backup-detail-template" rel="detail js-backup-detail">
+            <div class="backup-tabs">
                 <button class="tab js-tab" rel="status">
                     Status
                 </button>
@@ -54,31 +54,29 @@
                     Automation
                 </button>
             </div>
-            <div class="history">
+            <div class="backup-history">
                 <button class="js-action" rel="clear-history">
                     <i class="fa fa-eraser"></i>
                     Clear
                 </button>
                 <pre class="js-history"></pre>
             </div>
-            <div class="sections">
+            <div class="backup-sections">
                 <div class="section js-section" rel="status">
-                    <h2 class="no-toggle">
-                        <div class="buttons">
-                            <button class="js-action" rel="restore-all">
-                                <i class="fa fa-cloud-download"></i>
-                                Restore...
-                            </button>
-                            <button class="js-action" rel="start-backup">
-                                <i class="fa fa-cloud-upload"></i>
-                                Backup...
-                            </button>
-                            <button class="js-action" rel="refresh-status">
-                                <i class="fa fa-refresh"></i>
-                                Refresh
-                            </button>
-                        </div>
-                    </h2>
+                    <div class="buttons">
+                        <button class="js-action" rel="restore-all">
+                            <i class="fa fa-cloud-download"></i>
+                            Restore...
+                        </button>
+                        <button class="js-action" rel="start-backup">
+                            <i class="fa fa-cloud-upload"></i>
+                            Backup...
+                        </button>
+                        <button class="js-action" rel="refresh-status">
+                            <i class="fa fa-refresh"></i>
+                            Refresh
+                        </button>
+                    </div>
                     <p class="col1">
                         Number of contained backup sets
                         <span class="right js-status" rel="backup_sets">--</span>
@@ -93,29 +91,25 @@
                     </p>
                 </div>
                 <div class="section js-section" rel="filetree">
-                    <h2>
-                        <div class="buttons">
-                            <button class="js-action" rel="refresh-file-tree">
-                                <i class="fa fa-refresh"></i>
-                                Refresh
-                            </button>
-                        </div>
-                    </h2>
+                    <div class="buttons">
+                        <button class="js-action" rel="refresh-file-tree">
+                            <i class="fa fa-refresh"></i>
+                            Refresh
+                        </button>
+                    </div>
                     <label class="col1">
-                        <div class="files">
+                        <div class="backup-filetree">
                             <ul class="js-file-tree"></ul>
                         </div>
                     </label>
                 </div>
                 <div class="section js-section" rel="settings">
-                    <h2>
-                        <div class="buttons">
-                            <button class="js-action" rel="save-settings">
-                                <i class="fa fa-floppy-o"></i>
-                                Save settings
-                            </button>
-                        </div>
-                    </h2>
+                    <div class="buttons">
+                        <button class="js-action" rel="save-settings">
+                            <i class="fa fa-floppy-o"></i>
+                            Save settings
+                        </button>
+                    </div>
                     <label class="col2 left">
                         Source path
                         <input type="text" class="js-option" rel="path">

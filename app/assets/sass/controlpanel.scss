@@ -1,5 +1,9 @@
 @import 'base';
 @import 'window';
-@import 'list_wrapper';
-@import 'list_item';
-@import 'detail';
+@import 'list/_wrapper';
+@import 'list/_item';
+@import 'detail/_wrapper';
+@import 'detail/_tabs';
+@import 'detail/_history';
+@import 'detail/_filetree';
+@import 'detail/_sections';
