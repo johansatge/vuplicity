@@ -1,6 +1,5 @@
 /**
- * Configuration manager
- * Errors are caught in the main process
+ * Configuration file manager
  * @todo refactor this and check file structure
  */
 (function(require, m)
@@ -44,7 +43,7 @@
          * @param id
          * @param data
          */
-        this.updateBackup = function(id, data)
+        this.updateBackup = function(id, data, callback)
         {
             var backups = this.getBackups();
             try
@@ -52,12 +51,13 @@
                 backups[id] = data;
                 fs.writeFileSync(path, JSON.stringify({backups: backups}), {encoding: 'utf8'});
                 items[id] = data;
-                return true;
+                callback(false);
+                return;
             }
             catch (error)
             {
             }
-            return false;
+            callback('Settings could not be written.');
         };
 
         /**

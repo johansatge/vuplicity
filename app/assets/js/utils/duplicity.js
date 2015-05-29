@@ -1,5 +1,5 @@
 /**
- * Duplicity helper
+ * Duplicity CLI helper
  */
 (function(require, m)
 {
@@ -82,15 +82,14 @@
                     if (match[1] !== 'undefined')
                     {
                         var path = match[1];
-                        if (path === '.' || path === '..')
+                        if (path !== '.' && path !== '..')
                         {
-                            continue;
+                            tree.push({
+                                path: path,
+                                dir: path.search('/') !== -1 ? path.substring(0, path.lastIndexOf('/')) : '.',
+                                name: path.substring(path.lastIndexOf('/') + 1)
+                            });
                         }
-                        tree.push({
-                            path: path,
-                            dir: path.search('/') !== -1 ? path.substring(0, path.lastIndexOf('/')) : '.',
-                            name: path.substring(path.lastIndexOf('/') + 1)
-                        });
                     }
                 }
                 callback(_parseError.apply(this, [stderr]), tree);
@@ -137,8 +136,8 @@
         {
             if (cancelled)
             {
-                return 'User has cancelled.';
                 cancelled = false;
+                return 'User has cancelled.';
             }
             return stderr.replace(/[ \n\t]*/gm, '').length > 0 ? stderr.replace(/\n/g, '<br>') : false;
         };
