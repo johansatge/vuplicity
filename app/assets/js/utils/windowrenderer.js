@@ -30,18 +30,10 @@
                 transparent: true
             });
             window.webContents.loadUrl(url);
-            window.on('closed', function()
-            {
-                window = null;
-            });
-            window.on('focus', function()
-            {
-                window.webContents.send('window-focus');
-            });
-            window.on('blur', function()
-            {
-                window.webContents.send('window-blur');
-            });
+            window.on('focus', _onWindowFocus.bind(this));
+            window.on('blur', _onWindowBlur.bind(this));
+            ipc.on('window-move', _onWindowMove.bind(this));
+            ipc.on('window-close', _onWindowClose.bind(this));
         };
 
         /**
@@ -52,7 +44,7 @@
             if (!window.isVisible())
             {
                 window.show();
-                window.openDevTools({detach: true});
+                window.openDevTools({detach: true}); // @todo dev mode only
             }
             else
             {
@@ -77,22 +69,37 @@
         };
 
         /**
-         * Sets the position of the window
-         * @param x
-         * @param y
+         * Window focus event
          */
-        this.setPosition = function(x, y)
+        var _onWindowFocus = function()
+        {
+            window.webContents.send('window-focus');
+        };
+
+        /**
+         * Window blur event
+         */
+        var _onWindowBlur = function()
+        {
+            window.webContents.send('window-blur');
+        };
+
+        /**
+         * Moves the control panel
+         */
+        var _onWindowMove = function(evt, x, y)
         {
             window.setPosition(x, y);
         };
 
         /**
-         * Hides the BrowserWindow object
+         * Closes the control panel
          */
-        this.hide = function()
+        var _onWindowClose = function()
         {
             window.hide();
         };
+
     };
 
     m.exports = module;

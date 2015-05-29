@@ -75,8 +75,6 @@
         ipc.on('restore-file', _onRestoreBackupFile.bind(this));
         ipc.on('restore-all', _onRestoreBackupTree.bind(this));
         ipc.on('start-backup', _onStartBackup.bind(this));
-        ipc.on('window-move', _onWindowMove.bind(this));
-        ipc.on('window-close', _onWindowClose.bind(this));
     };
 
     /**
@@ -288,22 +286,6 @@
         controlPanelWindow.send('set-backup-ui', backup_id, state, message);
         message = moment().format('YYYY-MM-DD HH:mm:ss') + '\n' + message;
         controlPanelWindow.send('set-backup-history', backup_id, message);
-    };
-
-    /**
-     * Moves the control panel
-     */
-    var _onWindowMove = function(evt, x, y)
-    {
-        controlPanelWindow.setPosition(x, y);
-    };
-
-    /**
-     * Closes the control panel
-     */
-    var _onWindowClose = function()
-    {
-        controlPanelWindow.hide();
     };
 
     /**
