@@ -12,7 +12,6 @@
 
         var backupListTemplate = document.querySelector('.js-backup-list-template');
         var detailNodeTemplate = document.querySelector('.js-backup-detail-template');
-        var treeNodeTemplate = document.querySelector('.js-backup-filetree-template');
 
         var id = backup_id;
         var itemNode = null;
@@ -20,6 +19,7 @@
         var toggleCallback = null;
         var actionCallback = null;
         var currentTab = null;
+        var filetree = null;
 
         /**
          * Inits the item
@@ -40,41 +40,7 @@
          */
         this.updateFileTree = function(tree)
         {
-            var current_dir_node = detailNode.querySelector('.js-file-tree');
-            current_dir_node.innerHTML = '';
-            var current_hierarchy = ['.'];
-            for (var index = 0; index < tree.length; index += 1)
-            {
-                var file = tree[index];
-                var file_node = document.createElement('li');
-                current_dir_node.appendChild(file_node);
-                file_node.className += ' js-file';
-                file_node.innerHTML = treeNodeTemplate.innerHTML.replace('{{name}}', file.name);
-                file_node.setAttribute('rel', file.path);
-                if (index < tree.length - 1)
-                {
-                    var next_file = tree[index + 1];
-                    if (next_file.dir !== current_hierarchy[current_hierarchy.length - 1])
-                    {
-                        if (current_hierarchy.indexOf(next_file.dir) === -1)
-                        {
-                            var subdir_node = document.createElement('ul');
-                            file_node.appendChild(subdir_node);
-                            file_node.className += ' js-dir';
-                            current_dir_node = subdir_node;
-                            current_hierarchy.push(next_file.dir);
-                        }
-                        else
-                        {
-                            while (next_file.dir !== current_hierarchy[current_hierarchy.length - 1])
-                            {
-                                current_dir_node = current_dir_node.parentNode.parentNode;
-                                current_hierarchy.pop();
-                            }
-                        }
-                    }
-                }
-            }
+            filetree.update(tree);
         };
 
         /**
@@ -191,7 +157,6 @@
             detailNode.className = detailNodeTemplate.getAttribute('rel');
             detailNode.style.display = 'none';
             detailNode.querySelector('.js-select-dir').addEventListener('click', _onSelectDirectory.bind(this));
-            detailNode.querySelector('.js-file-tree').addEventListener('click', _onFileTreeClick.bind(this));
             detailNode.querySelector('.js-clear-history').addEventListener('click', _onClearHistory.bind(this));
             var actions = detailNode.querySelectorAll('.js-action');
             for (var index = 0; index < actions.length; index += 1)
@@ -208,7 +173,18 @@
             {
                 tabs[index].addEventListener('click', _onTabClick.bind(this));
             }
+            filetree = new FileTree();
+            filetree.init(detailNode.querySelector('.js-file-tree'), _onRestoreFile.bind(this));
             _toggleTab.apply(this, [tabs[0]]);
+        };
+
+        /**
+         * Restores a file from the filetree
+         * @param path
+         */
+        var _onRestoreFile = function(path)
+        {
+            actionCallback('restore-file', id, path);
         };
 
         /**
@@ -329,47 +305,9 @@
             itemNode.className = itemNode.className.replace('js-error', '');
         };
 
-        /**
-         * Handles clicks on the file tree
-         * @param evt
-         */
-        var _onFileTreeClick = function(evt)
-        {
-            evt.preventDefault();
-            if (evt.target.className.search('js-restore') !== -1)
-            {
-                actionCallback('restore-file', id, evt.target.parentNode.parentNode.getAttribute('rel'));
-            }
-            if (evt.target.className.search('js-toggle') !== -1)
-            {
-                _toggleFileTreeNode.apply(this, [evt.target.parentNode]);
-            }
-        };
-
-        /**
-         * Toggles the given tree
-         * @param tree_node
-         */
-        var _toggleFileTreeNode = function(tree_node)
-        {
-            var child_list = tree_node.querySelector('ul');
-            if (child_list !== null)
-            {
-                if (child_list.style.display === 'none')
-                {
-                    child_list.style.display = 'block';
-                    tree_node.className = tree_node.className.replace('js-closed', '');
-                }
-                else
-                {
-                    child_list.style.display = 'none';
-                    tree_node.className += ' js-closed';
-                }
-            }
-        };
 
     };
 
     window.BackupItem = module;
 
-})(window, document);
+})(window, document, FileTree);
