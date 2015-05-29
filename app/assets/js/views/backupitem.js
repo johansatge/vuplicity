@@ -32,6 +32,7 @@
             actionCallback = action_callback;
             _initItemNode.apply(this);
             _initDetailNode.apply(this);
+            _initFileTree.apply(this);
         };
 
         /**
@@ -148,7 +149,7 @@
         };
 
         /**
-         * Inits the detail node (config, file tree, etc)
+         * Inits the detail node (tabs view)
          */
         var _initDetailNode = function()
         {
@@ -163,19 +164,21 @@
             {
                 actions[index].addEventListener('click', _onTriggerAction.bind(this));
             }
-            var sections = detailNode.querySelectorAll('.js-section');
-            for (index = 0; index < sections.length; index += 1)
-            {
-                sections[index].style.display = 'none';
-            }
             var tabs = detailNode.querySelectorAll('.js-tab');
             for (index = 0; index < tabs.length; index += 1)
             {
                 tabs[index].addEventListener('click', _onTabClick.bind(this));
             }
+            _toggleTab.apply(this, [tabs[0]]);
+        };
+
+        /**
+         * Inits backup tree
+         */
+        var _initFileTree = function()
+        {
             filetree = new FileTree();
             filetree.init(detailNode.querySelector('.js-file-tree'), _onRestoreFile.bind(this));
-            _toggleTab.apply(this, [tabs[0]]);
         };
 
         /**
@@ -242,10 +245,7 @@
             var is_visible = itemNode.className.search('js-active') !== -1;
             itemNode.className = is_visible ? itemNode.className.replace('js-active', '') : itemNode.className + ' js-active';
             detailNode.style.display = is_visible ? 'none' : 'block';
-            if (toggleCallback !== null)
-            {
-                toggleCallback(id, !is_visible);
-            }
+            toggleCallback(id, !is_visible);
         };
 
         /**

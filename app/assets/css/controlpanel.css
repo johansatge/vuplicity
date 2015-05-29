@@ -566,17 +566,18 @@ html, body {
 }
 /* line 15, ../sass/detail/_sections.scss */
 .backup-sections .section {
+  display: none;
   position: relative;
   float: left;
   width: 100%;
   padding: 12px 12px 6px 12px;
   min-height: 100%;
 }
-/* line 24, ../sass/detail/_sections.scss */
+/* line 25, ../sass/detail/_sections.scss */
 .backup-sections .buttons {
   width: 100%;
 }
-/* line 28, ../sass/detail/_sections.scss */
+/* line 29, ../sass/detail/_sections.scss */
 .backup-sections .buttons button {
   float: left;
   background: linear-gradient(to bottom, #fefefe, #f2f2f2);
@@ -588,15 +589,15 @@ html, body {
   color: #646464;
   margin: 0 5px 0 0;
 }
-/* line 40, ../sass/detail/_sections.scss */
+/* line 41, ../sass/detail/_sections.scss */
 .backup-sections .buttons button i {
   margin: 0 4px 0 0;
 }
-/* line 45, ../sass/detail/_sections.scss */
+/* line 46, ../sass/detail/_sections.scss */
 .backup-sections .buttons button:active {
   background: linear-gradient(to top, #fefefe, #fafafa);
 }
-/* line 52, ../sass/detail/_sections.scss */
+/* line 53, ../sass/detail/_sections.scss */
 .backup-sections label,
 .backup-sections p {
   cursor: default;
@@ -604,28 +605,28 @@ html, body {
   position: relative;
   font-size: 13px;
 }
-/* line 60, ../sass/detail/_sections.scss */
+/* line 61, ../sass/detail/_sections.scss */
 .backup-sections label .right,
 .backup-sections p .right {
   float: right;
 }
-/* line 66, ../sass/detail/_sections.scss */
+/* line 67, ../sass/detail/_sections.scss */
 .backup-sections .col1 {
   float: left;
   width: 100%;
   margin: 0 0 12px 0;
 }
-/* line 73, ../sass/detail/_sections.scss */
+/* line 74, ../sass/detail/_sections.scss */
 .backup-sections .col2 {
   float: left;
   width: 49%;
   margin: 0 0 12px 0;
 }
-/* line 79, ../sass/detail/_sections.scss */
+/* line 80, ../sass/detail/_sections.scss */
 .backup-sections .col2.left {
   margin-right: 2%;
 }
-/* line 85, ../sass/detail/_sections.scss */
+/* line 86, ../sass/detail/_sections.scss */
 .backup-sections input[type="text"],
 .backup-sections input[type="password"] {
   color: #282828;
@@ -640,7 +641,7 @@ html, body {
   padding: 0 5px 0 5px;
   font-weight: 400;
 }
-/* line 101, ../sass/detail/_sections.scss */
+/* line 102, ../sass/detail/_sections.scss */
 .backup-sections select {
   color: #282828;
   width: 100%;
@@ -653,7 +654,7 @@ html, body {
   padding: 0 5px 0 5px;
   font-weight: 400;
 }
-/* line 115, ../sass/detail/_sections.scss */
+/* line 116, ../sass/detail/_sections.scss */
 .backup-sections input[type="radio"] {
   position: relative;
   -webkit-appearance: none;
@@ -665,11 +666,11 @@ html, body {
   float: left;
   margin: 2px 4px 0 0;
 }
-/* line 127, ../sass/detail/_sections.scss */
+/* line 128, ../sass/detail/_sections.scss */
 .backup-sections input[type="radio"]:disabled {
   opacity: 0.5;
 }
-/* line 132, ../sass/detail/_sections.scss */
+/* line 133, ../sass/detail/_sections.scss */
 .backup-sections input[type="radio"]:checked:after {
   content: ' ';
   display: block;
@@ -681,7 +682,7 @@ html, body {
   background: linear-gradient(to bottom, #7ebfdf, #759fda);
   border-radius: 50%;
 }
-/* line 146, ../sass/detail/_sections.scss */
+/* line 147, ../sass/detail/_sections.scss */
 .backup-sections .input-icon {
   color: #282828;
   background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, white 40%);
