@@ -138,7 +138,7 @@
         {
             if (typeof paths !== 'undefined')
             {
-                controlPanelWindow.send('directory-selected', paths[0], backup_id);
+                controlPanelWindow.send('set-backup-path', paths[0], backup_id);
             }
         });
     };

@@ -10,6 +10,7 @@
     var backups = {};
     var backupsListNode = null;
     var backupsDetailNode = null;
+    var addBackupNode = null;
     var removeBackupNode = null;
     var currentBackupID = null;
 
@@ -30,6 +31,7 @@
     {
         backupsListNode = document.querySelector('.js-backups-list');
         backupsDetailNode = document.querySelector('.js-backups-detail');
+        addBackupNode = document.querySelector('.js-add-backup');
         removeBackupNode = document.querySelector('.js-remove-backup');
     };
 
@@ -38,15 +40,15 @@
      */
     var _initEvents = function()
     {
-        document.querySelector('.js-add-backup').addEventListener('click', _onCreateNewBackup.bind(this));
+        addBackupNode.addEventListener('click', _onCreateNewBackup.bind(this));
         removeBackupNode.addEventListener('click', _onRequestBackupDeletion.bind(this));
         ipc.on('set-backup-options', _onSetBackupOptions.bind(this));
-        ipc.on('directory-selected', _onSelectedBackupDirectory.bind(this));
-        ipc.on('confirm-backup-deletion', _onConfirmBackupDeletion.bind(this));
+        ipc.on('set-backup-path', _onSetBackupPath.bind(this));
         ipc.on('set-backup-status', _onSetBackupStatus.bind(this));
         ipc.on('set-backup-ui', _onSetBackupUI.bind(this));
         ipc.on('set-backup-file-tree', _onSetBackupFileTree.bind(this));
         ipc.on('set-backup-history', _onSetBackupHistory.bind(this));
+        ipc.on('confirm-backup-deletion', _onConfirmBackupDeletion.bind(this));
     };
 
     /**
@@ -126,11 +128,11 @@
     };
 
     /**
-     * Updates the needed backup item when a directory has been selected
+     * Updates the needed backup item when a directory has been selected in the "open" dialog
      * @param path
      * @param id
      */
-    var _onSelectedBackupDirectory = function(path, id)
+    var _onSetBackupPath = function(path, id)
     {
         backups[id].updateOptions({path: path});
     };
@@ -141,11 +143,8 @@
      */
     var _onRequestBackupDeletion = function(evt)
     {
-        if (currentBackupID !== null)
-        {
-            evt.preventDefault();
-            ipc.send('request-backup-deletion', currentBackupID);
-        }
+        evt.preventDefault();
+        ipc.send('request-backup-deletion', currentBackupID);
     };
 
     /**
