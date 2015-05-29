@@ -56,16 +56,8 @@
      */
     var _initTray = function()
     {
-        var tray_label = app.getName() + ' ' + app.getVersion();
-        var idle_icon = {
-            normal: appPath + '/assets/css/images/tray.png',
-            pressed: appPath + '/assets/css/images/tray_pressed.png'
-        };
-        var process_icon = {
-            normal: appPath + '/assets/css/images/tray_process.png',
-            pressed: appPath + '/assets/css/images/tray_process_pressed.png'
-        };
-        tray = new CustomTray(tray_label, idle_icon, process_icon, _onControlPanelShow.bind(this), _onQuitFromTray.bind(this));
+        var label = app.getName() + ' ' + app.getVersion();
+        tray = new CustomTray(label, appPath + '/assets/css/images', _onControlPanelShow.bind(this), _onQuitFromTray.bind(this));
     };
 
     /**

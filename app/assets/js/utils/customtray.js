@@ -13,11 +13,16 @@
     var idleIcon = null;
     var processIcon = null;
 
-    var module = function(label, idle_icon, process_icon, controlPanelCallback, quitCallback)
+    var module = function(label, icons_path, controlPanelCallback, quitCallback)
     {
-        idleIcon = idle_icon;
-        processIcon = process_icon;
-
+        idleIcon = {
+            normal: icons_path + '/tray.png',
+            pressed: icons_path + '/tray_pressed.png'
+        };
+        processIcon = {
+            normal: icons_path + '/tray_process.png',
+            pressed: icons_path + '/tray_process_pressed.png'
+        };
         tray = new Tray(idleIcon.normal);
         tray.setToolTip(label);
         tray.setPressedImage(idleIcon.pressed);
