@@ -171,14 +171,7 @@
      */
     var _onTriggerBackupAction = function(action, id, data)
     {
-        if (action === 'clear-history')
-        {
-            backups[id].clearHistory();
-        }
-        else
-        {
-            ipc.send(action, id, data);
-        }
+        ipc.send(action, id, data);
     };
 
     /**

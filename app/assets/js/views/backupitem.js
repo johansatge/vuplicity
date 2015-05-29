@@ -155,15 +155,6 @@
         };
 
         /**
-         * Clears the item history
-         */
-        this.clearHistory = function()
-        {
-            detailNode.querySelector('.js-history').innerHTML = '';
-            itemNode.className = itemNode.className.replace('js-error', '');
-        };
-
-        /**
          * Updates history
          * @param history
          */
@@ -201,6 +192,7 @@
             detailNode.style.display = 'none';
             detailNode.querySelector('.js-select-dir').addEventListener('click', _onSelectDirectory.bind(this));
             detailNode.querySelector('.js-file-tree').addEventListener('click', _onFileTreeClick.bind(this));
+            detailNode.querySelector('.js-clear-history').addEventListener('click', _onClearHistory.bind(this));
             var actions = detailNode.querySelectorAll('.js-action');
             for (var index = 0; index < actions.length; index += 1)
             {
@@ -324,6 +316,17 @@
         {
             evt.preventDefault();
             actionCallback('select-directory', id, _getCurrentOptions.apply(this));
+        };
+
+        /**
+         * Clears the history
+         * @param evt
+         */
+        var _onClearHistory = function(evt)
+        {
+            evt.preventDefault();
+            detailNode.querySelector('.js-history').innerHTML = '';
+            itemNode.className = itemNode.className.replace('js-error', '');
         };
 
         /**
