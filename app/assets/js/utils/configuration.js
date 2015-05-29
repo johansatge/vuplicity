@@ -63,20 +63,22 @@
         /**
          * Deletes a backup
          * @param id
+         * @param callback
          */
-        this.deleteBackup = function(id)
+        this.deleteBackup = function(id, callback)
         {
             var backups = this.getBackups();
             try
             {
                 delete backups[id];
                 fs.writeFileSync(path, JSON.stringify({backups: backups}), {encoding: 'utf8'});
-                return true;
+                callback(false);
+                return;
             }
             catch (error)
             {
             }
-            return false;
+            callback('Settings could not be written.');
         };
 
         /**

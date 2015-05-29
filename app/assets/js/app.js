@@ -160,15 +160,19 @@
         {
             if (response === 0)
             {
-                if (config.deleteBackup(backup_id))
+                _setBackupUI.apply(this, [backup_id, 'processing', 'Deleting backup...']);
+                config.deleteBackup(backup_id, function(error)
                 {
-                    controlPanelWindow.send('confirm-backup-deletion', backup_id);
-                    delete duplicityHelpers[backup_id];
-                }
-                else
-                {
-                    dialog.showErrorBox('The settings could not be written.', 'Please check that the app can write in the file and retry.');
-                }
+                    if (error === false)
+                    {
+                        controlPanelWindow.send('confirm-backup-deletion', backup_id);
+                        delete duplicityHelpers[backup_id];
+                    }
+                    else
+                    {
+                        _setBackupUI.apply(this, [backup_id, 'idle', error]);
+                    }
+                });
             }
         });
     };
