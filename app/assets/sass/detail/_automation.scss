@@ -43,11 +43,6 @@
         }
     }
 
-    .right
-    {
-        float : right;
-    }
-
     label
     {
         display : block;
@@ -57,12 +52,19 @@
 
     .select
     {
-        display       : inline-block;
+        float         : left;
         position      : relative;
         border        : 1px solid #dddddd;
         box-shadow    : inset 0 1px 0 #ffffff;
         background    : linear-gradient(to bottom, #fefefe, #f2f2f2);
         border-radius : 3px;
+        margin        : 0 5px 0 0;
+
+        &.right
+        {
+            float  : right;
+            margin : 0 0 0 5px;
+        }
 
         select
         {

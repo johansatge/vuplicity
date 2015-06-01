@@ -156,7 +156,7 @@
                 </button>
             </span>
         </script>
-        <script type="text/template" class="js-automation-template" rel="item">
+        <script type="text/template" class="js-automation-template" rel="item js-item">
             <div class="col1">
                 <div class="select">
                     <select>
@@ -170,29 +170,74 @@
             </div>
             <div class="col1">
                 <div class="select">
-                    <select>
-                        <option>Every</option>
-                        <option>At</option>
+                    <select class="js-toggle" rel="js-interval">
+                        <option value="every">Every</option>
+                        <option value="at">At</option>
                     </select>
                 </div>
-                <div class="select">
+                <div class="select js-interval" rel="every">
                     <select>
-                        <option>30</option>
+                        <option value="15">15 minutes</option>
+                        <option value="30">30 minutes</option>
+                        <option value="45">45 minutes</option>
+                        <option value="60">1 hour</option>
+                        <option value="120">2 hours</option>
+                        <option value="180">3 hours</option>
+                        <option value="240">4 hours</option>
                     </select>
                 </div>
-                <div class="select">
+                <div class="select js-interval" rel="at">
                     <select>
-                        <option>minutes</option>
+                        <option value="00">00h</option>
+                        <option value="01">01h</option>
+                        <option value="02">02h</option>
+                        <option value="03">03h</option>
+                        <option value="04">04h</option>
+                        <option value="05">05h</option>
+                        <option value="06">06h</option>
+                        <option value="07">07h</option>
+                        <option value="08">08h</option>
+                        <option value="09">09h</option>
+                        <option value="10">10h</option>
+                        <option value="11">11h</option>
+                        <option value="12">12h</option>
+                        <option value="13">13h</option>
+                        <option value="14">14h</option>
+                        <option value="15">15h</option>
+                        <option value="16">16h</option>
+                        <option value="17">17h</option>
+                        <option value="18">18h</option>
+                        <option value="19">19h</option>
+                        <option value="20">20h</option>
+                        <option value="21">21h</option>
+                        <option value="22">22h</option>
+                        <option value="23">23h</option>
+                    </select>
+                </div>
+                <div class="select js-interval" rel="at">
+                    <select>
+                        <option value="00">00mn</option>
+                        <option value="05">05mn</option>
+                        <option value="10">10mn</option>
+                        <option value="15">15mn</option>
+                        <option value="20">20mn</option>
+                        <option value="25">25mn</option>
+                        <option value="30">30mn</option>
+                        <option value="35">35mn</option>
+                        <option value="40">40mn</option>
+                        <option value="45">45mn</option>
+                        <option value="50">50mn</option>
+                        <option value="55">55mn</option>
                     </select>
                 </div>
                 <div class="select right">
-                    <select class="js-basis">
+                    <select class="js-toggle" rel="js-basis">
                         <option value="weekly">On a weekly basis</option>
                         <option value="monthly">On a monthly basis</option>
                     </select>
                 </div>
             </div>
-            <div class="js-basis-target" rel="weekly">
+            <div class="js-basis" rel="weekly">
                 <div class="col3 left">
                     <label>
                         <input type="checkbox" checked>Monday
@@ -221,7 +266,7 @@
                     </label>
                 </div>
             </div>
-            <div class="js-basis-target" rel="monthly">
+            <div class="js-basis" rel="monthly">
                 <div class="col6 left">
                     <label><input type="checkbox" checked>01</label>
                     <label><input type="checkbox" checked>02</label>

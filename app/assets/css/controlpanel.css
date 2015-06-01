@@ -591,25 +591,27 @@ html, body {
   background: linear-gradient(to top, #fefefe, #f2f2f2);
 }
 /* line 46, ../sass/detail/_automation.scss */
-.backup-automation .right {
-  float: right;
-}
-/* line 51, ../sass/detail/_automation.scss */
 .backup-automation label {
   display: block;
   width: 100%;
   margin: 0 0 5px 0;
 }
-/* line 58, ../sass/detail/_automation.scss */
+/* line 53, ../sass/detail/_automation.scss */
 .backup-automation .select {
-  display: inline-block;
+  float: left;
   position: relative;
   border: 1px solid #dddddd;
   box-shadow: inset 0 1px 0 #ffffff;
   background: linear-gradient(to bottom, #fefefe, #f2f2f2);
   border-radius: 3px;
+  margin: 0 5px 0 0;
 }
-/* line 67, ../sass/detail/_automation.scss */
+/* line 63, ../sass/detail/_automation.scss */
+.backup-automation .select.right {
+  float: right;
+  margin: 0 0 0 5px;
+}
+/* line 69, ../sass/detail/_automation.scss */
 .backup-automation .select select {
   color: #646464;
   height: 24px;
@@ -619,7 +621,7 @@ html, body {
   -webkit-appearance: none;
   background: transparent;
 }
-/* line 78, ../sass/detail/_automation.scss */
+/* line 80, ../sass/detail/_automation.scss */
 .backup-automation .select:after {
   position: absolute;
   top: 7px;
@@ -629,7 +631,7 @@ html, body {
   color: #c7c7c7;
   font-size: 11px;
 }
-/* line 90, ../sass/detail/_automation.scss */
+/* line 92, ../sass/detail/_automation.scss */
 .backup-automation input[type="checkbox"] {
   position: relative;
   float: left;
@@ -642,11 +644,11 @@ html, body {
   background: #ffffff;
   box-shadow: inset 0 1px 0 #f6f6f6;
 }
-/* line 103, ../sass/detail/_automation.scss */
+/* line 105, ../sass/detail/_automation.scss */
 .backup-automation input[type="checkbox"]:active {
   background: #f3f3f3;
 }
-/* line 108, ../sass/detail/_automation.scss */
+/* line 110, ../sass/detail/_automation.scss */
 .backup-automation input[type="checkbox"]:checked:after {
   position: absolute;
   top: 1px;

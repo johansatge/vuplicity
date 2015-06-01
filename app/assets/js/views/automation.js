@@ -45,23 +45,27 @@
             item.innerHTML = itemTemplate.innerHTML;
             item.className = itemTemplate.getAttribute('rel');
             automationNode.querySelector('.js-items').appendChild(item);
-            var basis = item.querySelector('.js-basis');
-            basis.addEventListener('change', _onUpdateRuleBasis.bind(this));
-            basis.dispatchEvent(new Event('change'));
             item.querySelector('.js-remove').addEventListener('click', _onRemoveRule.bind(this));
+            var toggles = item.querySelectorAll('.js-toggle');
+            for (var index = 0; index < toggles.length; index += 1)
+            {
+                toggles[index].addEventListener('change', _onToggle.bind(this));
+                toggles[index].dispatchEvent(new Event('change'));
+            }
         };
 
         /**
-         * Updates rule basis (weekly, monthly, ...)
+         * Toggles a select
          * @param evt
          */
-        var _onUpdateRuleBasis = function(evt)
+        var _onToggle = function(evt)
         {
-            var basis = evt.currentTarget.value;
-            var choices = evt.currentTarget.parentNode.parentNode.parentNode.querySelectorAll('.js-basis-target');
-            for (var index = 0; index < choices.length; index += 1)
+            var value = evt.currentTarget.value;
+            var toggle_name = evt.currentTarget.getAttribute('rel');
+            var items = _closest.apply(this, [evt.currentTarget, 'js-item']).querySelectorAll('.' + toggle_name);
+            for (var index = 0; index < items.length; index += 1)
             {
-                choices[index].style.display = choices[index].getAttribute('rel') === basis ? 'block' : 'none';
+                items[index].style.display = items[index].getAttribute('rel') === value ? 'block' : 'none';
             }
         };
 
@@ -74,6 +78,20 @@
             evt.preventDefault();
             var item = evt.currentTarget.parentNode.parentNode;
             item.parentNode.removeChild(item);
+        };
+
+        /**
+         * Gets the closest node depending on the given classname
+         * @param node
+         * @param classname
+         */
+        var _closest = function(node, classname)
+        {
+            while (node.className.search(classname) === -1)
+            {
+                node = node.parentNode;
+            }
+            return node;
         };
 
     };
