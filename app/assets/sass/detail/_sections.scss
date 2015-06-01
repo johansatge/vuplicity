@@ -24,7 +24,8 @@
 
     .buttons
     {
-        width : 100%;
+        width  : 100%;
+        height : 26px;
 
         button
         {
@@ -45,7 +46,7 @@
 
             &:active
             {
-                background : linear-gradient(to top, #fefefe, #fafafa);
+                background : linear-gradient(to top, #fefefe, #f2f2f2);
             }
         }
     }
@@ -57,11 +58,6 @@
         color     : #646464;
         position  : relative;
         font-size : 13px;
-
-        .right
-        {
-            float : right;
-        }
     }
 
     .col1
@@ -69,12 +65,30 @@
         float  : left;
         width  : 100%;
         margin : 0 0 12px 0;
+
+        &.hr
+        {
+            border-bottom : 1px solid #dddddd;
+            padding       : 0 0 12px 0;
+        }
     }
 
     .col2
     {
         float  : left;
         width  : 49%;
+        margin : 0 0 12px 0;
+
+        &.left
+        {
+            margin-right : 2%;
+        }
+    }
+
+    .col3
+    {
+        float  : left;
+        width  : 32%;
         margin : 0 0 12px 0;
 
         &.left
@@ -97,51 +111,6 @@
         box-shadow    : inset 0 1px 0 #f6f6f6;
         padding       : 0 5px 0 5px;
         font-weight   : 400;
-    }
-
-    select
-    {
-        color         : #282828;
-        width         : 100%;
-        height        : 28px;
-        border        : 1px solid #dddddd;
-        border-radius : 3px;
-        font-size     : 12px;
-        margin        : 5px 0 0 0;
-        background    : linear-gradient(to bottom, #ffffff, #fafafa);
-        padding       : 0 5px 0 5px;
-        font-weight   : 400;
-    }
-
-    input[type="radio"]
-    {
-        position           : relative;
-        -webkit-appearance : none;
-        width              : 14px;
-        height             : 14px;
-        border             : 1px solid #cbcbcb;
-        border-radius      : 50%;
-        background         : linear-gradient(to top, #ffffff, #fafafa);
-        float              : left;
-        margin             : 2px 4px 0 0;
-
-        &:disabled
-        {
-            opacity : 0.5;
-        }
-
-        &:checked:after
-        {
-            content       : ' ';
-            display       : block;
-            position      : absolute;
-            top           : 2px;
-            left          : 2px;
-            width         : 8px;
-            height        : 8px;
-            background    : linear-gradient(to bottom, #7ebfdf, #759fda);
-            border-radius : 50%;
-        }
     }
 
     .input-icon

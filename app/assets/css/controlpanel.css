@@ -550,6 +550,104 @@ html, body {
   font-size: 10px;
 }
 
+/* line 1, ../sass/detail/_automation.scss */
+.backup-automation {
+  margin: 12px 0 0 0;
+}
+/* line 6, ../sass/detail/_automation.scss */
+.backup-automation .item {
+  position: relative;
+  float: left;
+  background: #ffffff;
+  padding: 12px 12px 0 12px;
+  border: 1px solid #dddddd;
+  border-radius: 3px;
+  font-size: 12px;
+  box-shadow: inset 0 1px 0 #f6f6f6;
+  overflow: hidden;
+}
+/* line 19, ../sass/detail/_automation.scss */
+.backup-automation button {
+  float: right;
+  background: linear-gradient(to bottom, #fefefe, #f2f2f2);
+  padding: 2px 6px 3px 6px;
+  border: 1px solid #dddddd;
+  box-shadow: inset 0 1px 0 #ffffff;
+  border-radius: 3px;
+  font-size: 14px;
+  color: #646464;
+}
+/* line 30, ../sass/detail/_automation.scss */
+.backup-automation button:active {
+  background: linear-gradient(to top, #fefefe, #f2f2f2);
+}
+/* line 36, ../sass/detail/_automation.scss */
+.backup-automation .right {
+  float: right;
+}
+/* line 41, ../sass/detail/_automation.scss */
+.backup-automation label {
+  display: block;
+  width: 100%;
+  margin: 0 0 5px 0;
+}
+/* line 48, ../sass/detail/_automation.scss */
+.backup-automation .select {
+  display: inline-block;
+  position: relative;
+  border: 1px solid #dddddd;
+  box-shadow: inset 0 1px 0 #ffffff;
+  background: linear-gradient(to bottom, #fefefe, #f2f2f2);
+  border-radius: 3px;
+}
+/* line 57, ../sass/detail/_automation.scss */
+.backup-automation .select select {
+  color: #646464;
+  height: 24px;
+  font-size: 12px;
+  padding: 0 22px 0 5px;
+  line-height: 12px;
+  -webkit-appearance: none;
+  background: transparent;
+}
+/* line 68, ../sass/detail/_automation.scss */
+.backup-automation .select:after {
+  position: absolute;
+  top: 7px;
+  right: 6px;
+  content: '\f078';
+  font-family: "FontAwesome", sans-serif;
+  color: #c7c7c7;
+  font-size: 11px;
+}
+/* line 80, ../sass/detail/_automation.scss */
+.backup-automation input[type="checkbox"] {
+  position: relative;
+  float: left;
+  margin: 2px 4px 0 0;
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border: 1px solid #dddddd;
+  border-radius: 3px;
+  background: #ffffff;
+  box-shadow: inset 0 1px 0 #f6f6f6;
+}
+/* line 93, ../sass/detail/_automation.scss */
+.backup-automation input[type="checkbox"]:active {
+  background: #f3f3f3;
+}
+/* line 98, ../sass/detail/_automation.scss */
+.backup-automation input[type="checkbox"]:checked:after {
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  font-size: 10px;
+  font-family: "FontAwesome", sans-serif;
+  content: '\f00c';
+  color: #76a0db;
+}
+
 /* line 1, ../sass/detail/_sections.scss */
 .backup-sections {
   z-index: 1;
@@ -576,8 +674,9 @@ html, body {
 /* line 25, ../sass/detail/_sections.scss */
 .backup-sections .buttons {
   width: 100%;
+  height: 26px;
 }
-/* line 29, ../sass/detail/_sections.scss */
+/* line 30, ../sass/detail/_sections.scss */
 .backup-sections .buttons button {
   float: left;
   background: linear-gradient(to bottom, #fefefe, #f2f2f2);
@@ -589,15 +688,15 @@ html, body {
   color: #646464;
   margin: 0 5px 0 0;
 }
-/* line 41, ../sass/detail/_sections.scss */
+/* line 42, ../sass/detail/_sections.scss */
 .backup-sections .buttons button i {
   margin: 0 4px 0 0;
 }
-/* line 46, ../sass/detail/_sections.scss */
+/* line 47, ../sass/detail/_sections.scss */
 .backup-sections .buttons button:active {
-  background: linear-gradient(to top, #fefefe, #fafafa);
+  background: linear-gradient(to top, #fefefe, #f2f2f2);
 }
-/* line 53, ../sass/detail/_sections.scss */
+/* line 54, ../sass/detail/_sections.scss */
 .backup-sections label,
 .backup-sections p {
   cursor: default;
@@ -605,28 +704,38 @@ html, body {
   position: relative;
   font-size: 13px;
 }
-/* line 61, ../sass/detail/_sections.scss */
-.backup-sections label .right,
-.backup-sections p .right {
-  float: right;
-}
-/* line 67, ../sass/detail/_sections.scss */
+/* line 63, ../sass/detail/_sections.scss */
 .backup-sections .col1 {
   float: left;
   width: 100%;
   margin: 0 0 12px 0;
 }
-/* line 74, ../sass/detail/_sections.scss */
+/* line 69, ../sass/detail/_sections.scss */
+.backup-sections .col1.hr {
+  border-bottom: 1px solid #dddddd;
+  padding: 0 0 12px 0;
+}
+/* line 76, ../sass/detail/_sections.scss */
 .backup-sections .col2 {
   float: left;
   width: 49%;
   margin: 0 0 12px 0;
 }
-/* line 80, ../sass/detail/_sections.scss */
+/* line 82, ../sass/detail/_sections.scss */
 .backup-sections .col2.left {
   margin-right: 2%;
 }
-/* line 86, ../sass/detail/_sections.scss */
+/* line 88, ../sass/detail/_sections.scss */
+.backup-sections .col3 {
+  float: left;
+  width: 32%;
+  margin: 0 0 12px 0;
+}
+/* line 94, ../sass/detail/_sections.scss */
+.backup-sections .col3.left {
+  margin-right: 2%;
+}
+/* line 100, ../sass/detail/_sections.scss */
 .backup-sections input[type="text"],
 .backup-sections input[type="password"] {
   color: #282828;
@@ -641,48 +750,7 @@ html, body {
   padding: 0 5px 0 5px;
   font-weight: 400;
 }
-/* line 102, ../sass/detail/_sections.scss */
-.backup-sections select {
-  color: #282828;
-  width: 100%;
-  height: 28px;
-  border: 1px solid #dddddd;
-  border-radius: 3px;
-  font-size: 12px;
-  margin: 5px 0 0 0;
-  background: linear-gradient(to bottom, #ffffff, #fafafa);
-  padding: 0 5px 0 5px;
-  font-weight: 400;
-}
 /* line 116, ../sass/detail/_sections.scss */
-.backup-sections input[type="radio"] {
-  position: relative;
-  -webkit-appearance: none;
-  width: 14px;
-  height: 14px;
-  border: 1px solid #cbcbcb;
-  border-radius: 50%;
-  background: linear-gradient(to top, #ffffff, #fafafa);
-  float: left;
-  margin: 2px 4px 0 0;
-}
-/* line 128, ../sass/detail/_sections.scss */
-.backup-sections input[type="radio"]:disabled {
-  opacity: 0.5;
-}
-/* line 133, ../sass/detail/_sections.scss */
-.backup-sections input[type="radio"]:checked:after {
-  content: ' ';
-  display: block;
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 8px;
-  height: 8px;
-  background: linear-gradient(to bottom, #7ebfdf, #759fda);
-  border-radius: 50%;
-}
-/* line 147, ../sass/detail/_sections.scss */
 .backup-sections .input-icon {
   color: #282828;
   background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, white 40%);
