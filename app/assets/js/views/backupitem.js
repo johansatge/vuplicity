@@ -20,6 +20,7 @@
         var actionCallback = null;
         var currentTab = null;
         var filetree = null;
+        var automation = null;
 
         /**
          * Inits the item
@@ -33,6 +34,7 @@
             _initItemNode.apply(this);
             _initDetailNode.apply(this);
             _initFileTree.apply(this);
+            _initAutomation.apply(this);
         };
 
         /**
@@ -179,6 +181,16 @@
         {
             filetree = new FileTree();
             filetree.init(detailNode.querySelector('.js-file-tree'), _onRestoreFile.bind(this));
+        };
+
+
+        /**
+         * Inits automation tab
+         */
+        var _initAutomation = function()
+        {
+            automation = new Automation();
+            automation.init(detailNode.querySelector('.js-automation'));
         };
 
         /**

@@ -132,20 +132,18 @@
                         </button>
                     </div>
                 </div>
-                <div class="section js-section" rel="automation">
+                <div class="section js-section js-automation" rel="automation">
                     <div class="buttons">
-                        <button>
+                        <button class="js-save">
                             <i class="fa fa-floppy-o"></i>
                             Save rules
                         </button>
-                        <button>
+                        <button class="js-add">
                             <i class="fa fa-calendar"></i>
                             Add new rule
                         </button>
                     </div>
-                    <div class="backup-automation">
-
-                    </div>
+                    <div class="backup-automation js-items"></div>
                 </div>
             </div>
         </script>
@@ -159,13 +157,14 @@
             </span>
         </script>
         <script type="text/template" class="js-automation-template" rel="item">
-            <div class="col1 hr">
+            <div class="col1">
                 <div class="select">
                     <select>
                         <option>Incremental backup</option>
+                        <option>Full backup</option>
                     </select>
                 </div>
-                <button>
+                <button class="js-remove">
                     <i class="fa fa-trash-o"></i>
                 </button>
             </div>
@@ -173,6 +172,7 @@
                 <div class="select">
                     <select>
                         <option>Every</option>
+                        <option>At</option>
                     </select>
                 </div>
                 <div class="select">
@@ -186,79 +186,90 @@
                     </select>
                 </div>
                 <div class="select right">
-                    <select>
-                        <option>On a weekly basis</option>
-                        <option>On a monthly basis</option>
+                    <select class="js-basis">
+                        <option value="weekly">On a weekly basis</option>
+                        <option value="monthly">On a monthly basis</option>
                     </select>
                 </div>
             </div>
-            <div class="col3 left">
-                <label>
-                    <input type="checkbox">Monday
-                </label>
-                <label>
-                    <input type="checkbox">Tuesday
-                </label>
-                <label>
-                    <input type="checkbox">Wednesday
-                </label>
+            <div class="js-basis-target" rel="weekly">
+                <div class="col3 left">
+                    <label>
+                        <input type="checkbox" checked>Monday
+                    </label>
+                    <label>
+                        <input type="checkbox" checked>Tuesday
+                    </label>
+                    <label>
+                        <input type="checkbox" checked>Wednesday
+                    </label>
+                </div>
+                <div class="col3 left">
+                    <label>
+                        <input type="checkbox" checked>Thursday
+                    </label>
+                    <label>
+                        <input type="checkbox" checked>Friday
+                    </label>
+                </div>
+                <div class="col3">
+                    <label>
+                        <input type="checkbox" checked>Saturday
+                    </label>
+                    <label>
+                        <input type="checkbox" checked>Sunday
+                    </label>
+                </div>
             </div>
-            <div class="col3 left">
-                <label>
-                    <input type="checkbox">Thursday
-                </label>
-                <label>
-                    <input type="checkbox">Friday
-                </label>
-            </div>
-            <div class="col3">
-                <label>
-                    <input type="checkbox">Saturday
-                </label>
-                <label>
-                    <input type="checkbox">Sunday
-                </label>
-            </div>
-            <div class="col3 left">
-                <label><input type="checkbox" checked>01</label>
-                <label><input type="checkbox" checked>02</label>
-                <label><input type="checkbox" checked>03</label>
-                <label><input type="checkbox" checked>04</label>
-                <label><input type="checkbox" checked>05</label>
-                <label><input type="checkbox" checked>06</label>
-                <label><input type="checkbox" checked>07</label>
-                <label><input type="checkbox" checked>08</label>
-                <label><input type="checkbox" checked>09</label>
-                <label><input type="checkbox" checked>10</label>
-            </div>
-            <div class="col3 left">
-                <label><input type="checkbox" checked>11</label>
-                <label><input type="checkbox" checked>12</label>
-                <label><input type="checkbox" checked>13</label>
-                <label><input type="checkbox" checked>14</label>
-                <label><input type="checkbox" checked>15</label>
-                <label><input type="checkbox" checked>16</label>
-                <label><input type="checkbox" checked>17</label>
-                <label><input type="checkbox" checked>18</label>
-                <label><input type="checkbox" checked>19</label>
-                <label><input type="checkbox" checked>20</label>
-            </div>
-            <div class="col3">
-                <label><input type="checkbox" checked>21</label>
-                <label><input type="checkbox" checked>22</label>
-                <label><input type="checkbox" checked>23</label>
-                <label><input type="checkbox" checked>24</label>
-                <label><input type="checkbox" checked>25</label>
-                <label><input type="checkbox" checked>26</label>
-                <label><input type="checkbox" checked>27</label>
-                <label><input type="checkbox" checked>28</label>
-                <label><input type="checkbox" checked>29</label>
-                <label><input type="checkbox" checked>30</label>
-                <label><input type="checkbox" checked>31</label>
+            <div class="js-basis-target" rel="monthly">
+                <div class="col6 left">
+                    <label><input type="checkbox" checked>01</label>
+                    <label><input type="checkbox" checked>02</label>
+                    <label><input type="checkbox" checked>03</label>
+                    <label><input type="checkbox" checked>04</label>
+                    <label><input type="checkbox" checked>05</label>
+                    <label><input type="checkbox" checked>06</label>
+                </div>
+                <div class="col6 left">
+                    <label><input type="checkbox" checked>07</label>
+                    <label><input type="checkbox" checked>08</label>
+                    <label><input type="checkbox" checked>09</label>
+                    <label><input type="checkbox" checked>10</label>
+                    <label><input type="checkbox" checked>11</label>
+                </div>
+                <div class="col6 left">
+                    <label><input type="checkbox" checked>12</label>
+                    <label><input type="checkbox" checked>13</label>
+                    <label><input type="checkbox" checked>14</label>
+                    <label><input type="checkbox" checked>15</label>
+                    <label><input type="checkbox" checked>16</label>
+                </div>
+                <div class="col6 left">
+                    <label><input type="checkbox" checked>17</label>
+                    <label><input type="checkbox" checked>18</label>
+                    <label><input type="checkbox" checked>19</label>
+                    <label><input type="checkbox" checked>20</label>
+                    <label><input type="checkbox" checked>21</label>
+                </div>
+                <div class="col6 left">
+                    <label><input type="checkbox" checked>22</label>
+                    <label><input type="checkbox" checked>23</label>
+                    <label><input type="checkbox" checked>24</label>
+                    <label><input type="checkbox" checked>25</label>
+                    <label><input type="checkbox" checked>26</label>
+                </div>
+                <div class="col6">
+                    <label><input type="checkbox" checked>27</label>
+                    <label><input type="checkbox" checked>28</label>
+                    <label><input type="checkbox" checked>29</label>
+                    <label><input type="checkbox" checked>30</label>
+                    <label><input type="checkbox" checked>31</label>
+                </div>
             </div>
         </script>
         <script src="../js/utils/windowclient.js"></script>
         <script src="../js/views/filetree.js"></script>
+        <script src="../js/views/automation.js"></script>
         <script src="../js/views/backupitem.js"></script>
         <script src="../js/views/controlpanel.js"></script>
         <script>

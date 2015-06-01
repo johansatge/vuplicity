@@ -65,12 +65,6 @@
         float  : left;
         width  : 100%;
         margin : 0 0 12px 0;
-
-        &.hr
-        {
-            border-bottom : 1px solid #dddddd;
-            padding       : 0 0 12px 0;
-        }
     }
 
     .col2
@@ -89,6 +83,18 @@
     {
         float  : left;
         width  : 32%;
+        margin : 0 0 12px 0;
+
+        &.left
+        {
+            margin-right : 2%;
+        }
+    }
+
+    .col6
+    {
+        float  : left;
+        width  : 15%;
         margin : 0 0 12px 0;
 
         &.left

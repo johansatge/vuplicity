@@ -552,21 +552,30 @@ html, body {
 
 /* line 1, ../sass/detail/_automation.scss */
 .backup-automation {
-  margin: 12px 0 0 0;
+  position: absolute;
+  top: 50px;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  overflow-y: auto;
+  background: #ffffff;
+  border: 1px solid #dddddd;
+  border-radius: 3px;
+  box-shadow: inset 0 1px 0 #f6f6f6;
 }
-/* line 6, ../sass/detail/_automation.scss */
+/* line 15, ../sass/detail/_automation.scss */
 .backup-automation .item {
   position: relative;
   float: left;
-  background: #ffffff;
-  padding: 12px 12px 0 12px;
-  border: 1px solid #dddddd;
-  border-radius: 3px;
+  width: 100%;
   font-size: 12px;
-  box-shadow: inset 0 1px 0 #f6f6f6;
-  overflow: hidden;
+  padding: 12px 12px 0 12px;
 }
-/* line 19, ../sass/detail/_automation.scss */
+/* line 23, ../sass/detail/_automation.scss */
+.backup-automation .item:nth-child(odd) {
+  background: #f6f7fe;
+}
+/* line 29, ../sass/detail/_automation.scss */
 .backup-automation button {
   float: right;
   background: linear-gradient(to bottom, #fefefe, #f2f2f2);
@@ -577,21 +586,21 @@ html, body {
   font-size: 14px;
   color: #646464;
 }
-/* line 30, ../sass/detail/_automation.scss */
+/* line 40, ../sass/detail/_automation.scss */
 .backup-automation button:active {
   background: linear-gradient(to top, #fefefe, #f2f2f2);
 }
-/* line 36, ../sass/detail/_automation.scss */
+/* line 46, ../sass/detail/_automation.scss */
 .backup-automation .right {
   float: right;
 }
-/* line 41, ../sass/detail/_automation.scss */
+/* line 51, ../sass/detail/_automation.scss */
 .backup-automation label {
   display: block;
   width: 100%;
   margin: 0 0 5px 0;
 }
-/* line 48, ../sass/detail/_automation.scss */
+/* line 58, ../sass/detail/_automation.scss */
 .backup-automation .select {
   display: inline-block;
   position: relative;
@@ -600,7 +609,7 @@ html, body {
   background: linear-gradient(to bottom, #fefefe, #f2f2f2);
   border-radius: 3px;
 }
-/* line 57, ../sass/detail/_automation.scss */
+/* line 67, ../sass/detail/_automation.scss */
 .backup-automation .select select {
   color: #646464;
   height: 24px;
@@ -610,7 +619,7 @@ html, body {
   -webkit-appearance: none;
   background: transparent;
 }
-/* line 68, ../sass/detail/_automation.scss */
+/* line 78, ../sass/detail/_automation.scss */
 .backup-automation .select:after {
   position: absolute;
   top: 7px;
@@ -620,7 +629,7 @@ html, body {
   color: #c7c7c7;
   font-size: 11px;
 }
-/* line 80, ../sass/detail/_automation.scss */
+/* line 90, ../sass/detail/_automation.scss */
 .backup-automation input[type="checkbox"] {
   position: relative;
   float: left;
@@ -633,11 +642,11 @@ html, body {
   background: #ffffff;
   box-shadow: inset 0 1px 0 #f6f6f6;
 }
-/* line 93, ../sass/detail/_automation.scss */
+/* line 103, ../sass/detail/_automation.scss */
 .backup-automation input[type="checkbox"]:active {
   background: #f3f3f3;
 }
-/* line 98, ../sass/detail/_automation.scss */
+/* line 108, ../sass/detail/_automation.scss */
 .backup-automation input[type="checkbox"]:checked:after {
   position: absolute;
   top: 1px;
@@ -710,32 +719,37 @@ html, body {
   width: 100%;
   margin: 0 0 12px 0;
 }
-/* line 69, ../sass/detail/_sections.scss */
-.backup-sections .col1.hr {
-  border-bottom: 1px solid #dddddd;
-  padding: 0 0 12px 0;
-}
-/* line 76, ../sass/detail/_sections.scss */
+/* line 70, ../sass/detail/_sections.scss */
 .backup-sections .col2 {
   float: left;
   width: 49%;
   margin: 0 0 12px 0;
 }
-/* line 82, ../sass/detail/_sections.scss */
+/* line 76, ../sass/detail/_sections.scss */
 .backup-sections .col2.left {
   margin-right: 2%;
 }
-/* line 88, ../sass/detail/_sections.scss */
+/* line 82, ../sass/detail/_sections.scss */
 .backup-sections .col3 {
   float: left;
   width: 32%;
   margin: 0 0 12px 0;
 }
-/* line 94, ../sass/detail/_sections.scss */
+/* line 88, ../sass/detail/_sections.scss */
 .backup-sections .col3.left {
   margin-right: 2%;
 }
+/* line 94, ../sass/detail/_sections.scss */
+.backup-sections .col6 {
+  float: left;
+  width: 15%;
+  margin: 0 0 12px 0;
+}
 /* line 100, ../sass/detail/_sections.scss */
+.backup-sections .col6.left {
+  margin-right: 2%;
+}
+/* line 106, ../sass/detail/_sections.scss */
 .backup-sections input[type="text"],
 .backup-sections input[type="password"] {
   color: #282828;
@@ -750,7 +764,7 @@ html, body {
   padding: 0 5px 0 5px;
   font-weight: 400;
 }
-/* line 116, ../sass/detail/_sections.scss */
+/* line 122, ../sass/detail/_sections.scss */
 .backup-sections .input-icon {
   color: #282828;
   background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, white 40%);
