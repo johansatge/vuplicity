@@ -81,6 +81,10 @@
                 }
             }
             itemNode.querySelector('.js-title').innerHTML = typeof data.title !== 'undefined' && data.title.length > 0 ? data.title : 'Unnamed backup';
+            if (typeof data.schedules !== 'undefined')
+            {
+                automation.updateRules(data.schedules);
+            }
         };
 
         /**
@@ -282,7 +286,8 @@
             {
                 data[options[index].getAttribute('name')] = options[index].value;
             }
-            return data; // @todo also return automation rules
+            data.schedules = automation.getRules();
+            return data;
         };
 
         /**

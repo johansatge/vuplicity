@@ -59,16 +59,59 @@
         };
 
         /**
+         * Updates rules set
+         * @param rules
+         */
+        this.updateRules = function(rules)
+        {
+            automationNode.querySelector('.js-items').innerHTML = '';
+            for (var index = 0; index < rules.length; index += 1)
+            {
+                _addRule.apply(this, [rules[index]]);
+            }
+        };
+
+        /**
          * Adds a new rule
          * @param evt
          */
         var _onAddRule = function(evt)
         {
             evt.preventDefault();
+            _addRule.apply(this, [{}]);
+        };
+
+        /**
+         * Adds a new rule and fills optional data
+         * @param data
+         */
+        var _addRule = function(data)
+        {
             var item = document.createElement('div');
             item.innerHTML = itemTemplate.innerHTML;
             item.className = itemTemplate.getAttribute('rel');
             automationNode.querySelector('.js-items').appendChild(item);
+
+            for (var property in data)
+            {
+                if (typeof data[property] === 'string')
+                {
+                    var node = item.querySelector('.js-automation-option[name="' + property + '"');
+                    if (node !== null)
+                    {
+                        node.value = data[property];
+                    }
+                }
+                else
+                {
+                    var nodes = item.querySelectorAll('.js-automation-option[name="' + property + '"');
+                    for (var index = 0; index < nodes.length; index += 1)
+                    {
+                        nodes[index].checked = data[property].indexOf(nodes[index].value) !== -1;
+                    }
+                }
+            }
+
             item.querySelector('.js-remove').addEventListener('click', _onRemoveRule.bind(this));
             var toggles = item.querySelectorAll('.js-toggle');
             for (var index = 0; index < toggles.length; index += 1)
