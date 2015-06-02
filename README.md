@@ -2,12 +2,8 @@
 
 A cross-platform GUI for Duplicity backups, powered by Atom Electron.
 
-* [Installation](#installation)
-* [Features](#features)
-* [Todos & caveats](#todos)
-* [Changelog](#changelog)
-* [License](#license)
-* [Credits](#credits)
+[Installation](#installation) | [Features](#features) | [Todos & caveats](#todos) | [Changelog](#changelog) | [License](#license) | [Credits](#credits)
+--- | --- | --- | --- | --- | ---
 
 ![Vuplicity](https://raw.github.com/johansatge/vuplicity/master/screenshot.png)
 
