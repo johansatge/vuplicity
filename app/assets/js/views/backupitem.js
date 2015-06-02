@@ -282,7 +282,7 @@
             {
                 data[options[index].getAttribute('name')] = options[index].value;
             }
-            return data;
+            return data; // @todo also return automation rules
         };
 
         /**
@@ -316,8 +316,6 @@
             detailNode.querySelector('.js-history').innerHTML = '';
             itemNode.className = itemNode.className.replace('js-error', '');
         };
-
-
     };
 
     window.BackupItem = module;

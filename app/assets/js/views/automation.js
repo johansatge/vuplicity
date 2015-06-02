@@ -20,17 +20,14 @@
         this.init = function(node)
         {
             automationNode = node;
-            automationNode.querySelector('.js-save').addEventListener('click', _onSaveRules.bind(this));
             automationNode.querySelector('.js-add').addEventListener('click', _onAddRule.bind(this));
         };
 
         /**
-         * Saves automation rules
-         * @param evt
+         * Gets automation rules
          */
-        var _onSaveRules = function(evt)
+        this.getRules = function()
         {
-            evt.preventDefault();
             var items = automationNode.querySelectorAll('.js-item');
             var rules = [];
             for (var index = 0; index < items.length; index += 1)
@@ -58,11 +55,7 @@
                 }
                 rules.push(rule);
             }
-
-            console.log(JSON.stringify(rules));
-
-            // @todo send "save" event to the backup item (saving options will also save automation settings)
-
+            return rules;
         };
 
         /**
