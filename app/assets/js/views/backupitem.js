@@ -74,7 +74,7 @@
         {
             for (var property in data)
             {
-                var node = detailNode.querySelector('.js-option[rel="' + property + '"');
+                var node = detailNode.querySelector('.js-option[name="' + property + '"');
                 if (node !== null)
                 {
                     node.setAttribute('value', data[property]);
@@ -280,7 +280,7 @@
             var data = {};
             for (var index = 0; index < options.length; index += 1)
             {
-                data[options[index].getAttribute('rel')] = options[index].value;
+                data[options[index].getAttribute('name')] = options[index].value;
             }
             return data;
         };

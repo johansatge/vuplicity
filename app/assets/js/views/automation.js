@@ -31,7 +31,38 @@
         var _onSaveRules = function(evt)
         {
             evt.preventDefault();
-            console.log('@todo save');
+            var items = automationNode.querySelectorAll('.js-item');
+            var rules = [];
+            for (var index = 0; index < items.length; index += 1)
+            {
+                var rule = {};
+                var options = items[index].querySelectorAll('.js-automation-option');
+                for (var opt_index = 0; opt_index < options.length; opt_index += 1)
+                {
+                    var option = options[opt_index];
+                    if (option.getAttribute('type') === 'checkbox')
+                    {
+                        if (option.checked)
+                        {
+                            if (typeof rule[option.getAttribute('name')] === 'undefined')
+                            {
+                                rule[option.getAttribute('name')] = [];
+                            }
+                            rule[option.getAttribute('name')].push(option.value);
+                        }
+                    }
+                    else
+                    {
+                        rule[option.getAttribute('name')] = option.value;
+                    }
+                }
+                rules.push(rule);
+            }
+
+            console.log(JSON.stringify(rules));
+
+            // @todo send "save" event to the backup item (saving options will also save automation settings)
+
         };
 
         /**
