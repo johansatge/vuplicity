@@ -11,17 +11,38 @@
     var os = require('os');
     var process = null;
     var cancelled = false;
+    var outputCallback = null;
 
-    var module = function()
+    var module = function(i)
     {
+
+        var id = i;
+        var data = null;
+
+        /**
+         * Sets backup data
+         * @param d
+         */
+        this.setData = function(d)
+        {
+            data = d;
+        };
+
+        /**
+         * Registers a callback to be triggered when an output is received from the CLI tool
+         * @param callback
+         */
+        this.onOutput = function(callback)
+        {
+            outputCallback = callback;
+        };
 
         /**
          * Starts a backup task
-         * @param data
          * @param type (full | "")
          * @param callback
          */
-        this.doBackup = function(data, type, callback)
+        this.doBackup = function(type, callback)
         {
             var options = {env: {PASSPHRASE: data.passphrase, TMPDIR: os.tmpdir()}};
             var command = 'duplicity ' + type + ' "' + data.path + '" "' + data.url + '" ' + data.options;
@@ -29,16 +50,17 @@
             {
                 callback(_parseError.apply(this, [stderr]));
             });
+            process.stdout.on('data', _onStdOut.bind(this));
+            process.stderr.on('data', _onStdErr.bind(this));
         };
 
         /**
          * Tries to get a file and save it on the given path
-         * @param data
          * @param path
          * @param dest_path
          * @param callback
          */
-        this.restoreFile = function(data, path, dest_path, callback)
+        this.restoreFile = function(path, dest_path, callback)
         {
             var options = {env: {PASSPHRASE: data.passphrase, TMPDIR: os.tmpdir()}};
             var command = 'duplicity restore --file-to-restore "' + path + '" "' + data.url + '" "' + dest_path + '"' + ' ' + data.options;
@@ -46,15 +68,16 @@
             {
                 callback(_parseError.apply(this, [stderr]));
             });
+            process.stdout.on('data', _onStdOut.bind(this));
+            process.stderr.on('data', _onStdErr.bind(this));
         };
 
         /**
          * Tries to restore a backup
-         * @param data
          * @param dest_path
          * @param callback
          */
-        this.restoreTree = function(data, dest_path, callback)
+        this.restoreTree = function(dest_path, callback)
         {
             var options = {env: {PASSPHRASE: data.passphrase, TMPDIR: os.tmpdir()}};
             var command = 'duplicity restore "' + data.url + '" "' + dest_path + '"' + ' ' + data.options;
@@ -62,14 +85,15 @@
             {
                 callback(_parseError.apply(this, [stderr]));
             });
+            process.stdout.on('data', _onStdOut.bind(this));
+            process.stderr.on('data', _onStdErr.bind(this));
         };
 
         /**
          * Lists the current files in a backup
-         * @param data
          * @param callback
          */
-        this.getFiles = function(data, callback)
+        this.getFiles = function(callback)
         {
             var options = {env: {PASSPHRASE: data.passphrase, TMPDIR: os.tmpdir()}};
             process = exec('duplicity list-current-files ' + data.url + ' ' + data.options, options, function(error, stdout, stderr)
@@ -94,14 +118,15 @@
                 }
                 callback(_parseError.apply(this, [stderr]), tree);
             });
+            process.stdout.on('data', _onStdOut.bind(this));
+            process.stderr.on('data', _onStdErr.bind(this));
         };
 
         /**
          * Gets the current status of a backup
-         * @param data
          * @param callback
          */
-        this.getStatus = function(data, callback)
+        this.getStatus = function(callback)
         {
             var options = {env: {PASSPHRASE: data.passphrase, TMPDIR: os.tmpdir()}};
             process = exec('duplicity collection-status ' + data.url + ' ' + data.options, options, function(error, stdout, stderr)
@@ -117,6 +142,8 @@
                 data.chain_end_time = data.chain_end_time !== '' ? moment(data.chain_end_time).format('YYYY-MM-DD HH:mm') : '';
                 callback(_parseError.apply(this, [stderr]), data);
             });
+            process.stdout.on('data', _onStdOut.bind(this));
+            process.stderr.on('data', _onStdErr.bind(this));
         };
 
         /**
@@ -140,6 +167,24 @@
                 return 'User has cancelled.';
             }
             return stderr.replace(/[ \n\t]*/gm, '').length > 0 ? stderr.replace(/\n/g, '<br>') : false;
+        };
+
+        /**
+         * Handles stdout
+         * @param output
+         */
+        var _onStdOut = function(output)
+        {
+            outputCallback(id, output);
+        };
+
+        /**
+         * Handles stderr
+         * @param output
+         */
+        var _onStdErr = function(output)
+        {
+            outputCallback(id, output);
         };
 
     };

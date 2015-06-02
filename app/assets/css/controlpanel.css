@@ -716,42 +716,46 @@ html, body {
   font-size: 13px;
 }
 /* line 63, ../sass/detail/_sections.scss */
+.backup-sections .right {
+  float: right;
+}
+/* line 68, ../sass/detail/_sections.scss */
 .backup-sections .col1 {
   float: left;
   width: 100%;
   margin: 0 0 12px 0;
 }
-/* line 70, ../sass/detail/_sections.scss */
+/* line 75, ../sass/detail/_sections.scss */
 .backup-sections .col2 {
   float: left;
   width: 49%;
   margin: 0 0 12px 0;
 }
-/* line 76, ../sass/detail/_sections.scss */
+/* line 81, ../sass/detail/_sections.scss */
 .backup-sections .col2.left {
   margin-right: 2%;
 }
-/* line 82, ../sass/detail/_sections.scss */
+/* line 87, ../sass/detail/_sections.scss */
 .backup-sections .col3 {
   float: left;
   width: 32%;
   margin: 0 0 12px 0;
 }
-/* line 88, ../sass/detail/_sections.scss */
+/* line 93, ../sass/detail/_sections.scss */
 .backup-sections .col3.left {
   margin-right: 2%;
 }
-/* line 94, ../sass/detail/_sections.scss */
+/* line 99, ../sass/detail/_sections.scss */
 .backup-sections .col6 {
   float: left;
   width: 15%;
   margin: 0 0 12px 0;
 }
-/* line 100, ../sass/detail/_sections.scss */
+/* line 105, ../sass/detail/_sections.scss */
 .backup-sections .col6.left {
   margin-right: 2%;
 }
-/* line 106, ../sass/detail/_sections.scss */
+/* line 111, ../sass/detail/_sections.scss */
 .backup-sections input[type="text"],
 .backup-sections input[type="password"] {
   color: #282828;
@@ -766,7 +770,7 @@ html, body {
   padding: 0 5px 0 5px;
   font-weight: 400;
 }
-/* line 122, ../sass/detail/_sections.scss */
+/* line 127, ../sass/detail/_sections.scss */
 .backup-sections .input-icon {
   color: #282828;
   background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, white 40%);
