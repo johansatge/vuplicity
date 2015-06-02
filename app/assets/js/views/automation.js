@@ -129,7 +129,7 @@
         {
             var value = evt.currentTarget.value;
             var toggle_name = evt.currentTarget.getAttribute('rel');
-            var items = _closest.apply(this, [evt.currentTarget, 'js-item']).querySelectorAll('.' + toggle_name);
+            var items = DOM.getClosestNode(evt.currentTarget, 'js-item').querySelectorAll('.' + toggle_name);
             for (var index = 0; index < items.length; index += 1)
             {
                 items[index].style.display = items[index].getAttribute('rel') === value ? 'block' : 'none';
@@ -143,22 +143,8 @@
         var _onRemoveRule = function(evt)
         {
             evt.preventDefault();
-            var item = evt.currentTarget.parentNode.parentNode;
+            var item = DOM.getClosestNode(evt.currentTarget, 'js-item');
             item.parentNode.removeChild(item);
-        };
-
-        /**
-         * Gets the closest node depending on the given classname
-         * @param node
-         * @param classname
-         */
-        var _closest = function(node, classname)
-        {
-            while (node.className.search(classname) === -1)
-            {
-                node = node.parentNode;
-            }
-            return node;
         };
 
     };

@@ -95,27 +95,12 @@
          */
         this.toggleProcessingStatus = function(is_processing, message, has_error)
         {
-            if (is_processing)
-            {
-                itemNode.className = itemNode.className + ' js-processing';
-                detailNode.className = detailNode.className + ' js-processing';
-            }
-            else
-            {
-                itemNode.className = itemNode.className.replace('js-processing', '');
-                detailNode.className = detailNode.className.replace('js-processing', '');
-            }
+            DOM.toggleClass(itemNode, 'js-processing', is_processing);
+            DOM.toggleClass(itemNode, 'js-error', has_error);
+            DOM.toggleClass(detailNode, 'js-processing', is_processing);
             if (typeof message !== 'undefined')
             {
                 itemNode.querySelector('.js-process-message').innerHTML = message;
-            }
-            if (has_error)
-            {
-                itemNode.className += ' js-error';
-            }
-            else
-            {
-                itemNode.className = itemNode.className.replace('js-error', '');
             }
         };
 
@@ -133,10 +118,7 @@
          */
         this.updateHistory = function(history)
         {
-            if (history.search(/\n$/g) === -1)
-            {
-                history += '\n';
-            }
+            history = history.search(/\n$/g) === -1 ? history + '\n' : history;
             var node = detailNode.querySelector('.js-history');
             node.innerHTML += history;
             node.scrollTop = node.scrollHeight - node.offsetHeight;
@@ -226,13 +208,13 @@
             {
                 if (currentTab !== null)
                 {
-                    currentTab.tab.className = currentTab.tab.className.replace('js-active', '');
+                    DOM.toggleClass(currentTab.tab, 'js-active', false);
                     currentTab.section.style.display = 'none';
                 }
                 currentTab = {};
                 currentTab.tab = tab;
+                DOM.toggleClass(currentTab.tab, 'js-active', true);
                 currentTab.section = detailNode.querySelector('.js-section[rel="' + tab.getAttribute('rel') + '"]');
-                currentTab.tab.className += ' js-active';
                 currentTab.section.style.display = 'block';
             }
         };
@@ -259,7 +241,7 @@
         this.toggleVisibility = function()
         {
             var is_visible = itemNode.className.search('js-active') !== -1;
-            itemNode.className = is_visible ? itemNode.className.replace('js-active', '') : itemNode.className + ' js-active';
+            DOM.toggleClass(itemNode, 'js-active', !is_visible);
             detailNode.style.display = is_visible ? 'none' : 'block';
             toggleCallback(id, !is_visible);
         };
@@ -319,7 +301,7 @@
         {
             evt.preventDefault();
             detailNode.querySelector('.js-history').innerHTML = '';
-            itemNode.className = itemNode.className.replace('js-error', '');
+            DOM.toggleClass(itemNode, 'js-error', false);
         };
     };
 
