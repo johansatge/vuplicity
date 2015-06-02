@@ -19,6 +19,7 @@
     var CustomTray = require(appPath + '/assets/js/utils/customtray.js');
     var WindowRenderer = require(appPath + '/assets/js/utils/windowrenderer.js');
     var Configuration = require(appPath + '/assets/js/utils/configuration.js');
+    var Scheduler = require(appPath + '/assets/js/utils/scheduler.js');
 
     var controlPanelWindow = null;
     var config = null;
@@ -78,7 +79,7 @@
     };
 
     /**
-     * Sends the current configuration to the control panel when it has been opened
+     * Sends the current configuration to the control panel when it has been opened, and inits scheduler
      */
     var _onControlPanelReady = function()
     {
@@ -87,7 +88,9 @@
         {
             duplicityHelpers[index] = new Duplicity();
             controlPanelWindow.send('set-backup-options', index, backups[index], false);
+            Scheduler.updateBackup(index, backups[index]);
         }
+        Scheduler.onScheduledEvent(_onScheduledEvent.bind(this));
     };
 
     /**
@@ -98,6 +101,15 @@
     var _onCancelBackupProcess = function(evt, backup_id)
     {
         duplicityHelpers[backup_id].cancel();
+    };
+
+    /**
+     * Triggers a scheduled event
+     * @param backup_id
+     */
+    var _onScheduledEvent = function(backup_id)
+    {
+        console.log('@todo start backup if not already running');
     };
 
     /**
@@ -222,6 +234,7 @@
             if (error === false)
             {
                 controlPanelWindow.send('set-backup-options', backup_id, backup_data, false);
+                Scheduler.updateBackup(backup_id, backup_data);
             }
         });
     };
