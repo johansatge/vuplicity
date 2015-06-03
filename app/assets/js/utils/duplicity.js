@@ -13,10 +13,9 @@
     var cancelled = false;
     var outputCallback = null;
 
-    var module = function(i)
+    var module = function()
     {
 
-        var id = i;
         var data = null;
 
         /**
@@ -50,8 +49,8 @@
             {
                 callback(_parseError.apply(this, [stderr]));
             });
-            process.stdout.on('data', _onStdOut.bind(this));
-            process.stderr.on('data', _onStdErr.bind(this));
+            process.stdout.on('data', outputCallback);
+            process.stderr.on('data', outputCallback);
         };
 
         /**
@@ -68,8 +67,8 @@
             {
                 callback(_parseError.apply(this, [stderr]));
             });
-            process.stdout.on('data', _onStdOut.bind(this));
-            process.stderr.on('data', _onStdErr.bind(this));
+            process.stdout.on('data', outputCallback);
+            process.stderr.on('data', outputCallback);
         };
 
         /**
@@ -85,8 +84,8 @@
             {
                 callback(_parseError.apply(this, [stderr]));
             });
-            process.stdout.on('data', _onStdOut.bind(this));
-            process.stderr.on('data', _onStdErr.bind(this));
+            process.stdout.on('data', outputCallback);
+            process.stderr.on('data', outputCallback);
         };
 
         /**
@@ -119,8 +118,8 @@
                 }
                 callback(_parseError.apply(this, [stderr]), tree);
             });
-            process.stdout.on('data', _onStdOut.bind(this));
-            process.stderr.on('data', _onStdErr.bind(this));
+            process.stdout.on('data', outputCallback);
+            process.stderr.on('data', outputCallback);
         };
 
         /**
@@ -144,8 +143,8 @@
                 data.chain_end_time = data.chain_end_time !== '' ? moment(data.chain_end_time).format('YYYY-MM-DD HH:mm') : '';
                 callback(_parseError.apply(this, [stderr]), data);
             });
-            process.stdout.on('data', _onStdOut.bind(this));
-            process.stderr.on('data', _onStdErr.bind(this));
+            process.stdout.on('data', outputCallback);
+            process.stderr.on('data', outputCallback);
         };
 
         /**
@@ -169,24 +168,6 @@
                 return 'User has cancelled.';
             }
             return stderr.replace(/[ \n\t]*/gm, '').length > 0 ? stderr.replace(/\n/g, '<br>') : false;
-        };
-
-        /**
-         * Handles stdout
-         * @param output
-         */
-        var _onStdOut = function(output)
-        {
-            outputCallback(id, output);
-        };
-
-        /**
-         * Handles stderr
-         * @param output
-         */
-        var _onStdErr = function(output)
-        {
-            outputCallback(id, output);
         };
 
     };

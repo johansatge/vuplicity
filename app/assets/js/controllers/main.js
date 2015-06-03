@@ -1,21 +1,26 @@
 /**
  * Main controller
  */
-(function(m, require)
+(function(m, require, __dirname)
 {
 
     'use strict';
 
     var ipc = require('ipc');
+    var events = require('events');
     var moment = require('moment');
+    var dialog = require('dialog');
+    var glob = require('glob');
     var WindowRenderer = require(__dirname + '/../utils/windowrenderer.js');
-    var Model = require(__dirname + '/../models/main.js');
+    var Backup = require(__dirname + '/../models/backup.js');
 
     var module = {};
 
     var appTray = null;
     var configPath = null;
     var controlPanelWindow = null;
+    var backups = {};
+    var emitter = new events.EventEmitter();
 
     /**
      * Inits main controller
@@ -43,35 +48,40 @@
     {
         ipc.on('control-panel-ready', function()
         {
-            var backups = Model.initAndGetBackups(configPath);
-            for (var index in backups)
+            var files = glob.sync(configPath + '/backup-*.json', {});
+            for (var index = 0; index < files.length; index += 1)
             {
-                controlPanelWindow.send('set-backup-options', index, backups[index], false);
+                var id = files[index].substr(files[index].lastIndexOf('/') + 1);
+                backups[id] = new Backup();
+                var data = backups[id].init(id, files[index], emitter);
+                controlPanelWindow.send('set-backup-options', id, data, false);
             }
         });
         ipc.on('select-directory', function(evt, backup_id)
         {
-            Model.selectBackupDirectory(backup_id, controlPanelWindow.getWindow());
-        });
-        ipc.on('directory-selected', function(backup_id, path)
-        {
-            controlPanelWindow.send('set-backup-path', path, backup_id);
+            dialog.showOpenDialog(context, {title: 'Select directory', properties: ['openDirectory']}, function(paths)
+            {
+                if (typeof paths !== 'undefined')
+                {
+                    controlPanelWindow.send('set-backup-path', paths[0], backup_id);
+                }
+            });
         });
         ipc.on('cancel-process', function(evt, backup_id)
         {
-            Model.getBackup(backup_id).cancelProcess();
+            backups[backup_id].cancelProcess();
         });
-        Model.on('cli-output', function(backup_id, output)
+        emitter.on('cli-output', function(backup_id, output)
         {
             controlPanelWindow.send('set-backup-history', backup_id, output);
         });
-        Model.on('ui-processing', function(backup_id, message)
+        emitter.on('ui-processing', function(backup_id, message)
         {
             appTray.setProcessing();
             controlPanelWindow.send('set-backup-ui', backup_id, 'processing', message);
             controlPanelWindow.send('set-backup-history', backup_id, moment().format('YYYY-MM-DD HH:mm:ss') + '\n' + message);
         });
-        Model.on('ui-idle', function(backup_id, message)
+        emitter.on('ui-idle', function(backup_id, message)
         {
             appTray.setIdle();
             controlPanelWindow.send('set-backup-ui', backup_id, 'idle', message);
@@ -86,9 +96,9 @@
     {
         ipc.on('refresh-status', function(evt, backup_id)
         {
-            Model.getBackup(backup_id).refreshBackupStatus();
+            backups[backup_id].refreshBackupStatus();
         });
-        Model.on('status-refreshed', function(backup_id, error, status)
+        emitter.on('status-refreshed', function(backup_id, error, status)
         {
             controlPanelWindow.send('set-backup-status', backup_id, status);
         });
@@ -101,19 +111,19 @@
     {
         ipc.on('refresh-file-tree', function(evt, backup_id)
         {
-            Model.getBackup(backup_id).refreshBackupTree();
+            backups[backup_id].refreshBackupTree();
         });
-        Model.on('file-tree-refreshed', function(backup_id, error, tree)
+        emitter.on('file-tree-refreshed', function(backup_id, error, tree)
         {
             controlPanelWindow.send('set-backup-file-tree', backup_id, tree);
         });
         ipc.on('restore-file', function(evt, backup_id, path)
         {
-            Model.getBackup(backup_id).restoreFile(path, controlPanelWindow.getWindow());
+            backups[backup_id].restoreFile(path, controlPanelWindow.getWindow());
         });
         ipc.on('restore-tree', function(evt, backup_id)
         {
-            Model.getBackup(backup_id).restoreTree(controlPanelWindow.getWindow());
+            backups[backup_id].restoreTree(controlPanelWindow.getWindow());
         });
     };
 
@@ -124,13 +134,13 @@
     {
         ipc.on('start-backup', function(evt, backup_id)
         {
-            Model.getBackup(backup_id).startBackup(controlPanelWindow.getWindow());
+            backups[backup_id].startBackup(controlPanelWindow.getWindow());
         });
         ipc.on('request-backup-deletion', function(evt, backup_id)
         {
-            Model.getBackup(backup_id).deleteBackup(controlPanelWindow.getWindow());
+            backups[backup_id].deleteBackup(controlPanelWindow.getWindow());
         });
-        Model.on('backup-deleted', function(backup_id)
+        emitter.on('backup-deleted', function(backup_id)
         {
             controlPanelWindow.send('confirm-backup-deletion', backup_id);
         });
@@ -143,9 +153,9 @@
     {
         ipc.on('save-backup', function(evt, backup_id, backup_data)
         {
-            Model.getBackup(backup_id).saveBackupSettings(backup_data);
+            backups[backup_id].saveBackupSettings(backup_data);
         });
-        Model.on('backup-saved', function(backup_id, backup_data)
+        emitter.on('backup-saved', function(backup_id, backup_data)
         {
             controlPanelWindow.send('set-backup-options', backup_id, backup_data, false);
         });
@@ -161,4 +171,4 @@
 
     m.exports = module;
 
-})(module, require);
+})(module, require, __dirname);
