@@ -64,12 +64,17 @@
         {
             controlPanelWindow.send('set-backup-history', backup_id, output);
         });
-        Model.on('ui', function(backup_id, state, message)
+        Model.on('ui-processing', function(backup_id, message)
         {
-            appTray[state === 'processing' ? 'setProcessing' : 'setIdle']();
-            controlPanelWindow.send('set-backup-ui', backup_id, state, message);
-            message = moment().format('YYYY-MM-DD HH:mm:ss') + '\n' + message;
-            controlPanelWindow.send('set-backup-history', backup_id, message);
+            appTray.setProcessing();
+            controlPanelWindow.send('set-backup-ui', backup_id, 'processing', message);
+            controlPanelWindow.send('set-backup-history', backup_id, moment().format('YYYY-MM-DD HH:mm:ss') + '\n' + message);
+        });
+        Model.on('ui-idle', function(backup_id, message)
+        {
+            appTray.setIdle();
+            controlPanelWindow.send('set-backup-ui', backup_id, 'idle', message);
+            controlPanelWindow.send('set-backup-history', backup_id, moment().format('YYYY-MM-DD HH:mm:ss') + '\n' + message);
         });
     };
 

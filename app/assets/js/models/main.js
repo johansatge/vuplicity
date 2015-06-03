@@ -77,11 +77,11 @@
      */
     module.refreshBackupStatus = function(backup_id)
     {
-        emitter.emit('ui', backup_id, 'processing', 'Refreshing status...');
+        emitter.emit('ui-processing', backup_id, 'Refreshing status...');
         duplicityHelpers[backup_id].getStatus(function(error, status)
         {
             emitter.emit('status-refreshed', backup_id, error, status);
-            emitter.emit('ui', backup_id, 'idle', error ? error : 'Status updated.');
+            emitter.emit('ui-idle', backup_id, error ? error : 'Status updated.');
         });
     };
 
@@ -91,11 +91,11 @@
      */
     module.refreshBackupTree = function(backup_id)
     {
-        emitter.emit('ui', backup_id, 'processing', 'Refreshing file tree...');
+        emitter.emit('ui-processing', backup_id, 'Refreshing file tree...');
         duplicityHelpers[backup_id].getFiles(function(error, tree)
         {
             emitter.emit('file-tree-refreshed', backup_id, error, tree);
-            emitter.emit('ui', backup_id, 'idle', error ? error : 'Files refreshed.');
+            emitter.emit('ui-idle', backup_id, error ? error : 'Files refreshed.');
         });
     };
 
@@ -106,7 +106,7 @@
      */
     module.saveBackupSettings = function(backup_id, backup_data)
     {
-        emitter.emit('ui', backup_id, 'processing', 'Saving settings...');
+        emitter.emit('ui-processing', backup_id, 'Saving settings...');
         appConfig.updateBackup(backup_id, backup_data, function(error)
         {
             if (error === false)
@@ -115,7 +115,7 @@
                 duplicityHelpers[backup_id].setData(backup_data);
                 emitter.emit('backup-saved', backup_id, error, backup_data);
             }
-            emitter.emit('ui', backup_id, 'idle', error ? error : 'Settings saved.');
+            emitter.emit('ui-idle', backup_id, error ? error : 'Settings saved.');
         });
     };
 
@@ -143,10 +143,10 @@
         dialog.showMessageBox(context, params, function(response)
         {
             var type = response === 0 ? '' : 'full';
-            emitter.emit('ui', backup_id, 'processing', 'Backup in progress...');
+            emitter.emit('ui-processing', backup_id, 'Backup in progress...');
             duplicityHelpers[backup_id].doBackup(type, function(error)
             {
-                emitter.emit('ui', backup_id, 'idle', error ? error : 'Backup done.');
+                emitter.emit('ui-idle', backup_id, error ? error : 'Backup done.');
                 if (!error)
                 {
                     module.refreshBackupStatus(backup_id);
@@ -172,7 +172,7 @@
         {
             if (response === 0)
             {
-                emitter.emit('ui', backup_id, 'processing', 'Deleting backup...');
+                emitter.emit('ui-processing', backup_id, 'Deleting backup...');
                 appConfig.deleteBackup(backup_id, function(error)
                 {
                     if (!error)
@@ -182,7 +182,7 @@
                     }
                     else
                     {
-                        emitter.emit('ui', backup_id, 'idle', 'error');
+                        emitter.emit('ui-idle', backup_id, error);
                     }
                 });
             }
@@ -202,10 +202,10 @@
         {
             if (typeof dest_path !== 'undefined')
             {
-                emitter.emit('ui', backup_id, 'processing', 'Restoring file...');
+                emitter.emit('ui-processing', backup_id, 'Restoring file...');
                 duplicityHelpers[backup_id].restoreFile(path, dest_path, function(error)
                 {
-                    emitter.emit('ui', backup_id, 'idle', error ? error : 'File restored.');
+                    emitter.emit('ui-idle', backup_id, error ? error : 'File restored.');
                 });
             }
         });
@@ -228,10 +228,10 @@
         {
             if (typeof destination_path !== 'undefined')
             {
-                emitter.emit('ui', backup_id, 'processing', 'Restoring all files...');
+                emitter.emit('ui-processing', backup_id, 'Restoring all files...');
                 duplicityHelpers[backup_id].restoreTree(destination_path, function(error)
                 {
-                    emitter.emit('ui', backup_id, 'idle', error ? error : 'Backup tree restored.');
+                    emitter.emit('ui-idle', backup_id, error ? error : 'Backup tree restored.');
                 });
             }
         });
