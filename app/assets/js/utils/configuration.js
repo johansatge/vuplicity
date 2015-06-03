@@ -9,53 +9,23 @@
     'use strict';
 
     var fs = require('fs');
-    var glob = require('glob');
-    var crypto = require('crypto');
 
     var module = function(config_path)
     {
 
         var path = config_path;
-        var items = {};
-
-        /**
-         * Returns the informations of a backup
-         * @param id
-         */
-        this.getBackupData = function(id)
-        {
-            return typeof items[id] !== 'undefined' ? items[id] : {};
-        };
-
-        /**
-         * Gets the current backups list
-         */
-        this.getBackups = function()
-        {
-            var files = glob.sync(path + '/backup-*.json', {});
-            for (var index = 0; index < files.length; index += 1)
-            {
-                var data = _load.apply(this, [files[index]]);
-                var id = files[index].substr(files[index].lastIndexOf('/') + 1);
-                if (typeof data === 'object')
-                {
-                    items[id] = data;
-                }
-            }
-            return items;
-        };
 
         /**
          * Updates the needed backup
          * @param id
          * @param data
+         * @param callback
          */
         this.updateBackup = function(id, data, callback)
         {
             try
             {
-                fs.writeFileSync(path + '/' + id, JSON.stringify(data), {encoding: 'utf8'});
-                items[id] = data;
+                fs.writeFileSync(path, JSON.stringify(data), {encoding: 'utf8'});
                 callback(false);
                 return;
             }
@@ -67,15 +37,13 @@
 
         /**
          * Deletes a backup
-         * @param id
          * @param callback
          */
-        this.deleteBackup = function(id, callback)
+        this.deleteBackup = function(callback)
         {
             try
             {
-                delete items[id];
-                fs.unlinkSync(path + '/' + id);
+                fs.unlinkSync(path);
                 callback(false);
                 return;
             }
@@ -88,14 +56,13 @@
         /**
          * Loads a configuration file
          * Throws an error if the JSON could not be loaded
-         * @param filepath
          */
-        var _load = function(filepath)
+        this.load = function()
         {
             var raw_data;
             try
             {
-                raw_data = fs.readFileSync(filepath, {encoding: 'utf8'});
+                raw_data = fs.readFileSync(path, {encoding: 'utf8'});
             }
             catch (error)
             {

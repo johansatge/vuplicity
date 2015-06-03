@@ -14,6 +14,7 @@
     var module = {};
 
     var appTray = null;
+    var configPath = null;
     var controlPanelWindow = null;
 
     /**
@@ -27,7 +28,7 @@
         appTray = tray;
         controlPanelWindow = new WindowRenderer();
         controlPanelWindow.load(panel_path);
-        Model.init(config_path);
+        configPath = config_path;
         _handleStatusEvents.apply(this);
         _handleBackupEvents.apply(this);
         _handleFileTreeEvents.apply(this);
@@ -42,7 +43,7 @@
     {
         ipc.on('control-panel-ready', function()
         {
-            var backups = Model.initAndGetBackups();
+            var backups = Model.initAndGetBackups(configPath);
             for (var index in backups)
             {
                 controlPanelWindow.send('set-backup-options', index, backups[index], false);
@@ -58,7 +59,7 @@
         });
         ipc.on('cancel-process', function(evt, backup_id)
         {
-            Model.cancelProcess(backup_id);
+            Model.getBackup(backup_id).cancelProcess();
         });
         Model.on('cli-output', function(backup_id, output)
         {
@@ -85,7 +86,7 @@
     {
         ipc.on('refresh-status', function(evt, backup_id)
         {
-            Model.refreshBackupStatus(backup_id);
+            Model.getBackup(backup_id).refreshBackupStatus();
         });
         Model.on('status-refreshed', function(backup_id, error, status)
         {
@@ -100,7 +101,7 @@
     {
         ipc.on('refresh-file-tree', function(evt, backup_id)
         {
-            Model.refreshBackupTree(backup_id);
+            Model.getBackup(backup_id).refreshBackupTree();
         });
         Model.on('file-tree-refreshed', function(backup_id, error, tree)
         {
@@ -108,11 +109,11 @@
         });
         ipc.on('restore-file', function(evt, backup_id, path)
         {
-            Model.restoreFile(backup_id, path, controlPanelWindow.getWindow());
+            Model.getBackup(backup_id).restoreFile(path, controlPanelWindow.getWindow());
         });
         ipc.on('restore-tree', function(evt, backup_id)
         {
-            Model.restoreTree(backup_id, controlPanelWindow.getWindow());
+            Model.getBackup(backup_id).restoreTree(controlPanelWindow.getWindow());
         });
     };
 
@@ -123,11 +124,11 @@
     {
         ipc.on('start-backup', function(evt, backup_id)
         {
-            Model.startBackup(backup_id, controlPanelWindow.getWindow());
+            Model.getBackup(backup_id).startBackup(controlPanelWindow.getWindow());
         });
         ipc.on('request-backup-deletion', function(evt, backup_id)
         {
-            Model.deleteBackup(backup_id, controlPanelWindow.getWindow());
+            Model.getBackup(backup_id).deleteBackup(controlPanelWindow.getWindow());
         });
         Model.on('backup-deleted', function(backup_id)
         {
@@ -142,7 +143,7 @@
     {
         ipc.on('save-backup', function(evt, backup_id, backup_data)
         {
-            Model.saveBackupSettings(backup_id, backup_data);
+            Model.getBackup(backup_id).saveBackupSettings(backup_data);
         });
         Model.on('backup-saved', function(backup_id, backup_data)
         {
