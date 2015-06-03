@@ -1,6 +1,7 @@
 /**
  * Configuration file manager
  * @todo refactor this and check file structure
+ * @todo check if dir exists; or create it and throw an error if needed
  */
 (function(require, m)
 {
@@ -8,6 +9,8 @@
     'use strict';
 
     var fs = require('fs');
+    var glob = require('glob');
+    var crypto = require('crypto');
 
     var module = function(config_path)
     {
@@ -29,13 +32,17 @@
          */
         this.getBackups = function()
         {
-            var current_data = _load.apply(this);
-            if (typeof current_data === 'object' && typeof current_data.backups === 'object')
+            var files = glob.sync(path + '/backup-*.json', {});
+            for (var index = 0; index < files.length; index += 1)
             {
-                items = current_data.backups;
-                return current_data.backups;
+                var data = _load.apply(this, [files[index]]);
+                var id = files[index].substr(files[index].lastIndexOf('/') + 1);
+                if (typeof data === 'object')
+                {
+                    items[id] = data;
+                }
             }
-            return {};
+            return items;
         };
 
         /**
@@ -45,11 +52,9 @@
          */
         this.updateBackup = function(id, data, callback)
         {
-            var backups = this.getBackups();
             try
             {
-                backups[id] = data;
-                fs.writeFileSync(path, JSON.stringify({backups: backups}), {encoding: 'utf8'});
+                fs.writeFileSync(path + '/' + id, JSON.stringify(data), {encoding: 'utf8'});
                 items[id] = data;
                 callback(false);
                 return;
@@ -67,30 +72,30 @@
          */
         this.deleteBackup = function(id, callback)
         {
-            var backups = this.getBackups();
             try
             {
-                delete backups[id];
-                fs.writeFileSync(path, JSON.stringify({backups: backups}), {encoding: 'utf8'});
+                delete items[id];
+                fs.unlinkSync(path + '/' + id);
                 callback(false);
                 return;
             }
             catch (error)
             {
             }
-            callback('Settings could not be written.');
+            callback('Settings could not be deleted.');
         };
 
         /**
-         * Loads the configuration file
+         * Loads a configuration file
          * Throws an error if the JSON could not be loaded
+         * @param filepath
          */
-        var _load = function()
+        var _load = function(filepath)
         {
             var raw_data;
             try
             {
-                raw_data = fs.readFileSync(path, {encoding: 'utf8'});
+                raw_data = fs.readFileSync(filepath, {encoding: 'utf8'});
             }
             catch (error)
             {

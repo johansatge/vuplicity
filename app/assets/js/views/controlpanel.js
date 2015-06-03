@@ -124,7 +124,7 @@
     var _onCreateNewBackup = function(evt)
     {
         evt.preventDefault();
-        _onSetBackupOptions.apply(this, ['b-' + new Date().getTime(), {}, true]);
+        _onSetBackupOptions.apply(this, ['backup-' + new Date().getTime() + '.json', {}, true]);
     };
 
     /**

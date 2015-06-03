@@ -62,13 +62,18 @@
         var backups = appConfig.getBackups();
         for (var index in backups)
         {
-            duplicityHelpers[index] = new Duplicity(index); // @todo create a new helper when adding a backup from the UI
-            duplicityHelpers[index].onOutput(_onDuplicityOutput.bind(this));
-            duplicityHelpers[index].setData(backups[index]);
-            //Scheduler.updateBackup(index, backups[index]);
+            _registerHelper.apply(this, [index, backups[index]]);
         }
         //Scheduler.onScheduledEvent(_onScheduledEvent.bind(this));
         return backups;
+    };
+
+    var _registerHelper = function(index, data)
+    {
+        duplicityHelpers[index] = new Duplicity(index);
+        duplicityHelpers[index].onOutput(_onDuplicityOutput.bind(this));
+        duplicityHelpers[index].setData(data);
+        //Scheduler.updateBackup(index, data);
     };
 
     /**
@@ -112,6 +117,10 @@
             if (error === false)
             {
                 Scheduler.updateBackup(backup_id, backup_data);
+                if (typeof duplicityHelpers[backup_id] === 'undefined')
+                {
+                    _registerHelper.apply(this, [backup_id]);
+                }
                 duplicityHelpers[backup_id].setData(backup_data);
                 emitter.emit('backup-saved', backup_id, error, backup_data);
             }

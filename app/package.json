@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "app.js",
   "dependencies": {
-    "moment": "~2.10.3"
+    "moment": "~2.10.3",
+    "glob": "~5.0.10"
   }
 }
