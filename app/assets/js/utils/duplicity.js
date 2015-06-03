@@ -152,7 +152,7 @@
         this.cancel = function()
         {
             cancelled = true;
-            process.kill('SIGTERM');
+            process.kill('SIGINT');
         };
 
         /**
