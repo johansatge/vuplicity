@@ -135,11 +135,11 @@
      */
     var _handleSettingsEvents = function()
     {
-        ipc.on('save-settings', function(evt, backup_id, backup_data)
+        ipc.on('save-backup', function(evt, backup_id, backup_data)
         {
             Model.saveBackupSettings(backup_id, backup_data);
         });
-        Model.on('settings-saved', function(backup_id, backup_data)
+        Model.on('backup-saved', function(backup_id, backup_data)
         {
             controlPanelWindow.send('set-backup-options', backup_id, backup_data, false);
         });

@@ -1,6 +1,6 @@
 /**
  * Main model
- * @todo refactor with appConfig, add comments
+ * Contains available backup-related tasks
  */
 (function(m, require)
 {
@@ -16,18 +16,33 @@
     var module = {};
     var appConfig = null;
     var duplicityHelpers = {};
-    var emitter = new events.EventEmitter();
+    var emitter = null;
 
+    /**
+     * Registers an event
+     * @param evt
+     * @param callback
+     */
     module.on = function(evt, callback)
     {
         emitter.on(evt, callback);
     };
 
+    /**
+     * Inits the model
+     * @param config_path
+     */
     module.init = function(config_path)
     {
         appConfig = new Configuration(config_path);
+        emitter = new events.EventEmitter();
     };
 
+    /**
+     * Selects the directory of a backup
+     * @param backup_id
+     * @param context
+     */
     module.selectBackupDirectory = function(backup_id, context)
     {
         dialog.showOpenDialog(context, {title: 'Select directory', properties: ['openDirectory']}, function(paths)
@@ -39,20 +54,27 @@
         });
     };
 
+    /**
+     * Inits and returns the current backups list
+     */
     module.initAndGetBackups = function()
     {
         var backups = appConfig.getBackups();
         for (var index in backups)
         {
-            duplicityHelpers[index] = new Duplicity(index);
+            duplicityHelpers[index] = new Duplicity(index); // @todo create a new helper when adding a backup from the UI
             duplicityHelpers[index].onOutput(_onDuplicityOutput.bind(this));
             duplicityHelpers[index].setData(backups[index]);
-            Scheduler.updateBackup(index, backups[index]);
+            //Scheduler.updateBackup(index, backups[index]);
         }
-        Scheduler.onScheduledEvent(_onScheduledEvent.bind(this));
+        //Scheduler.onScheduledEvent(_onScheduledEvent.bind(this));
         return backups;
     };
 
+    /**
+     * Gets the status of the needed backup
+     * @param backup_id
+     */
     module.refreshBackupStatus = function(backup_id)
     {
         emitter.emit('ui', backup_id, 'processing', 'Refreshing status...');
@@ -63,6 +85,10 @@
         });
     };
 
+    /**
+     * Gets the file tree of the needed backup
+     * @param backup_id
+     */
     module.refreshBackupTree = function(backup_id)
     {
         emitter.emit('ui', backup_id, 'processing', 'Refreshing file tree...');
@@ -73,6 +99,11 @@
         });
     };
 
+    /**
+     * Saves the settings of a backup
+     * @param backup_id
+     * @param backup_data
+     */
     module.saveBackupSettings = function(backup_id, backup_data)
     {
         emitter.emit('ui', backup_id, 'processing', 'Saving settings...');
@@ -82,17 +113,26 @@
             {
                 Scheduler.updateBackup(backup_id, backup_data);
                 duplicityHelpers[backup_id].setData(backup_data);
-                emitter.emit('settings-saved', backup_id, error, backup_data);
+                emitter.emit('backup-saved', backup_id, error, backup_data);
             }
             emitter.emit('ui', backup_id, 'idle', error ? error : 'Settings saved.');
         });
     };
 
+    /**
+     * Cancels the current process for the given backup (may be a backup task, a status update...)
+     * @param backup_id
+     */
     module.cancelProcess = function(backup_id)
     {
         duplicityHelpers[backup_id].cancel();
     };
 
+    /**
+     * Starts a backup
+     * @param backup_id
+     * @param context
+     */
     module.startBackup = function(backup_id, context)
     {
         var params = {
@@ -115,6 +155,11 @@
         });
     };
 
+    /**
+     * Deletes a backup
+     * @param backup_id
+     * @param context
+     */
     module.deleteBackup = function(backup_id, context)
     {
         var params = {
@@ -144,19 +189,21 @@
         });
     };
 
+    /**
+     * Restores a file from the given backup
+     * @param backup_id
+     * @param path
+     * @param context
+     */
     module.restoreFile = function(backup_id, path, context)
     {
         var backup_data = appConfig.getBackupData(backup_id);
-        var params = {
-            title: 'Select the restore destination',
-            defaultPath: backup_data.path
-        };
-        dialog.showSaveDialog(context, params, function(destination_path)
+        dialog.showSaveDialog(context, {title: 'Select the restore destination', defaultPath: backup_data.path}, function(dest_path)
         {
-            if (typeof destination_path !== 'undefined')
+            if (typeof dest_path !== 'undefined')
             {
                 emitter.emit('ui', backup_id, 'processing', 'Restoring file...');
-                duplicityHelpers[backup_id].restoreFile(path, destination_path, function(error)
+                duplicityHelpers[backup_id].restoreFile(path, dest_path, function(error)
                 {
                     emitter.emit('ui', backup_id, 'idle', error ? error : 'File restored.');
                 });
@@ -164,6 +211,11 @@
         });
     };
 
+    /**
+     * Restore all files from the given backup
+     * @param backup_id
+     * @param context
+     */
     module.restoreTree = function(backup_id, context)
     {
         var backup_data = appConfig.getBackupData(backup_id);
@@ -188,11 +240,11 @@
     /**
      * Triggers a scheduled event
      * @param backup_id
-     */
-    var _onScheduledEvent = function(backup_id)
-    {
-        console.log('@todo start backup if not already running (' + backup_id + ')');
-    };
+     *
+     var _onScheduledEvent = function(backup_id)
+     {
+         console.log('@todo start backup if not already running (' + backup_id + ')');
+     };*/
 
     /**
      * Sends Duplicity output to the backup view
