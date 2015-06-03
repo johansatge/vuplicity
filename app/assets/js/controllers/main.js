@@ -35,17 +35,15 @@
         controlPanelWindow = new WindowRenderer();
         controlPanelWindow.load(panel_path);
         configPath = config_path;
-        _handleStatusEvents.apply(this);
-        _handleBackupEvents.apply(this);
-        _handleFileTreeEvents.apply(this);
-        _handleSettingsEvents.apply(this);
-        _handleUIEvents.apply(this);
+
+        _handleViewEvents.apply(this);
+        _handleModelEvents.apply(this);
     };
 
     /**
-     * UI events (initial state of the view, dialogs, CLI activity...)
+     * View events (user interactions & requests coming from the UI)
      */
-    var _handleUIEvents = function()
+    var _handleViewEvents = function()
     {
         ipc.on('control-panel-ready', function()
         {
@@ -58,21 +56,73 @@
                 controlPanelWindow.send('set-backup-options', id, data, false);
             }
         });
-        ipc.on('select-directory', function(evt, backup_id)
-        {
-            backups[backup_id].selectDirectory(controlPanelWindow.getWindow());
-        });
-        emitter.on('directory-selected', function(backup_id, path)
-        {
-            controlPanelWindow.send('set-backup-path', path, backup_id);
-        });
         ipc.on('cancel-process', function(evt, backup_id)
         {
             backups[backup_id].cancelProcess();
         });
+        ipc.on('select-backup-path', function(evt, backup_id)
+        {
+            backups[backup_id].selectBackupPath(controlPanelWindow.getWindow());
+        });
+        ipc.on('refresh-status', function(evt, backup_id)
+        {
+            backups[backup_id].refreshBackupStatus();
+        });
+        ipc.on('refresh-file-tree', function(evt, backup_id)
+        {
+            backups[backup_id].refreshBackupTree();
+        });
+        ipc.on('restore-file', function(evt, backup_id, path)
+        {
+            backups[backup_id].restoreFile(path, controlPanelWindow.getWindow());
+        });
+        ipc.on('restore-tree', function(evt, backup_id)
+        {
+            backups[backup_id].restoreTree(controlPanelWindow.getWindow());
+        });
+        ipc.on('start-backup', function(evt, backup_id)
+        {
+            backups[backup_id].startBackup(controlPanelWindow.getWindow());
+        });
+        ipc.on('delete-backup', function(evt, backup_id)
+        {
+            backups[backup_id].deleteBackup(controlPanelWindow.getWindow());
+        });
+        ipc.on('save-backup', function(evt, backup_id, backup_data)
+        {
+            backups[backup_id].saveBackupSettings(backup_data);
+        });
+    };
+
+    /**
+     * Model events (answers from processes launched by the view)
+     */
+    var _handleModelEvents = function()
+    {
         emitter.on('cli-output', function(backup_id, output)
         {
             controlPanelWindow.send('set-backup-history', backup_id, output);
+        });
+        emitter.on('backup-path-selected', function(backup_id, path)
+        {
+            controlPanelWindow.send('set-backup-path', path, backup_id);
+        });
+        emitter.on('status-refreshed', function(backup_id, status)
+        {
+            controlPanelWindow.send('set-backup-status', backup_id, status);
+        });
+        emitter.on('file-tree-refreshed', function(backup_id, tree)
+        {
+            controlPanelWindow.send('set-backup-file-tree', backup_id, tree);
+        });
+        emitter.on('backup-saved', function(backup_id, backup_data)
+        {
+            controlPanelWindow.send('set-backup-options', backup_id, backup_data, false);
+        });
+        emitter.on('backup-deleted', function(backup_id)
+        {
+            controlPanelWindow.send('confirm-backup-deletion', backup_id);
+            delete backups[backup_id];
         });
         emitter.on('ui-processing', function(backup_id, message)
         {
@@ -85,78 +135,6 @@
             appTray.setIdle();
             controlPanelWindow.send('set-backup-ui', backup_id, 'idle', message);
             controlPanelWindow.send('set-backup-history', backup_id, moment().format('YYYY-MM-DD HH:mm:ss') + '\n' + message);
-        });
-    };
-
-    /**
-     * Status events (refresh)
-     */
-    var _handleStatusEvents = function()
-    {
-        ipc.on('refresh-status', function(evt, backup_id)
-        {
-            backups[backup_id].refreshBackupStatus();
-        });
-        emitter.on('status-refreshed', function(backup_id, status)
-        {
-            controlPanelWindow.send('set-backup-status', backup_id, status);
-        });
-    };
-
-    /**
-     * Files events (file tree, restores...)
-     */
-    var _handleFileTreeEvents = function()
-    {
-        ipc.on('refresh-file-tree', function(evt, backup_id)
-        {
-            backups[backup_id].refreshBackupTree();
-        });
-        emitter.on('file-tree-refreshed', function(backup_id, tree)
-        {
-            controlPanelWindow.send('set-backup-file-tree', backup_id, tree);
-        });
-        ipc.on('restore-file', function(evt, backup_id, path)
-        {
-            backups[backup_id].restoreFile(path, controlPanelWindow.getWindow());
-        });
-        ipc.on('restore-tree', function(evt, backup_id)
-        {
-            backups[backup_id].restoreTree(controlPanelWindow.getWindow());
-        });
-    };
-
-    /**
-     * Backup events
-     */
-    var _handleBackupEvents = function()
-    {
-        ipc.on('start-backup', function(evt, backup_id)
-        {
-            backups[backup_id].startBackup(controlPanelWindow.getWindow());
-        });
-        ipc.on('request-backup-deletion', function(evt, backup_id)
-        {
-            backups[backup_id].deleteBackup(controlPanelWindow.getWindow());
-        });
-        emitter.on('backup-deleted', function(backup_id)
-        {
-            controlPanelWindow.send('confirm-backup-deletion', backup_id);
-        });
-    };
-
-    /**
-     * Settings (& automation) events
-     */
-    var _handleSettingsEvents = function()
-    {
-        ipc.on('save-backup', function(evt, backup_id, backup_data)
-        {
-            backups[backup_id].saveBackupSettings(backup_data);
-        });
-        emitter.on('backup-saved', function(backup_id, backup_data)
-        {
-            controlPanelWindow.send('set-backup-options', backup_id, backup_data, false);
         });
     };
 

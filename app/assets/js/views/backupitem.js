@@ -290,7 +290,7 @@
         var _onSelectDirectory = function(evt)
         {
             evt.preventDefault();
-            actionCallback('select-directory', id, _getCurrentOptions.apply(this));
+            actionCallback('select-backup-path', id, _getCurrentOptions.apply(this));
         };
 
         /**

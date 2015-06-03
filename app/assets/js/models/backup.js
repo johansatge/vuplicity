@@ -119,7 +119,7 @@
         };
 
         /**
-         * Deletes a backup
+         * Deletes backup
          * @param context
          */
         this.deleteBackup = function(context)
@@ -151,7 +151,7 @@
         };
 
         /**
-         * Restores a file from the given backup
+         * Restores a file
          * @param path
          * @param context
          */
@@ -171,7 +171,7 @@
         };
 
         /**
-         * Restore all files from the given backup
+         * Restore all files
          * @param context
          */
         this.restoreTree = function(context)
@@ -198,13 +198,13 @@
          * Selects a destination directory
          * @param context
          */
-        this.selectDirectory = function(context)
+        this.selectBackupPath = function(context)
         {
             dialog.showOpenDialog(context, {title: 'Select directory', properties: ['openDirectory']}, function(paths)
             {
                 if (typeof paths !== 'undefined')
                 {
-                    eventEmitter('directory-selected', backupID, paths[0]);
+                    eventEmitter.emit('backup-path-selected', backupID, paths[0]);
                 }
             });
         };

@@ -144,7 +144,7 @@
     var _onRequestBackupDeletion = function(evt)
     {
         evt.preventDefault();
-        ipc.send('request-backup-deletion', currentBackupID);
+        ipc.send('delete-backup', currentBackupID);
     };
 
     /**
