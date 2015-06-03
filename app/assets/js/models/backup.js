@@ -39,7 +39,7 @@
         };
 
         /**
-         * Gets the status of the needed backup
+         * Gets backup status
          */
         this.refreshBackupStatus = function()
         {
@@ -52,7 +52,7 @@
         };
 
         /**
-         * Gets the file tree of the needed backup
+         * Gets backup file tree
          */
         this.refreshBackupTree = function()
         {
@@ -65,7 +65,7 @@
         };
 
         /**
-         * Saves the settings of a backup
+         * Saves backup settings
          * @param backup_data
          */
         this.saveBackupSettings = function(backup_data)
@@ -196,6 +196,21 @@
         };
 
         /**
+         * Selects a destination directory
+         * @param context
+         */
+        this.selectDirectory = function(context)
+        {
+            dialog.showOpenDialog(context, {title: 'Select directory', properties: ['openDirectory']}, function(paths)
+            {
+                if (typeof paths !== 'undefined')
+                {
+                    eventEmitter('directory-selected', backupID, paths[0]);
+                }
+            });
+        };
+
+        /**
          * Triggers a scheduled event
          * @param backupID
          *
@@ -206,7 +221,6 @@
 
         /**
          * Sends Duplicity output to the backup view
-         * @param backupID
          * @param output
          */
         var _onDuplicityOutput = function(output)

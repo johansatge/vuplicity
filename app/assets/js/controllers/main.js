@@ -59,13 +59,11 @@
         });
         ipc.on('select-directory', function(evt, backup_id)
         {
-            dialog.showOpenDialog(context, {title: 'Select directory', properties: ['openDirectory']}, function(paths)
-            {
-                if (typeof paths !== 'undefined')
-                {
-                    controlPanelWindow.send('set-backup-path', paths[0], backup_id);
-                }
-            });
+            backups[backup_id].selectDirectory(controlPanelWindow.getWindow());
+        });
+        emitter.on('directory-selected', function(backup_id, path)
+        {
+            controlPanelWindow.send('set-backup-path', path, backup_id);
         });
         ipc.on('cancel-process', function(evt, backup_id)
         {
