@@ -1,64 +1,48 @@
 /**
- * App bootstrap
+ * Main controller
  */
-(function(process, require, js_path)
+(function(m, require)
 {
 
     'use strict';
 
-    var appPath = js_path.replace(/\/assets\/js$/, '');
-
-    var fs = require('fs');
-    var app = require('app');
-    var crash_reporter = require('crash-reporter');
     var ipc = require('ipc');
     var dialog = require('dialog');
-    var util = require('util');
     var moment = require('moment');
-    var Duplicity = require(appPath + '/assets/js/utils/duplicity.js');
-    var CustomTray = require(appPath + '/assets/js/utils/customtray.js');
-    var WindowRenderer = require(appPath + '/assets/js/utils/windowrenderer.js');
-    var Configuration = require(appPath + '/assets/js/utils/configuration.js');
-    var Scheduler = require(appPath + '/assets/js/utils/scheduler.js');
+    var events = require('events');
+    var Configuration = require(__dirname + '/../utils/configuration.js');
+    var WindowRenderer = require(__dirname + '/../utils/windowrenderer.js');
+    var Duplicity = require(__dirname + '/../utils/duplicity.js');
+    var Scheduler = require(__dirname + '/../utils/scheduler.js');
 
-    var controlPanelWindow = null;
-    var config = null;
+    var module = {};
+
+    var appTray = null;
     var duplicityHelpers = {};
-    var tray = null;
+    var controlPanelWindow = null;
+    var appConfig = null;
 
     /**
-     * Inits the main controller when the electron app is ready
+     * Inits main controller
+     * @param panel_path
+     * @param config_path
+     * @param tray
      */
-    var _onAppReady = function()
+    module.init = function(panel_path, config_path, tray)
     {
-        if (typeof app.dock !== 'undefined')
-        {
-            app.dock.hide();
-        }
-        var config_path = process.env[process.platform !== 'win32' ? 'HOME' : 'USERPROFILE'].replace(/\/$/, '') + '/.vuplicity';
-        config = new Configuration(config_path);
-        _initTray.apply(this);
-        _initControlPanel.apply(this);
-        _initIPC.apply(this);
-        _onControlPanelShow.apply(this);
-    };
-
-    /**
-     * Inits control panel
-     */
-    var _initControlPanel = function()
-    {
+        appTray = tray;
+        appConfig = new Configuration(config_path);
         controlPanelWindow = new WindowRenderer();
-        controlPanelWindow.load('file://' + appPath + '/assets/html/controlpanel.html');
+        controlPanelWindow.load(panel_path);
+        _initIPC.apply(this);
     };
 
     /**
-     * Inits main tray
+     * Displays the main control panel
      */
-    var _initTray = function()
+    module.showControlPanel = function()
     {
-        var label = app.getName() + ' ' + app.getVersion();
-        tray = new CustomTray(label, appPath + '/assets/css/images', _onControlPanelShow.bind(this), _onQuitFromTray.bind(this));
+        controlPanelWindow.makeVisible();
     };
 
     /**
@@ -83,7 +67,7 @@
      */
     var _onControlPanelReady = function()
     {
-        var backups = config.getBackups();
+        var backups = appConfig.getBackups();
         for (var index in backups)
         {
             duplicityHelpers[index] = new Duplicity(index);
@@ -175,7 +159,7 @@
             if (response === 0)
             {
                 _setBackupUI.apply(this, [backup_id, 'processing', 'Deleting backup...']);
-                config.deleteBackup(backup_id, function(error)
+                appConfig.deleteBackup(backup_id, function(error)
                 {
                     if (error === false)
                     {
@@ -230,7 +214,7 @@
     var _onSaveBackupSettings = function(evt, backup_id, backup_data)
     {
         _setBackupUI.apply(this, [backup_id, 'processing', 'Saving settings...']);
-        config.updateBackup(backup_id, backup_data, function(error)
+        appConfig.updateBackup(backup_id, backup_data, function(error)
         {
             _setBackupUI.apply(this, [backup_id, 'idle', error ? error : 'Settings saved.']);
             if (error === false)
@@ -250,7 +234,7 @@
      */
     var _onRestoreBackupFile = function(evt, backup_id, path)
     {
-        var backup_data = config.getBackupData(backup_id);
+        var backup_data = appConfig.getBackupData(backup_id);
         var params = {
             title: 'Select the restore destination',
             defaultPath: backup_data.path
@@ -275,7 +259,7 @@
      */
     var _onRestoreBackupTree = function(evt, backup_id)
     {
-        var backup_data = config.getBackupData(backup_id);
+        var backup_data = appConfig.getBackupData(backup_id);
         var params = {
             title: 'Select the restore destination',
             defaultPath: backup_data.path,
@@ -312,40 +296,12 @@
      */
     var _setBackupUI = function(backup_id, state, message)
     {
-        tray[state === 'processing' ? 'setProcessing' : 'setIdle']();
+        appTray[state === 'processing' ? 'setProcessing' : 'setIdle']();
         controlPanelWindow.send('set-backup-ui', backup_id, state, message);
         message = moment().format('YYYY-MM-DD HH:mm:ss') + '\n' + message;
         controlPanelWindow.send('set-backup-history', backup_id, message);
     };
 
-    /**
-     * Displays the control panel
-     */
-    var _onControlPanelShow = function()
-    {
-        controlPanelWindow.makeVisible();
-    };
+    m.exports = module;
 
-    /**
-     * Do not quit when all windows are closed
-     * @param evt
-     */
-    var _onBeforeQuit = function(evt)
-    {
-        evt.preventDefault();
-    };
-
-    /**
-     * Quits the app from the tray
-     */
-    var _onQuitFromTray = function()
-    {
-        app.removeListener('before-quit', _onBeforeQuit);
-        app.quit();
-    };
-
-    crash_reporter.start();
-    app.on('ready', _onAppReady.bind(this));
-    app.on('before-quit', _onBeforeQuit.bind(this));
-
-})(process, require, __dirname);
+})(module, require);
