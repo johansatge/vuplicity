@@ -9,16 +9,12 @@
     var ipc = require('ipc');
     var dialog = require('dialog');
     var moment = require('moment');
-    var events = require('events');
-    var Configuration = require(__dirname + '/../utils/configuration.js');
     var WindowRenderer = require(__dirname + '/../utils/windowrenderer.js');
-    var Duplicity = require(__dirname + '/../utils/duplicity.js');
-    var Scheduler = require(__dirname + '/../utils/scheduler.js');
+    var Model = require(__dirname + '/../models/main.js');
 
     var module = {};
 
     var appTray = null;
-    var duplicityHelpers = {};
     var controlPanelWindow = null;
     var appConfig = null;
 
@@ -31,10 +27,28 @@
     module.init = function(panel_path, config_path, tray)
     {
         appTray = tray;
-        appConfig = new Configuration(config_path);
         controlPanelWindow = new WindowRenderer();
         controlPanelWindow.load(panel_path);
-        _initIPC.apply(this);
+        Model.init(config_path);
+
+        ipc.on('control-panel-ready', _onControlPanelReady.bind(this));
+        ipc.on('request-backup-deletion', _onRequestBackupDeletion.bind(this));
+        Model.on('backup-deleted', _onBackupDeleted.bind(this));
+        ipc.on('select-directory', _onSelectBackupDirectory.bind(this));
+        ipc.on('cancel-process', _onCancelBackupProcess.bind(this));
+        Model.on('cli-output', _onUpdateBackupHistoryFromModel.bind(this));
+        ipc.on('refresh-file-tree', _onRefreshBackupFileTree.bind(this));
+        Model.on('file-tree-refreshed', _onBackupTreeRefreshed.bind(this));
+        ipc.on('refresh-status', _onRefreshBackupStatus.bind(this));
+        Model.on('status-refreshed', _onBackupStatusRefreshed.bind(this));
+        ipc.on('save-settings', _onSaveBackupSettings.bind(this));
+        Model.on('settings-saved', _onBackupSettingsSaved.bind(this));
+        ipc.on('restore-file', _onRestoreBackupFile.bind(this));
+        Model.on('file-restored', _onBackupFileRestored.bind(this));
+        ipc.on('restore-tree', _onRestoreBackupTree.bind(this));
+        Model.on('tree-restored', _onBackupTreeRestored.bind(this));
+        ipc.on('start-backup', _onStartBackup.bind(this));
+        Model.on('backup-done', _onBackupDone.bind(this));
     };
 
     /**
@@ -45,38 +59,76 @@
         controlPanelWindow.makeVisible();
     };
 
-    /**
-     * Inits IPC events
-     */
-    var _initIPC = function()
+    var _onUpdateBackupHistoryFromModel = function(backup_id, output)
     {
-        ipc.on('control-panel-ready', _onControlPanelReady.bind(this));
-        ipc.on('request-backup-deletion', _onRequestBackupDeletion.bind(this));
-        ipc.on('select-directory', _onSelectBackupDirectory.bind(this));
-        ipc.on('refresh-file-tree', _onRefreshBackupFileTree.bind(this));
-        ipc.on('refresh-status', _onRefreshBackupStatus.bind(this));
-        ipc.on('save-settings', _onSaveBackupSettings.bind(this));
-        ipc.on('cancel-process', _onCancelBackupProcess.bind(this));
-        ipc.on('restore-file', _onRestoreBackupFile.bind(this));
-        ipc.on('restore-all', _onRestoreBackupTree.bind(this));
-        ipc.on('start-backup', _onStartBackup.bind(this));
+        controlPanelWindow.send('set-backup-history', backup_id, output);
     };
 
     /**
-     * Sends the current configuration to the control panel when it has been opened, and inits scheduler
+     * Inits and sends the current configuration to the control panel when it has been opened
      */
     var _onControlPanelReady = function()
     {
-        var backups = appConfig.getBackups();
+        var backups = Model.initAndGetBackups();
         for (var index in backups)
         {
-            duplicityHelpers[index] = new Duplicity(index);
-            duplicityHelpers[index].onOutput(_onDuplicityOutput.bind(this));
-            duplicityHelpers[index].setData(backups[index]);
             controlPanelWindow.send('set-backup-options', index, backups[index], false);
-            Scheduler.updateBackup(index, backups[index]);
         }
-        Scheduler.onScheduledEvent(_onScheduledEvent.bind(this));
+    };
+
+    /**
+     * Gets the status of a backup
+     * @param evt
+     * @param backup_id
+     */
+    var _onRefreshBackupStatus = function(evt, backup_id)
+    {
+        _setBackupUI.apply(this, [backup_id, 'processing', 'Refreshing status...']);
+        Model.refreshBackupStatus(backup_id);
+    };
+
+    var _onBackupStatusRefreshed = function(backup_id, error, status)
+    {
+        controlPanelWindow.send('set-backup-status', backup_id, status);
+        _setBackupUI.apply(this, [backup_id, 'idle', error ? error : 'Status updated.']);
+    };
+
+    /**
+     * Gets the file tree of a backup
+     * @param evt
+     * @param backup_id
+     */
+    var _onRefreshBackupFileTree = function(evt, backup_id)
+    {
+        _setBackupUI.apply(this, [backup_id, 'processing', 'Refreshing file tree...']);
+        Model.refreshBackupTree(backup_id);
+    };
+
+    var _onBackupTreeRefreshed = function(backup_id, error, tree)
+    {
+        controlPanelWindow.send('set-backup-file-tree', backup_id, tree);
+        _setBackupUI.apply(this, [backup_id, 'idle', error ? error : 'Files refreshed.']);
+    };
+
+    /**
+     * Saves the options of a backup
+     * @param evt
+     * @param backup_id
+     * @param backup_data
+     */
+    var _onSaveBackupSettings = function(evt, backup_id, backup_data)
+    {
+        _setBackupUI.apply(this, [backup_id, 'processing', 'Saving settings...']);
+        Model.saveBackupSettings(backup_id, backup_data);
+    };
+
+    var _onBackupSettingsSaved = function(backup_id, error, backup_data)
+    {
+        _setBackupUI.apply(this, [backup_id, 'idle', error ? error : 'Settings saved.']);
+        if (error === false)
+        {
+            controlPanelWindow.send('set-backup-options', backup_id, backup_data, false);
+        }
     };
 
     /**
@@ -86,16 +138,7 @@
      */
     var _onCancelBackupProcess = function(evt, backup_id)
     {
-        duplicityHelpers[backup_id].cancel();
-    };
-
-    /**
-     * Triggers a scheduled event
-     * @param backup_id
-     */
-    var _onScheduledEvent = function(backup_id)
-    {
-        console.log('@todo start backup if not already running');
+        Model.cancelProcess(backup_id);
     };
 
     /**
@@ -113,16 +156,18 @@
         dialog.showMessageBox(controlPanelWindow.getWindow(), params, function(response)
         {
             _setBackupUI.apply(this, [backup_id, 'processing', 'Backup in progress...']);
-            duplicityHelpers[backup_id].doBackup((response === 0 ? '' : 'full'), function(error, status)
-            {
-                controlPanelWindow.send('set-backup-status', backup_id, status);
-                _setBackupUI.apply(this, [backup_id, 'idle', error ? error : 'Backup done.']);
-                if (!error)
-                {
-                    _onRefreshBackupStatus.apply(this, [null, backup_id]);
-                }
-            });
+            Model.startBackup(backup_id, (response === 0 ? '' : 'full'));
         });
+    };
+
+    var _onBackupDone = function(backup_id, error, status)
+    {
+        controlPanelWindow.send('set-backup-status', backup_id, status);
+        _setBackupUI.apply(this, [backup_id, 'idle', error ? error : 'Backup done.']);
+        if (!error)
+        {
+            _onRefreshBackupStatus.apply(this, [null, backup_id]);
+        }
     };
 
     /**
@@ -159,71 +204,21 @@
             if (response === 0)
             {
                 _setBackupUI.apply(this, [backup_id, 'processing', 'Deleting backup...']);
-                appConfig.deleteBackup(backup_id, function(error)
-                {
-                    if (error === false)
-                    {
-                        controlPanelWindow.send('confirm-backup-deletion', backup_id);
-                        delete duplicityHelpers[backup_id];
-                    }
-                    else
-                    {
-                        _setBackupUI.apply(this, [backup_id, 'idle', error]);
-                    }
-                });
+                Model.deleteBackup(backup_id);
             }
         });
     };
 
-    /**
-     * Gets the status of a backup
-     * @param evt
-     * @param backup_id
-     */
-    var _onRefreshBackupStatus = function(evt, backup_id)
+    var _onBackupDeleted = function(backup_id, error)
     {
-        _setBackupUI.apply(this, [backup_id, 'processing', 'Refreshing status...']);
-        duplicityHelpers[backup_id].getStatus(function(error, status)
+        if (error === false)
         {
-            controlPanelWindow.send('set-backup-status', backup_id, status);
-            _setBackupUI.apply(this, [backup_id, 'idle', error ? error : 'Status updated.']);
-        });
-    };
-
-    /**
-     * Gets the file tree of a backup
-     * @param evt
-     * @param backup_id
-     */
-    var _onRefreshBackupFileTree = function(evt, backup_id)
-    {
-        _setBackupUI.apply(this, [backup_id, 'processing', 'Refreshing file tree...']);
-        duplicityHelpers[backup_id].getFiles(function(error, tree)
+            controlPanelWindow.send('confirm-backup-deletion', backup_id);
+        }
+        else
         {
-            controlPanelWindow.send('set-backup-file-tree', backup_id, tree);
-            _setBackupUI.apply(this, [backup_id, 'idle', error ? error : 'Files refreshed.']);
-        });
-    };
-
-    /**
-     * Saves the options of a backup
-     * @param evt
-     * @param backup_id
-     * @param backup_data
-     */
-    var _onSaveBackupSettings = function(evt, backup_id, backup_data)
-    {
-        _setBackupUI.apply(this, [backup_id, 'processing', 'Saving settings...']);
-        appConfig.updateBackup(backup_id, backup_data, function(error)
-        {
-            _setBackupUI.apply(this, [backup_id, 'idle', error ? error : 'Settings saved.']);
-            if (error === false)
-            {
-                controlPanelWindow.send('set-backup-options', backup_id, backup_data, false);
-                Scheduler.updateBackup(backup_id, backup_data);
-                duplicityHelpers[backup_id].setData(backup_data);
-            }
-        });
+            _setBackupUI.apply(this, [backup_id, 'idle', error]);
+        }
     };
 
     /**
@@ -244,12 +239,14 @@
             if (typeof destination_path !== 'undefined')
             {
                 _setBackupUI.apply(this, [backup_id, 'processing', 'Restoring file...']);
-                duplicityHelpers[backup_id].restoreFile(path, destination_path, function(error)
-                {
-                    _setBackupUI.apply(this, [backup_id, 'idle', error ? error : 'File restored.']);
-                });
+                Model.restoreFile(backup_id, path, destination_path);
             }
         });
+    };
+
+    var _onBackupFileRestored = function(backup_id, error)
+    {
+        _setBackupUI.apply(this, [backup_id, 'idle', error ? error : 'File restored.']);
     };
 
     /**
@@ -270,22 +267,14 @@
             if (typeof destination_path !== 'undefined')
             {
                 _setBackupUI.apply(this, [backup_id, 'processing', 'Restoring all files...']);
-                duplicityHelpers[backup_id].restoreTree(destination_path, function(error)
-                {
-                    _setBackupUI.apply(this, [backup_id, 'idle', error ? error : 'Backup tree restored.']);
-                });
+                Model.restoreTree(backup_id, destination_path);
             }
         });
     };
 
-    /**
-     * Sends Duplicity output to the backup view
-     * @param backup_id
-     * @param output
-     */
-    var _onDuplicityOutput = function(backup_id, output)
+    var _onBackupTreeRestored = function(backup_id, error)
     {
-        controlPanelWindow.send('set-backup-history', backup_id, output);
+        _setBackupUI.apply(this, [backup_id, 'idle', error ? error : 'Backup tree restored.']);
     };
 
     /**
