@@ -1,5 +1,6 @@
 /**
  * Duplicity CLI helper
+ * Used in the backup model
  */
 (function(require, m)
 {
@@ -16,17 +17,6 @@
     var module = function()
     {
 
-        var data = null;
-
-        /**
-         * Sets backup data
-         * @param d
-         */
-        this.setData = function(d)
-        {
-            data = d;
-        };
-
         /**
          * Registers a callback to be triggered when an output is received from the CLI tool
          * @param callback
@@ -38,10 +28,11 @@
 
         /**
          * Starts a backup task
+         * @param data
          * @param type (full | "")
          * @param callback
          */
-        this.doBackup = function(type, callback)
+        this.doBackup = function(data, type, callback)
         {
             var options = {env: {PASSPHRASE: data.passphrase, TMPDIR: os.tmpdir()}};
             var command = 'duplicity ' + type + ' "' + data.path + '" "' + data.url + '" ' + data.options + ' --verbosity info';
@@ -55,11 +46,12 @@
 
         /**
          * Tries to get a file and save it on the given path
+         * @param data
          * @param path
          * @param dest_path
          * @param callback
          */
-        this.restoreFile = function(path, dest_path, callback)
+        this.restoreFile = function(data, path, dest_path, callback)
         {
             var options = {env: {PASSPHRASE: data.passphrase, TMPDIR: os.tmpdir()}};
             var command = 'duplicity restore --file-to-restore "' + path + '" "' + data.url + '" "' + dest_path + '"' + ' ' + data.options + ' --verbosity info';
@@ -73,10 +65,11 @@
 
         /**
          * Tries to restore a backup
+         * @param data
          * @param dest_path
          * @param callback
          */
-        this.restoreTree = function(dest_path, callback)
+        this.restoreTree = function(data, dest_path, callback)
         {
             var options = {env: {PASSPHRASE: data.passphrase, TMPDIR: os.tmpdir()}};
             var command = 'duplicity restore "' + data.url + '" "' + dest_path + '"' + ' ' + data.options + ' --verbosity info';
@@ -90,9 +83,10 @@
 
         /**
          * Lists the current files in a backup
+         * @param data
          * @param callback
          */
-        this.getFiles = function(callback)
+        this.getFiles = function(data, callback)
         {
             var options = {env: {PASSPHRASE: data.passphrase, TMPDIR: os.tmpdir()}};
             var command = 'duplicity list-current-files ' + data.url + ' ' + data.options + ' --verbosity info';
@@ -124,9 +118,10 @@
 
         /**
          * Gets the current status of a backup
+         * @param data
          * @param callback
          */
-        this.getStatus = function(callback)
+        this.getStatus = function(data, callback)
         {
             var options = {env: {PASSPHRASE: data.passphrase, TMPDIR: os.tmpdir()}};
             var command = 'duplicity collection-status ' + data.url + ' ' + data.options + ' --verbosity info';

@@ -1,5 +1,6 @@
 /**
- * Backup item
+ * Backup model
+ * Contains all backup-related actions: status, backup, restore...
  */
 (function(m, require)
 {
@@ -33,7 +34,6 @@
             configHelper = new Configuration(config_path);
             backupData = configHelper.load(); // @todo if FALSE, throw an error
             duplicityHelper = new Duplicity();
-            duplicityHelper.setData(backupData);
             duplicityHelper.onOutput(_onDuplicityOutput.bind(this));
             return backupData;
         };
@@ -44,9 +44,9 @@
         this.refreshBackupStatus = function()
         {
             eventEmitter.emit('ui-processing', backupID, 'Refreshing status...');
-            duplicityHelper.getStatus(function(error, status)
+            duplicityHelper.getStatus(backupData, function(error, status)
             {
-                eventEmitter.emit('status-refreshed', backupID, error, status);
+                eventEmitter.emit('status-refreshed', backupID, status);
                 eventEmitter.emit('ui-idle', backupID, error ? error : 'Status updated.');
             });
         };
@@ -57,9 +57,9 @@
         this.refreshBackupTree = function()
         {
             eventEmitter.emit('ui-processing', backupID, 'Refreshing file tree...');
-            duplicityHelper.getFiles(function(error, tree)
+            duplicityHelper.getFiles(backupData, function(error, tree)
             {
-                eventEmitter.emit('file-tree-refreshed', backupID, error, tree);
+                eventEmitter.emit('file-tree-refreshed', backupID, tree);
                 eventEmitter.emit('ui-idle', backupID, error ? error : 'Files refreshed.');
             });
         };
@@ -76,9 +76,8 @@
                 if (error === false)
                 {
                     //Scheduler.updateBackup(backupID, backup_data);
-                    duplicityHelper.setData(backup_data);
                     backupData = backup_data;
-                    eventEmitter.emit('backup-saved', backupID, error, backup_data);
+                    eventEmitter.emit('backup-saved', backupID, backup_data);
                 }
                 eventEmitter.emit('ui-idle', backupID, error ? error : 'Settings saved.');
             });
@@ -108,7 +107,7 @@
             {
                 var type = response === 0 ? '' : 'full';
                 eventEmitter.emit('ui-processing', backupID, 'Backup in progress...');
-                duplicityHelper.doBackup(type, function(error)
+                duplicityHelper.doBackup(backupData, type, function(error)
                 {
                     eventEmitter.emit('ui-idle', backupID, error ? error : 'Backup done.');
                     if (!error)
@@ -163,7 +162,7 @@
                 if (typeof dest_path !== 'undefined')
                 {
                     eventEmitter.emit('ui-processing', backupID, 'Restoring file...');
-                    duplicityHelper.restoreFile(path, dest_path, function(error)
+                    duplicityHelper.restoreFile(backupData, path, dest_path, function(error)
                     {
                         eventEmitter.emit('ui-idle', backupID, error ? error : 'File restored.');
                     });
@@ -187,7 +186,7 @@
                 if (typeof destination_path !== 'undefined')
                 {
                     eventEmitter.emit('ui-processing', backupID, 'Restoring all files...');
-                    duplicityHelper.restoreTree(destination_path, function(error)
+                    duplicityHelper.restoreTree(backupData, destination_path, function(error)
                     {
                         eventEmitter.emit('ui-idle', backupID, error ? error : 'Backup tree restored.');
                     });

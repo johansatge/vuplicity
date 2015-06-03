@@ -1,5 +1,6 @@
 /**
  * Main controller
+ * Manages communication between the control panel and the backup models
  */
 (function(m, require, __dirname)
 {
@@ -96,7 +97,7 @@
         {
             backups[backup_id].refreshBackupStatus();
         });
-        emitter.on('status-refreshed', function(backup_id, error, status)
+        emitter.on('status-refreshed', function(backup_id, status)
         {
             controlPanelWindow.send('set-backup-status', backup_id, status);
         });
@@ -111,7 +112,7 @@
         {
             backups[backup_id].refreshBackupTree();
         });
-        emitter.on('file-tree-refreshed', function(backup_id, error, tree)
+        emitter.on('file-tree-refreshed', function(backup_id, tree)
         {
             controlPanelWindow.send('set-backup-file-tree', backup_id, tree);
         });
