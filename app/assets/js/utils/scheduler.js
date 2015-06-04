@@ -1,32 +1,35 @@
 /**
- * Scheduled tasks
+ * Scheduled tasks manager
  */
 (function(require, m)
 {
 
     'use strict';
 
-    var module = {};
-
-    var scheduleCallback = null;
-
-    /**
-     * Event manager
-     * @param callback
-     */
-    module.onScheduledEvent = function(callback)
+    var module = function()
     {
-        scheduleCallback = callback;
-    };
 
-    /**
-     * Parses and updates the scheduled tasks of a backup
-     * @param id
-     * @param data
-     */
-    module.updateBackup = function(id, data)
-    {
-        console.log('@todo update backup schedules if needed');
+        var scheduleCallback = null;
+
+        /**
+         * Sets the callback to be triggered when a scheduled event occurs
+         * @param callback
+         */
+        this.onSchedule = function(callback)
+        {
+            scheduleCallback = callback;
+        };
+
+        /**
+         * Parses and updates a list of scheduled tasks
+         * @param schedules
+         */
+        this.setSchedules = function(schedules)
+        {
+            console.log('@todo update schedules if needed');
+            console.log(schedules);
+        };
+
     };
 
     m.exports = module;

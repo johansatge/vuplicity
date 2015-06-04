@@ -17,9 +17,20 @@
 
         var duplicityHelper = null;
         var configHelper = null;
+        var schedulesHelper = null;
         var backupID = null;
         var backupData = null;
         var eventEmitter = null;
+
+        /**
+         * Checks and sanitizes the data of a backup
+         * @param raw_data
+         */
+        var _checkData = function(raw_data)
+        {
+            // @todo check required fields & schedules
+            return raw_data;
+        };
 
         /**
          * Inits the backup item
@@ -32,9 +43,12 @@
             eventEmitter = emitter;
             backupID = id;
             configHelper = new Configuration(config_path);
-            backupData = configHelper.load(); // @todo if FALSE, throw an error
+            backupData = _checkData.apply(this, [configHelper.load()]);
             duplicityHelper = new Duplicity();
             duplicityHelper.onOutput(_onDuplicityOutput.bind(this));
+            schedulesHelper = new Scheduler();
+            schedulesHelper.onSchedule(_onScheduledEvent.bind(this));
+            schedulesHelper.setSchedules(backupData.schedules);
             return backupData;
         };
 
@@ -75,9 +89,9 @@
             {
                 if (error === false)
                 {
-                    //Scheduler.updateBackup(backupID, backup_data);
-                    backupData = backup_data;
-                    eventEmitter.emit('backup-saved', backupID, backup_data);
+                    backupData = _checkData.apply(this, [backup_data]);
+                    schedulesHelper.setSchedules(backupData.schedules);
+                    eventEmitter.emit('backup-saved', backupID, backupData);
                 }
                 eventEmitter.emit('ui-idle', backupID, error ? error : 'Settings saved.');
             });
@@ -211,12 +225,11 @@
 
         /**
          * Triggers a scheduled event
-         * @param backupID
-         *
-         var _onScheduledEvent = function(backupID)
-         {
-             console.log('@todo start backup if not already running (' + backupID + ')');
-         };*/
+         */
+        var _onScheduledEvent = function()
+        {
+            console.log('@todo start backup if not already running (' + backupID + ')');
+        };
 
         /**
          * Sends Duplicity output to the backup view
