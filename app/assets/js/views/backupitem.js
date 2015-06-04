@@ -284,7 +284,8 @@
         {
             evt.preventDefault();
             evt.stopPropagation();
-            actionCallback(evt.currentTarget.getAttribute('rel'), id, _getCurrentData.apply(this));
+            var data = _getCurrentData.apply(this);
+            actionCallback(evt.currentTarget.getAttribute('rel'), id, data[0], data[1]);
         };
 
         /**
@@ -294,7 +295,7 @@
         var _onSelectDirectory = function(evt)
         {
             evt.preventDefault();
-            actionCallback('select-backup-path', id, _getCurrentData.apply(this));
+            actionCallback('select-backup-path', id);
         };
 
         /**

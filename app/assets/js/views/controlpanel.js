@@ -173,7 +173,7 @@
      */
     var _onTriggerBackupAction = function(action, id, data)
     {
-        ipc.send(action, id, data);
+        ipc.send.apply(ipc, arguments);
     };
 
     /**
