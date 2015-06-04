@@ -126,7 +126,7 @@
     var _onCreateNewBackup = function(evt)
     {
         evt.preventDefault();
-        _onSetBackupData.apply(this, ['backup-' + new Date().getTime() + '.json', {}, [], true]);
+        ipc.send('create-backup');
     };
 
     /**

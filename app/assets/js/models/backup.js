@@ -24,11 +24,20 @@
 
         /**
          * Checks and sanitizes the data of a backup
+         * @todo check required options & schedules
          * @param raw_data
          */
         var _checkData = function(raw_data)
         {
-            // @todo check required fields & schedules
+            if (typeof raw_data.options === 'undefined')
+            {
+                raw_data.options = {};
+                raw_data.options.title = '';
+            }
+            if (typeof raw_data.schedules === 'undefined')
+            {
+                raw_data.schedules = [];
+            }
             return raw_data;
         };
 
@@ -43,7 +52,7 @@
             eventEmitter = emitter;
             backupID = id;
             configHelper = new Configuration(config_path);
-            backupData = _checkData.apply(this, [configHelper.load()]);
+            backupData = _checkData.apply(this, [configHelper.loadSync()]);
             duplicityHelper = new Duplicity();
             duplicityHelper.onOutput(_onDuplicityOutput.bind(this));
             schedulesHelper = new Scheduler();
@@ -87,7 +96,7 @@
         {
             var backup_data = {options: options, schedules: schedules};
             eventEmitter.emit('ui-processing', backupID, 'Saving settings...');
-            configHelper.updateBackup(backupID, backup_data, function(error)
+            configHelper.updateSync(backup_data, function(error)
             {
                 if (error === false)
                 {
@@ -151,16 +160,9 @@
                 if (response === 0)
                 {
                     eventEmitter.emit('ui-processing', backupID, 'Deleting backup...');
-                    configHelper.deleteBackup(backupID, function(error)
+                    configHelper.deleteSync(function(error)
                     {
-                        if (!error)
-                        {
-                            eventEmitter.emit('backup-deleted', backupID);
-                        }
-                        else
-                        {
-                            eventEmitter.emit('ui-idle', backupID, error);
-                        }
+                        !error ? eventEmitter.emit('backup-deleted', backupID) : eventEmitter.emit('ui-idle', backupID, error);
                     });
                 }
             });

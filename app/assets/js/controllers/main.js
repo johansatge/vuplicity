@@ -50,11 +50,13 @@
             var files = glob.sync(configPath + '/backup-*.json', {});
             for (var index = 0; index < files.length; index += 1)
             {
-                var id = files[index].substr(files[index].lastIndexOf('/') + 1);
-                backups[id] = new Backup();
-                var data = backups[id].init(id, files[index], emitter);
-                controlPanelWindow.send('set-backup-data', id, data.options, data.schedules, false);
+                _registerBackup(files[index].substr(files[index].lastIndexOf('/') + 1), files[index], false);
             }
+        });
+        ipc.on('create-backup', function()
+        {
+            var id = 'backup-' + new Date().getTime() + '.json';
+            _registerBackup(id, configPath + '/' + id, true);
         });
         ipc.on('cancel-process', function(evt, id)
         {
@@ -136,6 +138,19 @@
             controlPanelWindow.send('set-backup-ui', id, 'idle', message);
             controlPanelWindow.send('set-backup-history', id, moment().format('YYYY-MM-DD HH:mm:ss') + '\n' + message);
         });
+    };
+
+    /**
+     * Registers a backup item (model & view)
+     * @param id
+     * @param path
+     * @param is_opened
+     */
+    var _registerBackup = function(id, path, is_opened)
+    {
+        backups[id] = new Backup();
+        var data = backups[id].init(id, path, emitter);
+        controlPanelWindow.send('set-backup-data', id, data.options, data.schedules, is_opened);
     };
 
     /**

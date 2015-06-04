@@ -17,11 +17,10 @@
 
         /**
          * Updates the needed backup
-         * @param id
          * @param data
          * @param callback
          */
-        this.updateBackup = function(id, data, callback)
+        this.updateSync = function(data, callback)
         {
             try
             {
@@ -39,8 +38,16 @@
          * Deletes a backup
          * @param callback
          */
-        this.deleteBackup = function(callback)
+        this.deleteSync = function(callback)
         {
+            try
+            {
+                fs.readFileSync(path, {encoding: 'utf8'});
+            }
+            catch (error)
+            {
+                callback(false);
+            }
             try
             {
                 fs.unlinkSync(path);
@@ -57,7 +64,7 @@
          * Loads a configuration file
          * Throws an error if the JSON could not be loaded
          */
-        this.load = function()
+        this.loadSync = function()
         {
             var raw_data;
             try
