@@ -35,7 +35,7 @@
         this.doBackup = function(data, type, callback)
         {
             var options = {env: {PASSPHRASE: data.passphrase, TMPDIR: os.tmpdir()}};
-            var command = 'duplicity ' + type + ' "' + data.path + '" "' + data.url + '" ' + data.options + ' --verbosity info';
+            var command = 'duplicity ' + type + ' "' + data.path + '" "' + data.url + '" ' + data.cli_options + ' --verbosity info';
             process = exec(command, options, function(error, stdout, stderr)
             {
                 callback(_parseError.apply(this, [stderr]));
@@ -54,7 +54,7 @@
         this.restoreFile = function(data, path, dest_path, callback)
         {
             var options = {env: {PASSPHRASE: data.passphrase, TMPDIR: os.tmpdir()}};
-            var command = 'duplicity restore --file-to-restore "' + path + '" "' + data.url + '" "' + dest_path + '"' + ' ' + data.options + ' --verbosity info';
+            var command = 'duplicity restore --file-to-restore "' + path + '" "' + data.url + '" "' + dest_path + '"' + ' ' + data.cli_options + ' --verbosity info';
             process = exec(command, options, function(error, stdout, stderr)
             {
                 callback(_parseError.apply(this, [stderr]));
@@ -72,7 +72,7 @@
         this.restoreTree = function(data, dest_path, callback)
         {
             var options = {env: {PASSPHRASE: data.passphrase, TMPDIR: os.tmpdir()}};
-            var command = 'duplicity restore "' + data.url + '" "' + dest_path + '"' + ' ' + data.options + ' --verbosity info';
+            var command = 'duplicity restore "' + data.url + '" "' + dest_path + '"' + ' ' + data.cli_options + ' --verbosity info';
             process = exec(command, options, function(error, stdout, stderr)
             {
                 callback(_parseError.apply(this, [stderr]));
@@ -89,7 +89,7 @@
         this.getFiles = function(data, callback)
         {
             var options = {env: {PASSPHRASE: data.passphrase, TMPDIR: os.tmpdir()}};
-            var command = 'duplicity list-current-files ' + data.url + ' ' + data.options + ' --verbosity info';
+            var command = 'duplicity list-current-files ' + data.url + ' ' + data.cli_options + ' --verbosity info';
             process = exec(command, options, function(error, stdout, stderr)
             {
                 var regex = /[a-zA-Z]{3}.*[0-9]{4} (.*)\n/gm;
@@ -124,7 +124,7 @@
         this.getStatus = function(data, callback)
         {
             var options = {env: {PASSPHRASE: data.passphrase, TMPDIR: os.tmpdir()}};
-            var command = 'duplicity collection-status ' + data.url + ' ' + data.options + ' --verbosity info';
+            var command = 'duplicity collection-status ' + data.url + ' ' + data.cli_options + ' --verbosity info';
             process = exec(command, options, function(error, stdout, stderr)
             {
                 var data = {};

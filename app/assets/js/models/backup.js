@@ -58,7 +58,7 @@
         this.refreshBackupStatus = function()
         {
             eventEmitter.emit('ui-processing', backupID, 'Refreshing status...');
-            duplicityHelper.getStatus(backupData, function(error, status)
+            duplicityHelper.getStatus(backupData.options, function(error, status)
             {
                 eventEmitter.emit('status-refreshed', backupID, status);
                 eventEmitter.emit('ui-idle', backupID, error ? error : 'Status updated.');
@@ -71,7 +71,7 @@
         this.refreshBackupTree = function()
         {
             eventEmitter.emit('ui-processing', backupID, 'Refreshing file tree...');
-            duplicityHelper.getFiles(backupData, function(error, tree)
+            duplicityHelper.getFiles(backupData.options, function(error, tree)
             {
                 eventEmitter.emit('file-tree-refreshed', backupID, tree);
                 eventEmitter.emit('ui-idle', backupID, error ? error : 'Files refreshed.');
@@ -123,7 +123,7 @@
             {
                 var type = response === 0 ? '' : 'full';
                 eventEmitter.emit('ui-processing', backupID, 'Backup in progress...');
-                duplicityHelper.doBackup(backupData, type, function(error)
+                duplicityHelper.doBackup(backupData.options, type, function(error)
                 {
                     eventEmitter.emit('ui-idle', backupID, error ? error : 'Backup done.');
                     if (!error)
@@ -178,7 +178,7 @@
                 if (typeof dest_path !== 'undefined')
                 {
                     eventEmitter.emit('ui-processing', backupID, 'Restoring file...');
-                    duplicityHelper.restoreFile(backupData, path, dest_path, function(error)
+                    duplicityHelper.restoreFile(backupData.options, path, dest_path, function(error)
                     {
                         eventEmitter.emit('ui-idle', backupID, error ? error : 'File restored.');
                     });
@@ -202,7 +202,7 @@
                 if (typeof destination_path !== 'undefined')
                 {
                     eventEmitter.emit('ui-processing', backupID, 'Restoring all files...');
-                    duplicityHelper.restoreTree(backupData, destination_path, function(error)
+                    duplicityHelper.restoreTree(backupData.options, destination_path, function(error)
                     {
                         eventEmitter.emit('ui-idle', backupID, error ? error : 'Backup tree restored.');
                     });
