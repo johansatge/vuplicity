@@ -42,7 +42,7 @@
     {
         addBackupNode.addEventListener('click', _onCreateNewBackup.bind(this));
         removeBackupNode.addEventListener('click', _onRequestBackupDeletion.bind(this));
-        ipc.on('set-backup-options', _onSetBackupOptions.bind(this));
+        ipc.on('set-backup-data', _onSetBackupData.bind(this));
         ipc.on('set-backup-path', _onSetBackupPath.bind(this));
         ipc.on('set-backup-status', _onSetBackupStatus.bind(this));
         ipc.on('set-backup-ui', _onSetBackupUI.bind(this));
@@ -85,12 +85,13 @@
     };
 
     /**
-     * Updates the options of a backup (and creates it first, if needed)
+     * Updates the data of a backup (and creates it first, if needed)
      * @param id
-     * @param data
+     * @param options
+     * @param schedules
      * @param is_visible
      */
-    var _onSetBackupOptions = function(id, data, is_visible)
+    var _onSetBackupData = function(id, options, schedules, is_visible)
     {
         if (typeof backups[id] === 'undefined')
         {
@@ -104,7 +105,8 @@
         {
             backups[id].toggleVisibility();
         }
-        backups[id].updateOptions(data);
+        backups[id].updateOptions(options);
+        backups[id].updateSchedules(schedules);
     };
 
     /**
@@ -124,7 +126,7 @@
     var _onCreateNewBackup = function(evt)
     {
         evt.preventDefault();
-        _onSetBackupOptions.apply(this, ['backup-' + new Date().getTime() + '.json', {}, true]);
+        _onSetBackupData.apply(this, ['backup-' + new Date().getTime() + '.json', {}, [], true]);
     };
 
     /**

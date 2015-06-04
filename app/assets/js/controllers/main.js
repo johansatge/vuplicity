@@ -53,7 +53,7 @@
                 var id = files[index].substr(files[index].lastIndexOf('/') + 1);
                 backups[id] = new Backup();
                 var data = backups[id].init(id, files[index], emitter);
-                controlPanelWindow.send('set-backup-options', id, data, false);
+                controlPanelWindow.send('set-backup-data', id, data.options, data.schedules, false);
             }
         });
         ipc.on('cancel-process', function(evt, backup_id)
@@ -90,7 +90,7 @@
         });
         ipc.on('save-backup', function(evt, backup_id, backup_data)
         {
-            backups[backup_id].saveBackupSettings(backup_data);
+            backups[backup_id].saveBackupSettings(backup_data[0], backup_data[1]);
         });
     };
 
@@ -115,9 +115,9 @@
         {
             controlPanelWindow.send('set-backup-file-tree', backup_id, tree);
         });
-        emitter.on('backup-saved', function(backup_id, backup_data)
+        emitter.on('backup-saved', function(backup_id, options, schedules)
         {
-            controlPanelWindow.send('set-backup-options', backup_id, backup_data, false);
+            controlPanelWindow.send('set-backup-data', backup_id, options, schedules, false);
         });
         emitter.on('backup-deleted', function(backup_id)
         {

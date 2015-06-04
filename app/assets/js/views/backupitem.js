@@ -81,10 +81,15 @@
                 }
             }
             itemNode.querySelector('.js-title').innerHTML = typeof data.title !== 'undefined' && data.title.length > 0 ? data.title : 'Unnamed backup';
-            if (typeof data.schedules !== 'undefined')
-            {
-                automation.updateRules(data.schedules);
-            }
+        };
+
+        /**
+         * Updates schedules list
+         * @param schedules
+         */
+        this.updateSchedules = function(schedules)
+        {
+            automation.updateRules(schedules);
         };
 
         /**
@@ -258,9 +263,9 @@
         };
 
         /**
-         * Gets the currently filled options
+         * Gets the currently filled options and schedules
          */
-        var _getCurrentOptions = function()
+        var _getCurrentData = function()
         {
             var options = detailNode.querySelectorAll('.js-option');
             var data = {};
@@ -268,8 +273,7 @@
             {
                 data[options[index].getAttribute('name')] = options[index].value;
             }
-            data.schedules = automation.getRules();
-            return data;
+            return [data, automation.getRules()];
         };
 
         /**
@@ -280,7 +284,7 @@
         {
             evt.preventDefault();
             evt.stopPropagation();
-            actionCallback(evt.currentTarget.getAttribute('rel'), id, _getCurrentOptions.apply(this));
+            actionCallback(evt.currentTarget.getAttribute('rel'), id, _getCurrentData.apply(this));
         };
 
         /**
@@ -290,7 +294,7 @@
         var _onSelectDirectory = function(evt)
         {
             evt.preventDefault();
-            actionCallback('select-backup-path', id, _getCurrentOptions.apply(this));
+            actionCallback('select-backup-path', id, _getCurrentData.apply(this));
         };
 
         /**

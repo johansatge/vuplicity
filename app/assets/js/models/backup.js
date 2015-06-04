@@ -80,10 +80,12 @@
 
         /**
          * Saves backup settings
-         * @param backup_data
+         * @param options
+         * @param schedules
          */
-        this.saveBackupSettings = function(backup_data)
+        this.saveBackupSettings = function(options, schedules)
         {
+            var backup_data = {options: options, schedules: schedules};
             eventEmitter.emit('ui-processing', backupID, 'Saving settings...');
             configHelper.updateBackup(backupID, backup_data, function(error)
             {
@@ -91,7 +93,7 @@
                 {
                     backupData = _checkData.apply(this, [backup_data]);
                     schedulesHelper.setSchedules(backupData.schedules);
-                    eventEmitter.emit('backup-saved', backupID, backupData);
+                    eventEmitter.emit('backup-saved', backupID, backupData.options, backupData.schedules);
                 }
                 eventEmitter.emit('ui-idle', backupID, error ? error : 'Settings saved.');
             });
