@@ -47,16 +47,16 @@
     {
         ipc.on('control-panel-ready', function()
         {
-            var files = glob.sync(configPath + '/backup-*.json', {});
+            var files = glob.sync(configPath.replace('%s', '*'), {});
             for (var index = 0; index < files.length; index += 1)
             {
-                _registerBackup(files[index].substr(files[index].lastIndexOf('/') + 1), files[index], false);
+                _registerBackup(index, files[index], false);
             }
         });
         ipc.on('create-backup', function()
         {
-            var id = 'backup-' + new Date().getTime() + '.json';
-            _registerBackup(id, configPath + '/' + id, true);
+            var id = new Date().getTime();
+            _registerBackup(id, configPath.replace('%s', id), true);
         });
         ipc.on('cancel-process', function(evt, id)
         {

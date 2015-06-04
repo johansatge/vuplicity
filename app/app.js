@@ -40,7 +40,8 @@
     var _initController = function()
     {
         var panel_path = 'file://' + __dirname + '/assets/html/controlpanel.html';
-        var config_path = process.env[process.platform !== 'win32' ? 'HOME' : 'USERPROFILE'].replace(/\/$/, '') + '/.vuplicity';
+        var home_path = process.env[process.platform !== 'win32' ? 'HOME' : 'USERPROFILE'].replace(/\/$/, '');
+        var config_path = home_path + '/.vuplicity/backup-%s.json';
         MainController.init(panel_path, config_path, tray);
         MainController.showControlPanel();
     };
