@@ -25,7 +25,7 @@
         {
             try
             {
-                fs.writeFileSync(path, JSON.stringify(data), {encoding: 'utf8'});
+                fs.writeFileSync(path, JSON.stringify(data, null, 4), {encoding: 'utf8'});
                 callback(false);
                 return;
             }
