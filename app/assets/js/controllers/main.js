@@ -47,11 +47,10 @@
     {
         ipc.on('control-panel-ready', function()
         {
-            var files = glob.sync(configPath.replace('%s', '*'), {});
-            for (var index = 0; index < files.length; index += 1)
+            glob.sync(configPath.replace('%s', '*'), {}).map(function(path, index)
             {
-                _registerBackup(index, files[index], false);
-            }
+                _registerBackup(index, path, false);
+            });
         });
         ipc.on('create-backup', function()
         {
