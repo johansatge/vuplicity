@@ -9,7 +9,7 @@
 
     var dialog = require('dialog');
     var Duplicity = require(__dirname + '/../utils/duplicity.js');
-    var Scheduler = require(__dirname + '/scheduler.js');
+    var Schedules = require(__dirname + '/schedules.js');
     var Configuration = require(__dirname + '/../utils/configuration.js');
 
     var module = function()
@@ -55,7 +55,7 @@
             backupData = _checkData.apply(this, [configHelper.loadSync()]);
             duplicityHelper = new Duplicity();
             duplicityHelper.onOutput(_onDuplicityOutput.bind(this));
-            schedulesHelper = new Scheduler(_onScheduledEvent.bind(this));
+            schedulesHelper = new Schedules(_onScheduledEvent.bind(this));
             schedulesHelper.setSchedules(backupData.schedules);
             return backupData;
         };
@@ -228,7 +228,7 @@
 
         /**
          * Triggers a scheduled event
-         * @param type
+         * @param
          */
         var _onScheduledEvent = function(type)
         {

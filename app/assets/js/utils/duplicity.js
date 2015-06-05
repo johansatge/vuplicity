@@ -83,6 +83,7 @@
 
         /**
          * Lists the current files in a backup
+         * @todo check regex
          * @param data
          * @param callback
          */
