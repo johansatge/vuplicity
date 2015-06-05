@@ -131,3 +131,5 @@ This project is released under the [MIT License](LICENSE).
 * [Atom Electron](http://electron.atom.io)
 * [Font Awesome](http://fontawesome.io)
 * [Moment.js](http://momentjs.com)
+* [Glob](https://github.com/isaacs/node-glob)
+* [Later](https://github.com/bunkat/later)

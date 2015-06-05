@@ -175,8 +175,9 @@
                         <option value="date" selected>At</option>
                     </select>
                 </div>
-                <div class="select js-interval" rel="every">
+                <div class="select js-interval" rel="interval">
                     <select class="js-automation-option" name="interval_minutes">
+                        <option value="5">5 minutes</option>
                         <option value="15">15 minutes</option>
                         <option value="30">30 minutes</option>
                         <option value="45">45 minutes</option>
@@ -186,7 +187,7 @@
                         <option value="240">4 hours</option>
                     </select>
                 </div>
-                <div class="select js-interval" rel="at">
+                <div class="select js-interval" rel="date">
                     <select class="js-automation-option" name="date_hours">
                         <option value="00">00h</option>
                         <option value="01">01h</option>
@@ -214,7 +215,7 @@
                         <option value="23">23h</option>
                     </select>
                 </div>
-                <div class="select js-interval" rel="at">
+                <div class="select js-interval" rel="date">
                     <select class="js-automation-option" name="date_minutes">
                         <option value="00">00mn</option>
                         <option value="05">05mn</option>
@@ -240,29 +241,29 @@
             <div class="js-basis" rel="weekly">
                 <div class="col3 left">
                     <label>
-                        <input value="1" class="js-automation-option" name="weekdays" type="checkbox" checked>Monday
+                        <input value="2" class="js-automation-option" name="weekdays" type="checkbox" checked>Monday
                     </label>
                     <label>
-                        <input value="2" class="js-automation-option" name="weekdays" type="checkbox" checked>Tuesday
+                        <input value="3" class="js-automation-option" name="weekdays" type="checkbox" checked>Tuesday
                     </label>
                     <label>
-                        <input value="3" class="js-automation-option" name="weekdays" type="checkbox" checked>Wednesday
+                        <input value="4" class="js-automation-option" name="weekdays" type="checkbox" checked>Wednesday
                     </label>
                 </div>
                 <div class="col3 left">
                     <label>
-                        <input value="4" class="js-automation-option" name="weekdays" type="checkbox" checked>Thursday
+                        <input value="5" class="js-automation-option" name="weekdays" type="checkbox" checked>Thursday
                     </label>
                     <label>
-                        <input value="5" class="js-automation-option" name="weekdays" type="checkbox" checked>Friday
+                        <input value="6" class="js-automation-option" name="weekdays" type="checkbox" checked>Friday
                     </label>
                 </div>
                 <div class="col3">
                     <label>
-                        <input value="6" class="js-automation-option" name="weekdays" type="checkbox" checked>Saturday
+                        <input value="7" class="js-automation-option" name="weekdays" type="checkbox" checked>Saturday
                     </label>
                     <label>
-                        <input value="0" class="js-automation-option" name="weekdays" type="checkbox" checked>Sunday
+                        <input value="1" class="js-automation-option" name="weekdays" type="checkbox" checked>Sunday
                     </label>
                 </div>
             </div>

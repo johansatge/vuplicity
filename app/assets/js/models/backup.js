@@ -228,10 +228,11 @@
 
         /**
          * Triggers a scheduled event
+         * @param type
          */
-        var _onScheduledEvent = function()
+        var _onScheduledEvent = function(type)
         {
-            console.log('@todo start backup if not already running (' + backupID + ')');
+            console.log('@todo start ' + type + ' backup if not already running (' + backupID + ')');
         };
 
         /**
