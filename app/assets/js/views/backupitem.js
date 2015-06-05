@@ -20,7 +20,7 @@
         var actionCallback = null;
         var currentTab = null;
         var filetree = null;
-        var automation = null;
+        var schedules = null;
 
         /**
          * Inits the item
@@ -34,7 +34,7 @@
             _initItemNode.apply(this);
             _initDetailNode.apply(this);
             _initFileTree.apply(this);
-            _initAutomation.apply(this);
+            _initSchedules.apply(this);
         };
 
         /**
@@ -85,11 +85,11 @@
 
         /**
          * Updates schedules list
-         * @param schedules
+         * @param list
          */
-        this.updateSchedules = function(schedules)
+        this.updateSchedules = function(list)
         {
-            automation.updateRules(schedules);
+            schedules.updateSchedules(list);
         };
 
         /**
@@ -176,12 +176,12 @@
 
 
         /**
-         * Inits automation tab
+         * Inits schedules tab
          */
-        var _initAutomation = function()
+        var _initSchedules = function()
         {
-            automation = new Automation();
-            automation.init(detailNode.querySelector('.js-automation'));
+            schedules = new Schedules();
+            schedules.init(detailNode.querySelector('.js-schedules'));
         };
 
         /**
@@ -273,7 +273,7 @@
             {
                 data[options[index].getAttribute('name')] = options[index].value;
             }
-            return [data, automation.getRules()];
+            return [data, schedules.getSchedules()];
         };
 
         /**

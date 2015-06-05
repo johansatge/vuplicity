@@ -1,17 +1,17 @@
 /**
- * Automation tab
+ * Schedules tab
  */
 (function(window, document)
 {
 
     'use strict';
 
-    var itemTemplate = document.querySelector('.js-automation-template');
+    var itemTemplate = document.querySelector('.js-schedules-template');
 
     var module = function()
     {
 
-        var automationNode = null;
+        var schedulesNode = null;
 
         /**
          * Inits the tab
@@ -19,21 +19,21 @@
          */
         this.init = function(node)
         {
-            automationNode = node;
-            automationNode.querySelector('.js-add').addEventListener('click', _onAddRule.bind(this));
+            schedulesNode = node;
+            schedulesNode.querySelector('.js-add').addEventListener('click', _onAddSchedule.bind(this));
         };
 
         /**
-         * Gets automation rules
+         * Gets schedules
          */
-        this.getRules = function()
+        this.getSchedules = function()
         {
-            var items = automationNode.querySelectorAll('.js-item');
-            var rules = [];
+            var items = schedulesNode.querySelectorAll('.js-item');
+            var schedules = [];
             for (var index = 0; index < items.length; index += 1)
             {
-                var rule = {};
-                var options = items[index].querySelectorAll('.js-automation-option');
+                var schedule = {};
+                var options = items[index].querySelectorAll('.js-schedules-option');
                 for (var opt_index = 0; opt_index < options.length; opt_index += 1)
                 {
                     var option = options[opt_index];
@@ -41,62 +41,62 @@
                     {
                         if (option.checked)
                         {
-                            if (typeof rule[option.getAttribute('name')] === 'undefined')
+                            if (typeof schedule[option.getAttribute('name')] === 'undefined')
                             {
-                                rule[option.getAttribute('name')] = [];
+                                schedule[option.getAttribute('name')] = [];
                             }
-                            rule[option.getAttribute('name')].push(option.value);
+                            schedule[option.getAttribute('name')].push(option.value);
                         }
                     }
                     else
                     {
-                        rule[option.getAttribute('name')] = option.value;
+                        schedule[option.getAttribute('name')] = option.value;
                     }
                 }
-                rules.push(rule);
+                schedules.push(schedule);
             }
-            return rules;
+            return schedules;
         };
 
         /**
-         * Updates rules set
-         * @param rules
+         * Updates schedules list
+         * @param schedules
          */
-        this.updateRules = function(rules)
+        this.updateSchedules = function(schedules)
         {
-            automationNode.querySelector('.js-items').innerHTML = '';
-            for (var index = 0; index < rules.length; index += 1)
+            schedulesNode.querySelector('.js-items').innerHTML = '';
+            for (var index = 0; index < schedules.length; index += 1)
             {
-                _addRule.apply(this, [rules[index]]);
+                _addSchedule.apply(this, [schedules[index]]);
             }
         };
 
         /**
-         * Adds a new rule
+         * Adds a new schedule
          * @param evt
          */
-        var _onAddRule = function(evt)
+        var _onAddSchedule = function(evt)
         {
             evt.preventDefault();
-            _addRule.apply(this, [{}]);
+            _addSchedule.apply(this, [{}]);
         };
 
         /**
-         * Adds a new rule and fills optional data
+         * Adds a new schedule and fills optional data
          * @param data
          */
-        var _addRule = function(data)
+        var _addSchedule = function(data)
         {
             var item = document.createElement('div');
             item.innerHTML = itemTemplate.innerHTML;
             item.className = itemTemplate.getAttribute('rel');
-            automationNode.querySelector('.js-items').appendChild(item);
+            schedulesNode.querySelector('.js-items').appendChild(item);
 
             for (var property in data)
             {
                 if (typeof data[property] === 'string')
                 {
-                    var node = item.querySelector('.js-automation-option[name="' + property + '"');
+                    var node = item.querySelector('.js-schedules-option[name="' + property + '"');
                     if (node !== null)
                     {
                         node.value = data[property];
@@ -104,7 +104,7 @@
                 }
                 else
                 {
-                    var nodes = item.querySelectorAll('.js-automation-option[name="' + property + '"');
+                    var nodes = item.querySelectorAll('.js-schedules-option[name="' + property + '"');
                     for (var index = 0; index < nodes.length; index += 1)
                     {
                         nodes[index].checked = data[property].indexOf(nodes[index].value) !== -1;
@@ -112,9 +112,9 @@
                 }
             }
 
-            item.querySelector('.js-remove').addEventListener('click', _onRemoveRule.bind(this));
+            item.querySelector('.js-remove').addEventListener('click', _onRemoveSchedule.bind(this));
             var toggles = item.querySelectorAll('.js-toggle');
-            for (var index = 0; index < toggles.length; index += 1)
+            for (index = 0; index < toggles.length; index += 1)
             {
                 toggles[index].addEventListener('change', _onToggle.bind(this));
                 toggles[index].dispatchEvent(new Event('change'));
@@ -137,10 +137,10 @@
         };
 
         /**
-         * Removes a rule
+         * Removes a schedule
          * @param evt
          */
-        var _onRemoveRule = function(evt)
+        var _onRemoveSchedule = function(evt)
         {
             evt.preventDefault();
             var item = DOM.getClosestNode(evt.currentTarget, 'js-item');
@@ -149,6 +149,6 @@
 
     };
 
-    window.Automation = module;
+    window.Schedules = module;
 
 })(window, document);
