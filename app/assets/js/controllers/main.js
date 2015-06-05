@@ -91,7 +91,7 @@
         });
         ipc.on('save-backup', function(evt, id, options, schedules)
         {
-            backups[id].saveBackupSettings(options, schedules);
+            backups[id].saveBackupData(options, schedules);
         });
     };
 

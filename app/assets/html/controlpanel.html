@@ -159,8 +159,8 @@
         <script type="text/template" class="js-automation-template" rel="item js-item">
             <div class="col1">
                 <div class="select">
-                    <select class="js-automation-option" name="type">
-                        <option value="automatic">Automatic backup</option>
+                    <select class="js-automation-option" name="backup_type">
+                        <option value="auto">Automatic backup</option>
                         <option value="full">Full backup</option>
                     </select>
                 </div>
@@ -170,13 +170,13 @@
             </div>
             <div class="col1">
                 <div class="select">
-                    <select class="js-toggle js-automation-option" name="interval" rel="js-interval">
-                        <option value="every">Every</option>
-                        <option value="at">At</option>
+                    <select class="js-toggle js-automation-option" name="interval_type" rel="js-interval">
+                        <option value="interval">Every</option>
+                        <option value="date" selected>At</option>
                     </select>
                 </div>
                 <div class="select js-interval" rel="every">
-                    <select class="js-automation-option" name="delay">
+                    <select class="js-automation-option" name="interval_minutes">
                         <option value="15">15 minutes</option>
                         <option value="30">30 minutes</option>
                         <option value="45">45 minutes</option>
@@ -187,7 +187,7 @@
                     </select>
                 </div>
                 <div class="select js-interval" rel="at">
-                    <select class="js-automation-option" name="hour">
+                    <select class="js-automation-option" name="date_hours">
                         <option value="00">00h</option>
                         <option value="01">01h</option>
                         <option value="02">02h</option>
@@ -215,7 +215,7 @@
                     </select>
                 </div>
                 <div class="select js-interval" rel="at">
-                    <select class="js-automation-option" name="minute">
+                    <select class="js-automation-option" name="date_minutes">
                         <option value="00">00mn</option>
                         <option value="05">05mn</option>
                         <option value="10">10mn</option>
@@ -231,7 +231,7 @@
                     </select>
                 </div>
                 <div class="select right">
-                    <select class="js-toggle js-automation-option" name="basis" rel="js-basis">
+                    <select class="js-toggle js-automation-option" name="interval_basis" rel="js-basis">
                         <option value="weekly">On a weekly basis</option>
                         <option value="monthly">On a monthly basis</option>
                     </select>
@@ -240,75 +240,75 @@
             <div class="js-basis" rel="weekly">
                 <div class="col3 left">
                     <label>
-                        <input value="1" class="js-automation-option" name="weekday" type="checkbox" checked>Monday
+                        <input value="1" class="js-automation-option" name="weekdays" type="checkbox" checked>Monday
                     </label>
                     <label>
-                        <input value="2" class="js-automation-option" name="weekday" type="checkbox" checked>Tuesday
+                        <input value="2" class="js-automation-option" name="weekdays" type="checkbox" checked>Tuesday
                     </label>
                     <label>
-                        <input value="3" class="js-automation-option" name="weekday" type="checkbox" checked>Wednesday
+                        <input value="3" class="js-automation-option" name="weekdays" type="checkbox" checked>Wednesday
                     </label>
                 </div>
                 <div class="col3 left">
                     <label>
-                        <input value="4" class="js-automation-option" name="weekday" type="checkbox" checked>Thursday
+                        <input value="4" class="js-automation-option" name="weekdays" type="checkbox" checked>Thursday
                     </label>
                     <label>
-                        <input value="5" class="js-automation-option" name="weekday" type="checkbox" checked>Friday
+                        <input value="5" class="js-automation-option" name="weekdays" type="checkbox" checked>Friday
                     </label>
                 </div>
                 <div class="col3">
                     <label>
-                        <input value="6" class="js-automation-option" name="weekday" type="checkbox" checked>Saturday
+                        <input value="6" class="js-automation-option" name="weekdays" type="checkbox" checked>Saturday
                     </label>
                     <label>
-                        <input value="7" class="js-automation-option" name="weekday" type="checkbox" checked>Sunday
+                        <input value="0" class="js-automation-option" name="weekdays" type="checkbox" checked>Sunday
                     </label>
                 </div>
             </div>
             <div class="js-basis" rel="monthly">
                 <div class="col6 left">
-                    <label><input value="1" class="js-automation-option" name="monthday" type="checkbox" checked>01</label>
-                    <label><input value="2" class="js-automation-option" name="monthday" type="checkbox" checked>02</label>
-                    <label><input value="3" class="js-automation-option" name="monthday" type="checkbox" checked>03</label>
-                    <label><input value="4" class="js-automation-option" name="monthday" type="checkbox" checked>04</label>
-                    <label><input value="5" class="js-automation-option" name="monthday" type="checkbox" checked>05</label>
-                    <label><input value="6" class="js-automation-option" name="monthday" type="checkbox" checked>06</label>
+                    <label><input value="1" class="js-automation-option" name="monthdays" type="checkbox" checked>01</label>
+                    <label><input value="2" class="js-automation-option" name="monthdays" type="checkbox" checked>02</label>
+                    <label><input value="3" class="js-automation-option" name="monthdays" type="checkbox" checked>03</label>
+                    <label><input value="4" class="js-automation-option" name="monthdays" type="checkbox" checked>04</label>
+                    <label><input value="5" class="js-automation-option" name="monthdays" type="checkbox" checked>05</label>
+                    <label><input value="6" class="js-automation-option" name="monthdays" type="checkbox" checked>06</label>
                 </div>
                 <div class="col6 left">
-                    <label><input value="7" class="js-automation-option" name="monthday" type="checkbox" checked>07</label>
-                    <label><input value="8" class="js-automation-option" name="monthday" type="checkbox" checked>08</label>
-                    <label><input value="9" class="js-automation-option" name="monthday" type="checkbox" checked>09</label>
-                    <label><input value="10" class="js-automation-option" name="monthday" type="checkbox" checked>10</label>
-                    <label><input value="11" class="js-automation-option" name="monthday" type="checkbox" checked>11</label>
+                    <label><input value="7" class="js-automation-option" name="monthdays" type="checkbox" checked>07</label>
+                    <label><input value="8" class="js-automation-option" name="monthdays" type="checkbox" checked>08</label>
+                    <label><input value="9" class="js-automation-option" name="monthdays" type="checkbox" checked>09</label>
+                    <label><input value="10" class="js-automation-option" name="monthdays" type="checkbox" checked>10</label>
+                    <label><input value="11" class="js-automation-option" name="monthdays" type="checkbox" checked>11</label>
                 </div>
                 <div class="col6 left">
-                    <label><input value="12" class="js-automation-option" name="monthday" type="checkbox" checked>12</label>
-                    <label><input value="13" class="js-automation-option" name="monthday" type="checkbox" checked>13</label>
-                    <label><input value="14" class="js-automation-option" name="monthday" type="checkbox" checked>14</label>
-                    <label><input value="15" class="js-automation-option" name="monthday" type="checkbox" checked>15</label>
-                    <label><input value="16" class="js-automation-option" name="monthday" type="checkbox" checked>16</label>
+                    <label><input value="12" class="js-automation-option" name="monthdays" type="checkbox" checked>12</label>
+                    <label><input value="13" class="js-automation-option" name="monthdays" type="checkbox" checked>13</label>
+                    <label><input value="14" class="js-automation-option" name="monthdays" type="checkbox" checked>14</label>
+                    <label><input value="15" class="js-automation-option" name="monthdays" type="checkbox" checked>15</label>
+                    <label><input value="16" class="js-automation-option" name="monthdays" type="checkbox" checked>16</label>
                 </div>
                 <div class="col6 left">
-                    <label><input value="17" class="js-automation-option" name="monthday" type="checkbox" checked>17</label>
-                    <label><input value="18" class="js-automation-option" name="monthday" type="checkbox" checked>18</label>
-                    <label><input value="19" class="js-automation-option" name="monthday" type="checkbox" checked>19</label>
-                    <label><input value="20" class="js-automation-option" name="monthday" type="checkbox" checked>20</label>
-                    <label><input value="21" class="js-automation-option" name="monthday" type="checkbox" checked>21</label>
+                    <label><input value="17" class="js-automation-option" name="monthdays" type="checkbox" checked>17</label>
+                    <label><input value="18" class="js-automation-option" name="monthdays" type="checkbox" checked>18</label>
+                    <label><input value="19" class="js-automation-option" name="monthdays" type="checkbox" checked>19</label>
+                    <label><input value="20" class="js-automation-option" name="monthdays" type="checkbox" checked>20</label>
+                    <label><input value="21" class="js-automation-option" name="monthdays" type="checkbox" checked>21</label>
                 </div>
                 <div class="col6 left">
-                    <label><input value="22" class="js-automation-option" name="monthday" type="checkbox" checked>22</label>
-                    <label><input value="23" class="js-automation-option" name="monthday" type="checkbox" checked>23</label>
-                    <label><input value="24" class="js-automation-option" name="monthday" type="checkbox" checked>24</label>
-                    <label><input value="25" class="js-automation-option" name="monthday" type="checkbox" checked>25</label>
-                    <label><input value="26" class="js-automation-option" name="monthday" type="checkbox" checked>26</label>
+                    <label><input value="22" class="js-automation-option" name="monthdays" type="checkbox" checked>22</label>
+                    <label><input value="23" class="js-automation-option" name="monthdays" type="checkbox" checked>23</label>
+                    <label><input value="24" class="js-automation-option" name="monthdays" type="checkbox" checked>24</label>
+                    <label><input value="25" class="js-automation-option" name="monthdays" type="checkbox" checked>25</label>
+                    <label><input value="26" class="js-automation-option" name="monthdays" type="checkbox" checked>26</label>
                 </div>
                 <div class="col6">
-                    <label><input value="27" class="js-automation-option" name="monthday" type="checkbox" checked>27</label>
-                    <label><input value="28" class="js-automation-option" name="monthday" type="checkbox" checked>28</label>
-                    <label><input value="29" class="js-automation-option" name="monthday" type="checkbox" checked>29</label>
-                    <label><input value="30" class="js-automation-option" name="monthday" type="checkbox" checked>30</label>
-                    <label><input value="31" class="js-automation-option" name="monthday" type="checkbox" checked>31</label>
+                    <label><input value="27" class="js-automation-option" name="monthdays" type="checkbox" checked>27</label>
+                    <label><input value="28" class="js-automation-option" name="monthdays" type="checkbox" checked>28</label>
+                    <label><input value="29" class="js-automation-option" name="monthdays" type="checkbox" checked>29</label>
+                    <label><input value="30" class="js-automation-option" name="monthdays" type="checkbox" checked>30</label>
+                    <label><input value="31" class="js-automation-option" name="monthdays" type="checkbox" checked>31</label>
                 </div>
             </div>
         </script>
