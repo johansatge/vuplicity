@@ -20,61 +20,80 @@
          */
         this.setSchedules = function(schedules)
         {
-            for (var index = 0; index < currentSchedules.length; index += 1)
+            currentSchedules.map(function(schedule)
             {
-                currentSchedules[index].clear();
-            }
+                schedule.clear();
+            });
             currentSchedules = [];
-            for (index = 0; index < schedules.length; index += 1)
+            for (var index = 0; index < schedules.length; index += 1)
             {
-                var schedule = schedules[index];
-                var expression;
-                if (schedule.interval_type === 'date')
+                var interval = _parseScheduleInterval.apply(this, [schedules[index]]);
+                var days = _parseScheduleDays.apply(this, [schedules[index]]);
+                if (interval !== false && days !== false)
                 {
-                    expression = 'at ' + schedule.date_hours + ':' + schedule.date_minutes;
+                    var instance = Later.parse.text(interval + ' ' + days);
+                    var callback = schedules[index].backup_type === 'full' ? _onScheduleFull : _onScheduleAuto;
+                    currentSchedules.push(Later.setInterval(callback.bind(this), instance));
                 }
-                if (schedule.interval_type === 'interval')
+            }
+        };
+
+        /**
+         * Reads the requested interval (specific time in the day, or time intervals)
+         * @param schedule
+         */
+        var _parseScheduleInterval = function(schedule)
+        {
+            if (schedule.interval_type === 'date')
+            {
+                return 'at ' + schedule.date_hours + ':' + schedule.date_minutes;
+            }
+            else if (schedule.interval_type === 'interval')
+            {
+                var minutes = schedule.interval_minutes;
+                return minutes < 60 ? 'every ' + minutes + ' mins' : 'every ' + (minutes / 60) + ' hours';
+            }
+        };
+
+        /**
+         * Reads the requested planning (days of month or week)
+         * @param schedule
+         */
+        var _parseScheduleDays = function(schedule)
+        {
+            if (schedule.interval_basis === 'weekly')
+            {
+                if (typeof schedule.weekdays.indexOf === 'undefined' || schedule.weekdays.length === 0)
                 {
-                    if (schedule.interval_minutes < 60)
-                    {
-                        expression = 'every ' + schedule.interval_minutes + ' mins';
-                    }
-                    else
-                    {
-                        expression = 'every ' + (schedule.interval_minutes / 60) + ' hours';
-                    }
+                    return false;
                 }
-                var days;
-                if (schedule.interval_basis === 'weekly')
+                return 'on the ' + schedule.weekdays.join(',') + ' day of the week';
+            }
+            else if (schedule.interval_basis === 'monthly')
+            {
+                if (typeof schedule.monthdays.indexOf === 'undefined' || schedule.monthdays.length === 0)
                 {
-                    days = typeof schedule.weekdays.indexOf !== 'undefined' ? schedule.weekdays : [];
-                    if (days.length === 0)
-                    {
-                        continue;
-                    }
-                    expression += ' on the ' + days.join(',') + ' day of the week';
+                    return false;
                 }
-                if (schedule.interval_basis === 'monthly')
-                {
-                    days = typeof schedule.monthdays.indexOf !== 'undefined' ? schedule.monthdays : [];
-                    if (days.length === 0)
-                    {
-                        continue;
-                    }
-                    expression += ' on the ' + days.join(',') + ' day of the month';
-                }
-                currentSchedules.push(Later.setInterval(_onSchedule.bind(this), Later.parse.text(expression)));
+                return 'on the ' + schedule.monthdays.join(',') + ' day of the month';
             }
         };
 
         /**
          * Reaches a schedule
          */
-        var _onSchedule = function()
+        var _onScheduleFull = function()
         {
-            console.log('@todo trigger backup (return its type)');
-            scheduleCallback();
-        }
+            scheduleCallback('full');
+        };
+
+        /**
+         * Reaches a schedule
+         */
+        var _onScheduleAuto = function()
+        {
+            scheduleCallback('auto');
+        };
 
     };
 
