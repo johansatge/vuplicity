@@ -83,7 +83,6 @@
 
         /**
          * Lists the current files in a backup
-         * @todo check regex
          * @param data
          * @param callback
          */
@@ -93,7 +92,7 @@
             var command = 'duplicity list-current-files ' + data.url + ' ' + data.cli_options + ' --verbosity info';
             process = exec(command, options, function(error, stdout, stderr)
             {
-                var regex = /[a-zA-Z]{3}.*[0-9]{4} (.*)\n/gm;
+                var regex = /^[a-zA-Z]{3} [a-zA-Z]{3} [0-9 :]+(.*)$/gm;
                 var tree = [];
                 var match;
                 while (match = regex.exec(stdout))
