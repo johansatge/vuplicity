@@ -8,6 +8,7 @@
 
     var BrowserWindow = require('browser-window');
     var ipc = require('ipc');
+    var Dev = require(__dirname + '/dev.js');
 
     var module = function()
     {
@@ -44,7 +45,10 @@
             if (!window.isVisible())
             {
                 window.show();
-                window.openDevTools({detach: true}); // @todo dev mode only
+                if (Dev.devModeEnabled())
+                {
+                    window.openDevTools({detach: true});
+                }
             }
             else
             {
