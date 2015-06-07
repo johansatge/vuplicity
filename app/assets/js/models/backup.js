@@ -24,7 +24,8 @@
 
         /**
          * Checks and sanitizes the data of a backup
-         * @todo check required options & schedules
+         * @todo check required options: cli_options, passphrase, path, title, url
+         * @todo check required schedules props: backup_type, date_hours, date_minutes, interval_basis, interval_minutes, interval_type, monthdays, weekdays
          * @param raw_data
          */
         var _checkData = function(raw_data)
@@ -116,6 +117,17 @@
         };
 
         /**
+         * Starts a scheduled backup
+         * @param context
+         * @param type
+         */
+        this.startScheduledBackup = function(context, type)
+        {
+            type = type === 'full' ? 'full' : '';
+            _startBackup.apply(this, [type]);
+        };
+
+        /**
          * Starts a backup
          * @param context
          */
@@ -129,16 +141,24 @@
             var self = this;
             dialog.showMessageBox(context, params, function(response)
             {
-                var type = response === 0 ? '' : 'full';
-                eventEmitter.emit('ui-processing', backupID, 'Backup in progress...');
-                duplicityHelper.doBackup(backupData.options, type, function(error)
+                _startBackup.apply(self, [response === 0 ? '' : 'full'])
+            });
+        };
+
+        /**
+         * Starts a backup task - may be triggered by the user, or scheduled
+         * @param type
+         */
+        var _startBackup = function(type)
+        {
+            eventEmitter.emit('ui-processing', backupID, 'Backup in progress...');
+            duplicityHelper.doBackup(backupData.options, type, function(error)
+            {
+                eventEmitter.emit('ui-idle', backupID, error ? error : 'Backup done.');
+                if (!error)
                 {
-                    eventEmitter.emit('ui-idle', backupID, error ? error : 'Backup done.');
-                    if (!error)
-                    {
-                        self.refreshBackupStatus(backupID);
-                    }
-                });
+                    self.refreshBackupStatus(backupID);
+                }
             });
         };
 
@@ -228,11 +248,11 @@
 
         /**
          * Triggers a scheduled event
-         * @param
+         * @param type
          */
         var _onScheduledEvent = function(type)
         {
-            console.log('@todo start ' + type + ' backup if not already running (' + backupID + ')');
+            eventEmitter.emit('scheduled-backup', backupID, type);
         };
 
         /**

@@ -96,10 +96,14 @@
     };
 
     /**
-     * Model events (answers from processes launched by the view)
+     * Model events (answers from processes launched by the view & scheduled tasks)
      */
     var _handleModelEvents = function()
     {
+        emitter.on('scheduled-backup', function(id, type)
+        {
+            backups[id].startScheduledBackup(controlPanelWindow.getWindow(), type);
+        });
         emitter.on('cli-output', function(id, output)
         {
             controlPanelWindow.send('set-backup-history', id, output);

@@ -28,6 +28,7 @@
 
         /**
          * Starts a backup task
+         * @todo check if a backup is already running (concurrent scheduled backups, for instance)
          * @param data
          * @param type (full | "")
          * @param callback
