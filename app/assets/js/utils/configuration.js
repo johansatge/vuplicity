@@ -1,7 +1,6 @@
 /**
  * Configuration file manager
- * @todo refactor this and check file structure
- * @todo check if dir exists; or create it and throw an error if needed
+ * @todo refactor this, make async
  */
 (function(require, m)
 {
@@ -24,6 +23,28 @@
         {
             try
             {
+                var dir_path = path.substring(0, path.lastIndexOf('/'));
+                try
+                {
+                    var stats = fs.statSync(dir_path);
+                    if (!stats.isDirectory())
+                    {
+                        callback('Settings directory could not be created.');
+                        return;
+                    }
+                }
+                catch (error)
+                {
+                    try
+                    {
+                        fs.mkdirSync(path);
+                    }
+                    catch (error)
+                    {
+                        callback('Settings directory could not be created.');
+                        return;
+                    }
+                }
                 fs.writeFileSync(path, JSON.stringify(data, null, 4), {encoding: 'utf8'});
                 callback(false);
                 return;
