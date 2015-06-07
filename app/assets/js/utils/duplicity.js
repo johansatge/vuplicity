@@ -18,6 +18,14 @@
     {
 
         /**
+         * Checks if a process is running
+         */
+        this.isProcessing = function()
+        {
+            return process !== null;
+        };
+
+        /**
          * Registers a callback to be triggered when an output is received from the CLI tool
          * @param callback
          */
@@ -28,7 +36,6 @@
 
         /**
          * Starts a backup task
-         * @todo check if a backup is already running (concurrent scheduled backups, for instance)
          * @param data
          * @param type (full | "")
          * @param callback
@@ -39,6 +46,7 @@
             var command = 'duplicity ' + type + ' "' + data.path + '" "' + data.url + '" ' + data.cli_options + ' --verbosity info';
             process = exec(command, options, function(error, stdout, stderr)
             {
+                process = null;
                 callback(_parseError.apply(this, [stderr]));
             });
             process.stdout.on('data', outputCallback);
@@ -58,6 +66,7 @@
             var command = 'duplicity restore --file-to-restore "' + path + '" "' + data.url + '" "' + dest_path + '"' + ' ' + data.cli_options + ' --verbosity info';
             process = exec(command, options, function(error, stdout, stderr)
             {
+                process = null;
                 callback(_parseError.apply(this, [stderr]));
             });
             process.stdout.on('data', outputCallback);
@@ -76,6 +85,7 @@
             var command = 'duplicity restore "' + data.url + '" "' + dest_path + '"' + ' ' + data.cli_options + ' --verbosity info';
             process = exec(command, options, function(error, stdout, stderr)
             {
+                process = null;
                 callback(_parseError.apply(this, [stderr]));
             });
             process.stdout.on('data', outputCallback);
@@ -111,6 +121,7 @@
                         }
                     }
                 }
+                process = null;
                 callback(_parseError.apply(this, [stderr]), tree);
             });
             process.stdout.on('data', outputCallback);
@@ -137,6 +148,7 @@
                 data.backup_sets = backup_sets !== null && typeof backup_sets[1] !== 'undefined' ? backup_sets[1] : '';
                 data.chain_start_time = data.chain_start_time !== '' ? moment(data.chain_start_time).format('YYYY-MM-DD HH:mm') : '';
                 data.chain_end_time = data.chain_end_time !== '' ? moment(data.chain_end_time).format('YYYY-MM-DD HH:mm') : '';
+                process = null;
                 callback(_parseError.apply(this, [stderr]), data);
             });
             process.stdout.on('data', outputCallback);

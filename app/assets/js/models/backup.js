@@ -62,6 +62,14 @@
         };
 
         /**
+         * Checks if a process is running
+         */
+        this.isProcessing = function()
+        {
+            return duplicityHelper.isProcessing();
+        };
+
+        /**
          * Gets backup status
          */
         this.refreshBackupStatus = function()

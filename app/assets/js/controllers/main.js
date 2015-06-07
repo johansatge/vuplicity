@@ -102,7 +102,10 @@
     {
         emitter.on('scheduled-backup', function(id, type)
         {
-            backups[id].startScheduledBackup(controlPanelWindow.getWindow(), type);
+            if (!backups[id].isProcessing())
+            {
+                backups[id].startScheduledBackup(controlPanelWindow.getWindow(), type);
+            }
         });
         emitter.on('cli-output', function(id, output)
         {
