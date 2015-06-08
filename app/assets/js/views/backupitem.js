@@ -96,12 +96,10 @@
          * Sets the processing status of the backup (displays a loader)
          * @param is_processing
          * @param message
-         * @param has_error
          */
-        this.toggleProcessingStatus = function(is_processing, message, has_error)
+        this.toggleProcessingStatus = function(is_processing, message)
         {
             DOM.toggleClass(itemNode, 'js-processing', is_processing);
-            DOM.toggleClass(itemNode, 'js-error', has_error);
             DOM.toggleClass(detailNode, 'js-processing', is_processing);
             if (typeof message !== 'undefined')
             {
@@ -127,6 +125,9 @@
             var node = detailNode.querySelector('.js-history');
             node.innerHTML += history;
             node.scrollTop = node.scrollHeight - node.offsetHeight;
+
+            // @todo handle history type (stdout / stderr)
+            // DOM.toggleClass(itemNode, 'js-error', has_error);
         };
 
         /**
