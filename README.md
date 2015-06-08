@@ -2,10 +2,22 @@
 
 A cross-platform GUI for Duplicity backups, powered by Atom Electron.
 
-[Installation](#installation) | [Features](#features) | [Todos & caveats](#todos) | [Changelog](#changelog) | [License](#license) | [Credits](#credits)
+[Features](#features) | [Installation](#installation) | [Todos & caveats](#todos) | [Changelog](#changelog) | [License](#license) | [Credits](#credits)
 --- | --- | --- | --- | --- | ---
 
-![Vuplicity](https://raw.github.com/johansatge/vuplicity/master/screenshot.png)
+<a id="features"></a>
+## Features
+
+The GUI works directly with Duplicity by sending shell commands, so you can use your existing backups and / or create new ones independently.
+
+| Feature | Screenshot |
+| --- | :---: |
+| **Status**<br>Check the status of the backup and, start it manually, or restore its content | ![Status](/screenshots/status.thumb.png)<br>[Full view](/screenshots/status.full.png?raw=true) |
+| **Configuration**<br>Fill the source path, destination URL, passphrase, and custom CLI options if needed<br>You can add several backup configurations on the left panel | ![Settings](/screenshots/settings.thumb.png)<br>[Full view](/screenshots/settings.full.png?raw=true) |
+| **File tree**<br>Check the content of the backup, or choose to restore a single file | ![Filetree](/screenshots/filetree.thumb.png)<br>[Full view](/screenshots/filetree.full.png?raw=true) |
+| **Scheduler**<br>Schedule the backup by choosing a delay or a time, and the days when you want it to be applied (in the week or month)<br>You may also combine multiple schedules (for instance, one incremental backup each day at 2:00am, and one full backup once a month) | ![Schedules](/screenshots/schedules.thumb.png)<br>[Full view](/screenshots/schedules.full.png?raw=true) |
+
+The GUI stores one JSON config file per backup in the following directory: `$HOME/.vuplicity`.
 
 <a id="installation"></a>
 ## Installation
@@ -18,11 +30,7 @@ A cross-platform GUI for Duplicity backups, powered by Atom Electron.
 
 **2.** Install [node.js](https://nodejs.org/) and [npm](https://github.com/npm/npm) if needed
 
-**3.** Install [Atom Electron](http://electron.atom.io/) if needed
-
-```
-npm install electron-prebuilt -g
-```
+**3.** Install [Atom Electron](http://electron.atom.io/) if needed (by using `npm`)
 
 **4.** Get the project and its dependencies
 
@@ -40,60 +48,18 @@ cd vuplicity/app && npm install
 electron . &
 ```
 
-<a id="features"></a>
-## Features
-
-The GUI works directly with Duplicity by sending shell commands, so you can use your existing backups and / or create new ones independently.
-
-You can do most of the things duplicity provide:
-
-1. Check the status of a backup
-2. Start a full or incremental backup
-3. Restore the backup to the specified location
-4. Browse the backup files
-5. Restore a single file to the specified location
-
-![Features](https://raw.github.com/johansatge/vuplicity/master/screenshot-features.png)
-
-The configuration of the GUI is stored in the following file: `~/.vuplicity`. Its content looks like this:
-
-```json
-{
-    "backups": {
-        "b-1432822302303": {
-            "options": "",
-            "passphrase": "123456789387648",
-            "path": "/Volumes/Data/Movies",
-            "title": "Movies",
-            "url": "dpbox:///Movies"
-        },
-        "b-1432822336034": {
-            "options": "",
-            "passphrase": "",
-            "path": "",
-            "title": "Pictures",
-            "url": ""
-        }
-    }
-}
-```
-
-If you need to give duplicity custom CLI parameters, you can do so in the `Options` fields of the `Settings` tab.
-
 <a id="todos"></a>
 ## Todos & caveats
 
-### Automation *(next planned feature)*
+### App wrapper
 
-Automatically start backups at defined intervals.
+Add a build task to wrap the app for each platform.
 
-It will probably look like a list of configurable intervals proividing the following fields:
+### Schedules
 
-* Frequency (each day at XX hour, each XX minutes, etc)
-* Backup type (full or incremental)
-* Confirmation email (?)
+Add confirmation email - or notifications - with backup status.
 
-### Updated progressbar
+### Live progressbar
 
 Display the progression of a backup by using the `--progress` Duplicity option.
 
@@ -101,9 +67,9 @@ Display the progression of a backup by using the `--progress` Duplicity option.
 
 ### Fix unsecure passphrases
 
-Passphrases are stored in clear text in the configuration file.
+Passphrases are stored in clear text in the configuration files.
 
-It may be nice to encrypt the file and ask for the password when starting the GUI.
+It may be nice to encrypt the files with a global passphrase, and ask the user when starting the GUI.
 
 ### Interactive CLI
 
@@ -116,9 +82,9 @@ This step has to be executed manually; when it's done, you will be able to use t
 <a id="changelog"></a>
 ## Changelog
 
-Version | Notes
-------- | ---------------
-`1.0.0 beta` | Current version (work in progress)
+| Version | Notes |
+| --- | --- |
+| `1.0.0 beta` | Current version (work in progress) |
 
 <a id="license"></a>
 ## License
