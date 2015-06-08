@@ -12,10 +12,10 @@ The GUI works directly with Duplicity by sending shell commands, so you can use 
 
 | Feature | Screenshot |
 | --- | :---: |
-| **Status**<br>Check the status of the backup and, start it manually, or restore its content | ![Status](/screenshots/status.thumb.png)<br>[Full view](/screenshots/status.full.png?raw=true) |
-| **Configuration**<br>Fill the source path, destination URL, passphrase, and custom CLI options if needed<br>You can add several backup configurations on the left panel | ![Settings](/screenshots/settings.thumb.png)<br>[Full view](/screenshots/settings.full.png?raw=true) |
-| **File tree**<br>Check the content of the backup, or choose to restore a single file | ![Filetree](/screenshots/filetree.thumb.png)<br>[Full view](/screenshots/filetree.full.png?raw=true) |
-| **Scheduler**<br>Schedule the backup by choosing a delay or a time, and the days when you want it to be applied (in the week or month)<br>You may also combine multiple schedules (for instance, one incremental backup each day at 2:00am, and one full backup once a month) | ![Schedules](/screenshots/schedules.thumb.png)<br>[Full view](/screenshots/schedules.full.png?raw=true) |
+| **Status**<br>Check the status of a backup, start it manually, or restore its content. | ![Status](/screenshots/status.thumb.png)<br>[Full view](/screenshots/status.full.png?raw=true) |
+| **Configuration**<br>Fill the source path, destination URL, passphrase, and custom CLI options if needed.<br>You can add several backup configurations on the left panel. | ![Settings](/screenshots/settings.thumb.png)<br>[Full view](/screenshots/settings.full.png?raw=true) |
+| **File tree**<br>Check the content of the backup, or choose to restore a single file. | ![Filetree](/screenshots/filetree.thumb.png)<br>[Full view](/screenshots/filetree.full.png?raw=true) |
+| **Scheduler**<br>Schedule the backup by choosing a delay or a time, and the days when you want it to be applied (in the week or month).<br>You may also combine multiple schedules (for instance, one incremental backup each day at 2:00am, and one full backup once a month). | ![Schedules](/screenshots/schedules.thumb.png)<br>[Full view](/screenshots/schedules.full.png?raw=true) |
 
 The GUI stores one JSON config file per backup in the following directory: `$HOME/.vuplicity`.
 
