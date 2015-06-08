@@ -123,11 +123,13 @@
         {
             history = history.search(/\n$/g) === -1 ? history + '\n' : history;
             var node = detailNode.querySelector('.js-history');
-            node.innerHTML += history;
+            node.innerHTML += history.replace('<!--:error-->', '<span>').replace('<!--error:-->', '</span>');
             node.scrollTop = node.scrollHeight - node.offsetHeight;
 
-            // @todo handle history type (stdout / stderr)
-            // DOM.toggleClass(itemNode, 'js-error', has_error);
+            if (history.search('<!--:error-->') !== -1)
+            {
+                DOM.toggleClass(itemNode, 'js-error', true);
+            }
         };
 
         /**

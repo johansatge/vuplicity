@@ -450,6 +450,12 @@ html, body {
   overflow-y: auto;
   word-wrap: break-word;
 }
+/* line 45, ../sass/detail/_history.scss */
+.backup-history pre span {
+  font-family: "Courier", sans-serif;
+  font-size: 11px;
+  color: red;
+}
 
 /* line 1, ../sass/detail/_filetree.scss */
 .backup-filetree {

@@ -52,8 +52,8 @@
                 process = null;
                 callback(_parseError.apply(this, [stderr]));
             });
-            process.stdout.on('data', _onOutput.bind(this));
-            process.stderr.on('data', _onOutput.bind(this));
+            process.stdout.on('data', _onStdout.bind(this));
+            process.stderr.on('data', _onStderr.bind(this));
         };
 
         /**
@@ -72,8 +72,8 @@
                 process = null;
                 callback(_parseError.apply(this, [stderr]));
             });
-            process.stdout.on('data', _onOutput.bind(this));
-            process.stderr.on('data', _onOutput.bind(this));
+            process.stdout.on('data', _onStdout.bind(this));
+            process.stderr.on('data', _onStderr.bind(this));
         };
 
         /**
@@ -91,8 +91,8 @@
                 process = null;
                 callback(_parseError.apply(this, [stderr]));
             });
-            process.stdout.on('data', _onOutput.bind(this));
-            process.stderr.on('data', _onOutput.bind(this));
+            process.stdout.on('data', _onStdout.bind(this));
+            process.stderr.on('data', _onStderr.bind(this));
         };
 
         /**
@@ -127,8 +127,8 @@
                 process = null;
                 callback(_parseError.apply(this, [stderr]), tree);
             });
-            process.stdout.on('data', _onOutput.bind(this));
-            process.stderr.on('data', _onOutput.bind(this));
+            process.stdout.on('data', _onStdout.bind(this));
+            process.stderr.on('data', _onStderr.bind(this));
         };
 
         /**
@@ -154,8 +154,8 @@
                 process = null;
                 callback(_parseError.apply(this, [stderr]), data);
             });
-            process.stdout.on('data', _onOutput.bind(this));
-            process.stderr.on('data', _onOutput.bind(this));
+            process.stdout.on('data', _onStdout.bind(this));
+            process.stderr.on('data', _onStderr.bind(this));
         };
 
         /**
@@ -185,9 +185,27 @@
          * Stores temporarily CLI output in a buffer to delay view update (otherwise UI would become unresponsive)
          * @param out
          */
-        var _onOutput = function(out)
+        var _onStdout = function(out)
         {
             outputBuffer += out;
+            _setBufferInterval.apply(this);
+        };
+
+        /**
+         * Stores temporarily CLI output in a buffer to delay view update (otherwise UI would become unresponsive)
+         * @param out
+         */
+        var _onStderr = function(out)
+        {
+            outputBuffer += '<!--:error-->' + out  + '<!--error:-->';
+            _setBufferInterval.apply(this);
+        };
+
+        /**
+         * Inits buffer interval
+         */
+        var _setBufferInterval = function()
+        {
             if (outputInterval === null)
             {
                 outputInterval = setInterval(_sendOutput.bind(this), 1000);
