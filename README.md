@@ -48,6 +48,13 @@ cd vuplicity/app && npm install
 electron . &
 ```
 
+The following options are available, if needed:
+
+| Option | Usage |
+| :--- | :--- |
+| `electron . --devtools` | Opens the devtools with the control panel |
+| `electron . --configpath=/Users/johan/.vuplicity-dev` | Overrides the path of the config |
+
 <a id="todos"></a>
 ## Todos & caveats
 
