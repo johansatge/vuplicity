@@ -9,6 +9,7 @@
     var app = require('app');
     var MainController = require(__dirname + '/assets/js/controllers/main.js');
     var CustomTray = require(__dirname + '/assets/js//utils/customtray.js');
+    var CLI = require(__dirname + '/assets/js/utils/cli.js');
 
     var tray = null;
 
@@ -40,9 +41,13 @@
     var _initController = function()
     {
         var panel_path = 'file://' + __dirname + '/assets/html/controlpanel.html';
-        var home_path = process.env[process.platform !== 'win32' ? 'HOME' : 'USERPROFILE'].replace(/\/$/, '');
-        var config_path = home_path + '/.vuplicity/backup-%s.json';
-        MainController.init(panel_path, config_path, tray);
+        var config_path = CLI.getCustomConfigPath();
+        if (config_path === false)
+        {
+            var home_path = process.env[process.platform !== 'win32' ? 'HOME' : 'USERPROFILE'].replace(/\/$/, '');
+            config_path = home_path + '/.vuplicity';
+        }
+        MainController.init(panel_path, config_path.replace(/\/$/, '') + '/backup-%s.json', tray);
         MainController.showControlPanel();
     };
 

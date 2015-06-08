@@ -8,7 +8,7 @@
 
     var BrowserWindow = require('browser-window');
     var ipc = require('ipc');
-    var Dev = require(__dirname + '/dev.js');
+    var CLI = require(__dirname + '/cli.js');
 
     var module = function()
     {
@@ -45,7 +45,7 @@
             if (!window.isVisible())
             {
                 window.show();
-                if (Dev.devModeEnabled())
+                if (CLI.devToolsEnabled())
                 {
                     window.openDevTools({detach: true});
                 }
