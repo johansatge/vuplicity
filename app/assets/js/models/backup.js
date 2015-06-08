@@ -160,6 +160,7 @@
         var _startBackup = function(type)
         {
             eventEmitter.emit('ui-processing', backupID, 'Backup in progress...');
+            var self = this;
             duplicityHelper.doBackup(backupData.options, type, function(error)
             {
                 eventEmitter.emit('ui-idle', backupID, error ? error : 'Backup done.');
