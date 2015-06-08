@@ -17,6 +17,8 @@
         var process = null;
         var cancelled = false;
         var outputCallback = null;
+        var outputInterval = null;
+        var outputBuffer = '';
 
         /**
          * Checks if a process is running
@@ -50,8 +52,8 @@
                 process = null;
                 callback(_parseError.apply(this, [stderr]));
             });
-            process.stdout.on('data', outputCallback);
-            process.stderr.on('data', outputCallback);
+            process.stdout.on('data', _onOutput.bind(this));
+            process.stderr.on('data', _onOutput.bind(this));
         };
 
         /**
@@ -70,8 +72,8 @@
                 process = null;
                 callback(_parseError.apply(this, [stderr]));
             });
-            process.stdout.on('data', outputCallback);
-            process.stderr.on('data', outputCallback);
+            process.stdout.on('data', _onOutput.bind(this));
+            process.stderr.on('data', _onOutput.bind(this));
         };
 
         /**
@@ -89,8 +91,8 @@
                 process = null;
                 callback(_parseError.apply(this, [stderr]));
             });
-            process.stdout.on('data', outputCallback);
-            process.stderr.on('data', outputCallback);
+            process.stdout.on('data', _onOutput.bind(this));
+            process.stderr.on('data', _onOutput.bind(this));
         };
 
         /**
@@ -125,8 +127,8 @@
                 process = null;
                 callback(_parseError.apply(this, [stderr]), tree);
             });
-            process.stdout.on('data', outputCallback);
-            process.stderr.on('data', outputCallback);
+            process.stdout.on('data', _onOutput.bind(this));
+            process.stderr.on('data', _onOutput.bind(this));
         };
 
         /**
@@ -152,8 +154,8 @@
                 process = null;
                 callback(_parseError.apply(this, [stderr]), data);
             });
-            process.stdout.on('data', outputCallback);
-            process.stderr.on('data', outputCallback);
+            process.stdout.on('data', _onOutput.bind(this));
+            process.stderr.on('data', _onOutput.bind(this));
         };
 
         /**
@@ -177,6 +179,32 @@
                 return 'User has cancelled.';
             }
             return stderr.replace(/[ \n\t]*/gm, '').length > 0 ? stderr.replace(/\n/g, '<br>') : false;
+        };
+
+        /**
+         * Stores temporarily CLI output in a buffer to delay view update (otherwise UI would become unresponsive)
+         * @param out
+         */
+        var _onOutput = function(out)
+        {
+            outputBuffer += out;
+            if (outputInterval === null)
+            {
+                outputInterval = setInterval(_sendOutput.bind(this), 1000);
+            }
+        };
+
+        /**
+         * Sends and clear output buffer
+         */
+        var _sendOutput = function()
+        {
+            outputCallback(outputBuffer);
+            outputBuffer = '';
+            if (process === null)
+            {
+                clearInterval(outputInterval);
+            }
         };
 
     };
