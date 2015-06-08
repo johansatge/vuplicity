@@ -72,11 +72,24 @@ Display the progression of a backup by using the `--progress` Duplicity option.
 
 *On my machine the progress does not show when using the cli tool, I'm a victim of the [ETA stalled bug](https://www.google.com/#q=duplicity+eta+stalled) - I will have to figure out why, before being able to develop this.*
 
+### Update checker
+
+Regularly check for updates and display a notice (on the control panel or the tray icon ?).
+
+Allow the user to disable auto-check in the tray menu.
+
 ### Fix unsecure passphrases
 
 Passphrases are stored in clear text in the configuration files.
 
-It may be nice to encrypt the files with a global passphrase, and ask the user when starting the GUI.
+It may be nice to encrypt the files with a global passphrase, and ask it to the user when starting the GUI.
+
+### Backup informations
+
+Add new backup informations, such as:
+
+* Next planned backup date on the left panel
+* Backup size in the **Status** tab
 
 ### Interactive CLI
 
