@@ -48,7 +48,7 @@
             process = exec(command, options, function(error, stdout, stderr)
             {
                 process = null;
-                callback(cancelled || stderr.replace(/[ \n\t]*/gm, '').length > 0);
+                callback(cancelled || error !== null);
             });
             process.stdout.on('data', _onStdout.bind(this));
             process.stderr.on('data', _onStderr.bind(this));
@@ -68,7 +68,7 @@
             process = exec(command, options, function(error, stdout, stderr)
             {
                 process = null;
-                callback();
+                callback(cancelled || error !== null);
             });
             process.stdout.on('data', _onStdout.bind(this));
             process.stderr.on('data', _onStderr.bind(this));
@@ -87,7 +87,7 @@
             process = exec(command, options, function(error, stdout, stderr)
             {
                 process = null;
-                callback();
+                callback(cancelled || error !== null);
             });
             process.stdout.on('data', _onStdout.bind(this));
             process.stderr.on('data', _onStderr.bind(this));
@@ -123,7 +123,7 @@
                     }
                 }
                 process = null;
-                callback(tree);
+                callback(error !== null, tree);
             });
             process.stdout.on('data', _onStdout.bind(this));
             process.stderr.on('data', _onStderr.bind(this));
@@ -150,7 +150,7 @@
                 data.chain_start_time = data.chain_start_time !== '' ? moment(data.chain_start_time).format('YYYY-MM-DD HH:mm') : '';
                 data.chain_end_time = data.chain_end_time !== '' ? moment(data.chain_end_time).format('YYYY-MM-DD HH:mm') : '';
                 process = null;
-                callback(data);
+                callback(error !== null, data);
             });
             process.stdout.on('data', _onStdout.bind(this));
             process.stderr.on('data', _onStderr.bind(this));

@@ -20,8 +20,6 @@
         var backupID = null;
         var backupData = null;
         var eventEmitter = null;
-        var outputInterval = null;
-        var outputBuffer = '';
 
         /**
          * Checks and sanitizes the data of a backup
@@ -59,7 +57,6 @@
             duplicityHelper.onOutput(_onDuplicityOutput.bind(this));
             schedulesHelper = new Schedules(_onScheduledEvent.bind(this));
             schedulesHelper.setSchedules(backupData.schedules);
-            outputInterval = setInterval(_sendOutput.bind(this), 1000);
             return backupData;
         };
 
@@ -76,9 +73,9 @@
          */
         this.refreshBackupStatus = function()
         {
-            duplicityHelper.getStatus(backupData.options, function(status)
+            duplicityHelper.getStatus(backupData.options, function(has_error, status)
             {
-                eventEmitter.emit('status-refreshed', backupID, status);
+                eventEmitter.emit('status-refreshed', backupID, has_error, status);
             });
         };
 
@@ -87,9 +84,9 @@
          */
         this.refreshBackupTree = function()
         {
-            duplicityHelper.getFiles(backupData.options, function(tree)
+            duplicityHelper.getFiles(backupData.options, function(has_error, tree)
             {
-                eventEmitter.emit('file-tree-refreshed', backupID, tree);
+                eventEmitter.emit('file-tree-refreshed', backupID, has_error, tree);
             });
         };
 
@@ -107,8 +104,19 @@
                 {
                     backupData = _checkData.apply(this, [backup_data]);
                     schedulesHelper.setSchedules(backupData.schedules);
-                    eventEmitter.emit('backup-saved', backupID, backupData.options, backupData.schedules);
                 }
+                eventEmitter.emit('backup-saved', backupID, error, backupData.options, backupData.schedules);
+            });
+        };
+
+        /**
+         * Deletes backup
+         */
+        this.deleteBackup = function()
+        {
+            configHelper.deleteSync(function(error)
+            {
+                eventEmitter.emit('backup-deleted', backupID, error);
             });
         };
 
@@ -153,26 +161,15 @@
         };
 
         /**
-         * Deletes backup
-         */
-        this.deleteBackup = function()
-        {
-            configHelper.deleteSync(function(has_error)
-            {
-                eventEmitter.emit('backup-deleted', backupID, has_error);
-            });
-        };
-
-        /**
          * Restores a file
          * @param path
          * @param destination_path
          */
         this.restoreFile = function(path, destination_path)
         {
-            duplicityHelper.restoreFile(backupData.options, path, destination_path, function()
+            duplicityHelper.restoreFile(backupData.options, path, destination_path, function(has_error)
             {
-                eventEmitter.emit('file-restored', backupID);
+                eventEmitter.emit('file-restored', backupID, has_error);
             });
         };
 
@@ -182,9 +179,9 @@
          */
         this.restoreTree = function(destination_path)
         {
-            duplicityHelper.restoreTree(backupData.options, destination_path, function()
+            duplicityHelper.restoreTree(backupData.options, destination_path, function(has_error)
             {
-                eventEmitter.emit('tree-restored', backupID);
+                eventEmitter.emit('tree-restored', backupID, has_error);
             });
         };
 
@@ -197,25 +194,9 @@
             eventEmitter.emit('scheduled-backup', backupID, type);
         };
 
-        /**
-         * Stores temporarily CLI output in a buffer to delay view update (otherwise UI would become unresponsive)
-         * @param output
-         */
         var _onDuplicityOutput = function(output)
         {
-            outputBuffer += output;
-        };
-
-        /**
-         * Sends output buffer
-         */
-        var _sendOutput = function()
-        {
-            if (outputBuffer !== '')
-            {
-                eventEmitter.emit('backup-history', backupID, outputBuffer);
-                outputBuffer = '';
-            }
+            eventEmitter.emit('backup-history', backupID, output);
         };
 
     };
