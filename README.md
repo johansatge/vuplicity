@@ -22,7 +22,7 @@ The GUI stores one JSON config file per backup in the following directory: `$HOM
 <a id="installation"></a>
 ## Installation
 
-*Sorry, no prebuilt binaries for now...*
+*Sorry, no prebuilt binaries for now, as `1.0.0` is still in active development...*
 
 **1.** Install [Duplicity](http://duplicity.nongnu.org/) if needed
 
