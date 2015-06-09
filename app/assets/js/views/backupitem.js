@@ -95,16 +95,11 @@
         /**
          * Sets the processing status of the backup (displays a loader)
          * @param is_processing
-         * @param message
          */
-        this.toggleProcessingStatus = function(is_processing, message)
+        this.toggleProcessingStatus = function(is_processing)
         {
             DOM.toggleClass(itemNode, 'js-processing', is_processing);
             DOM.toggleClass(detailNode, 'js-processing', is_processing);
-            if (typeof message !== 'undefined')
-            {
-                itemNode.querySelector('.js-process-message').innerHTML = message;
-            }
         };
 
         /**

@@ -23,18 +23,12 @@
     }
 
     .status,
-    .process-message
     {
         display     : block;
         cursor      : default;
         font-size   : 11px;
         color       : #999999;
         text-shadow : 0 1px 0 #1d1d1d;
-    }
-
-    .process-message
-    {
-        display : none;
     }
 
     .error
@@ -110,14 +104,6 @@
     &.js-processing
     {
         .progressbar
-        {
-            display : block;
-        }
-        .status
-        {
-            display : none;
-        }
-        .process-message
         {
             display : block;
         }

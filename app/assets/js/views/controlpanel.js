@@ -75,11 +75,10 @@
      * Sets the UI state of the given backup
      * @param backup_id
      * @param status
-     * @param message
      */
-    var _onSetBackupUI = function(backup_id, status, message)
+    var _onSetBackupUI = function(backup_id, status)
     {
-        backups[backup_id].toggleProcessingStatus(status !== 'idle', message);
+        backups[backup_id].toggleProcessingStatus(status !== 'idle');
         _updateDeleteButton.apply(this);
     };
 

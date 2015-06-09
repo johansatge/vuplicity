@@ -71,19 +71,19 @@
         });
         ipc.on('refresh-status', function(evt, id)
         {
-            _setProcessing.apply(this, [id, 'Refreshing status...']);
+            _setBackupStatus.apply(this, [id, 'processing']);
             backups[id].refreshBackupStatus();
         });
         ipc.on('refresh-file-tree', function(evt, id)
         {
-            _setProcessing.apply(this, [id, 'Refreshing file tree...']);
+            _setBackupStatus.apply(this, [id, 'processing']);
             backups[id].refreshBackupTree();
         });
         ipc.on('restore-file', function(evt, id, path)
         {
             ControlPanelDialogs.selectRestoreFileDestination(function(destination_path)
             {
-                _setProcessing.apply(this, [id, 'Restoring file...']);
+                _setBackupStatus.apply(this, [id, 'processing']);
                 backups[id].restoreFile(path, destination_path);
             });
         });
@@ -91,7 +91,7 @@
         {
             ControlPanelDialogs.selectRestoreTreeDestination(function(destination_path)
             {
-                _setProcessing.apply(this, [id, 'Restoring all files...']);
+                _setBackupStatus.apply(this, [id, 'processing']);
                 backups[id].restoreTree(destination_path);
             });
         });
@@ -99,7 +99,7 @@
         {
             ControlPanelDialogs.confirmStartBackup(function(type)
             {
-                _setProcessing.apply(this, [id, 'Backup in progress...']);
+                _setBackupStatus.apply(this, [id, 'processing']);
                 backups[id].startBackup(type);
             });
         });
@@ -107,13 +107,13 @@
         {
             ControlPanelDialogs.confirmDeleteBackup(function()
             {
-                _setProcessing.apply(this, [id, 'Deleting backup...']);
+                _setBackupStatus.apply(this, [id, 'processing']);
                 backups[id].deleteBackup(controlPanelWindow.getWindow());
             });
         });
         ipc.on('save-backup', function(evt, id, options, schedules)
         {
-            _setProcessing.apply(this, [id, 'Saving settings...']);
+            _setBackupStatus.apply(this, [id, 'processing']);
             backups[id].saveBackupData(options, schedules);
         });
     };
@@ -136,21 +136,21 @@
         });
         emitter.on('status-refreshed', function(id, status)
         {
-            _setIdle.apply(this, [id]);
+            _setBackupStatus.apply(this, [id, 'idle']);
             controlPanelWindow.send('set-backup-status', id, status);
         });
         emitter.on('file-tree-refreshed', function(id, tree)
         {
-            _setIdle.apply(this, [id]);
+            _setBackupStatus.apply(this, [id, 'idle']);
             controlPanelWindow.send('set-backup-file-tree', id, tree);
         });
         emitter.on('file-restored', function(id)
         {
-            _setIdle.apply(this, [id]);
+            _setBackupStatus.apply(this, [id, 'idle']);
         });
         emitter.on('tree-restored', function(id)
         {
-            _setIdle.apply(this, [id]);
+            _setBackupStatus.apply(this, [id, 'idle']);
         });
         emitter.on('backup-end', function(id, has_error)
         {
@@ -160,12 +160,12 @@
             }
             else
             {
-                _setIdle.apply(this, [id]);
+                _setBackupStatus.apply(this, [id, 'idle']);
             }
         });
         emitter.on('backup-saved', function(id, options, schedules)
         {
-            _setIdle.apply(this, [id]);
+            _setBackupStatus.apply(this, [id, 'idle']);
             controlPanelWindow.send('set-backup-data', id, options, schedules, false);
         });
         emitter.on('backup-deleted', function(id, has_error)
@@ -175,20 +175,19 @@
                 controlPanelWindow.send('confirm-backup-deletion', id);
                 delete backups[id];
             }
-            _setIdle.apply(this, [id]);
+            _setBackupStatus.apply(this, [id, 'idle']);
         });
     };
 
-    var _setProcessing = function(id, message)
+    /**
+     * Sets UI status (processing or idle)
+     * @param id
+     * @param status
+     */
+    var _setBackupStatus = function(id, status)
     {
-        appTray.setProcessing();
-        controlPanelWindow.send('set-backup-ui', id, 'processing', message);
-    };
-
-    var _setIdle = function(id)
-    {
-        appTray.setIdle();
-        controlPanelWindow.send('set-backup-ui', id, 'idle', '');
+        (status === 'processing' ? appTray.setProcessing : appTray.setIdle)();
+        controlPanelWindow.send('set-backup-ui', id, status);
     };
 
     /**
