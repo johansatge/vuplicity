@@ -9,11 +9,11 @@
 
     var ipc = require('ipc');
     var events = require('events');
-    var moment = require('moment');
     var dialog = require('dialog');
     var glob = require('glob');
     var WindowRenderer = require(__dirname + '/../utils/windowrenderer.js');
     var Backup = require(__dirname + '/../models/backup.js');
+    var ControlPanelDialogs = require(__dirname + '/../views/dialogs.js');
 
     var module = {};
 
@@ -34,6 +34,7 @@
         appTray = tray;
         controlPanelWindow = new WindowRenderer();
         controlPanelWindow.load(panel_path);
+        ControlPanelDialogs.setWindow(controlPanelWindow.getWindow());
         configPath = config_path;
 
         _handleViewEvents.apply(this);
@@ -63,34 +64,56 @@
         });
         ipc.on('select-backup-path', function(evt, id)
         {
-            backups[id].selectBackupPath(controlPanelWindow.getWindow());
+            ControlPanelDialogs.selectBackupPath(function(path)
+            {
+                controlPanelWindow.send('set-backup-path', path, id);
+            });
         });
         ipc.on('refresh-status', function(evt, id)
         {
+            _setProcessing.apply(this, [id, 'Refreshing status...']);
             backups[id].refreshBackupStatus();
         });
         ipc.on('refresh-file-tree', function(evt, id)
         {
+            _setProcessing.apply(this, [id, 'Refreshing file tree...']);
             backups[id].refreshBackupTree();
         });
         ipc.on('restore-file', function(evt, id, path)
         {
-            backups[id].restoreFile(path, controlPanelWindow.getWindow());
+            ControlPanelDialogs.selectRestoreFileDestination(function(destination_path)
+            {
+                _setProcessing.apply(this, [id, 'Restoring file...']);
+                backups[id].restoreFile(path, destination_path);
+            });
         });
         ipc.on('restore-tree', function(evt, id)
         {
-            backups[id].restoreTree(controlPanelWindow.getWindow());
+            ControlPanelDialogs.selectRestoreTreeDestination(function(destination_path)
+            {
+                _setProcessing.apply(this, [id, 'Restoring all files...']);
+                backups[id].restoreTree(destination_path);
+            });
         });
         ipc.on('start-backup', function(evt, id)
         {
-            backups[id].startBackup(controlPanelWindow.getWindow());
+            ControlPanelDialogs.confirmStartBackup(function(type)
+            {
+                _setProcessing.apply(this, [id, 'Backup in progress...']);
+                backups[id].startBackup(type);
+            });
         });
         ipc.on('delete-backup', function(evt, id)
         {
-            backups[id].deleteBackup(controlPanelWindow.getWindow());
+            ControlPanelDialogs.confirmDeleteBackup(function()
+            {
+                _setProcessing.apply(this, [id, 'Deleting backup...']);
+                backups[id].deleteBackup(controlPanelWindow.getWindow());
+            });
         });
         ipc.on('save-backup', function(evt, id, options, schedules)
         {
+            _setProcessing.apply(this, [id, 'Saving settings...']);
             backups[id].saveBackupData(options, schedules);
         });
     };
@@ -111,39 +134,61 @@
         {
             controlPanelWindow.send('set-backup-history', id, output);
         });
-        emitter.on('backup-path-selected', function(id, path)
-        {
-            controlPanelWindow.send('set-backup-path', path, id);
-        });
         emitter.on('status-refreshed', function(id, status)
         {
+            _setIdle.apply(this, [id]);
             controlPanelWindow.send('set-backup-status', id, status);
         });
         emitter.on('file-tree-refreshed', function(id, tree)
         {
+            _setIdle.apply(this, [id]);
             controlPanelWindow.send('set-backup-file-tree', id, tree);
+        });
+        emitter.on('file-restored', function(id)
+        {
+            _setIdle.apply(this, [id]);
+        });
+        emitter.on('tree-restored', function(id)
+        {
+            _setIdle.apply(this, [id]);
+        });
+        emitter.on('backup-end', function(id, has_error)
+        {
+            if (!has_error)
+            {
+                backups[id].refreshBackupTree();
+            }
+            else
+            {
+                _setIdle.apply(this, [id]);
+            }
         });
         emitter.on('backup-saved', function(id, options, schedules)
         {
+            _setIdle.apply(this, [id]);
             controlPanelWindow.send('set-backup-data', id, options, schedules, false);
         });
-        emitter.on('backup-deleted', function(id)
+        emitter.on('backup-deleted', function(id, has_error)
         {
-            controlPanelWindow.send('confirm-backup-deletion', id);
-            delete backups[id];
+            if (!has_error)
+            {
+                controlPanelWindow.send('confirm-backup-deletion', id);
+                delete backups[id];
+            }
+            _setIdle.apply(this, [id]);
         });
-        emitter.on('ui-processing', function(id, message)
-        {
-            appTray.setProcessing();
-            controlPanelWindow.send('set-backup-ui', id, 'processing', message);
-            controlPanelWindow.send('set-backup-history', id, moment().format('YYYY-MM-DD HH:mm:ss') + '\n' + message);
-        });
-        emitter.on('ui-idle', function(id, message)
-        {
-            appTray.setIdle();
-            controlPanelWindow.send('set-backup-ui', id, 'idle', message);
-            controlPanelWindow.send('set-backup-history', id, moment().format('YYYY-MM-DD HH:mm:ss') + '\n' + message);
-        });
+    };
+
+    var _setProcessing = function(id, message)
+    {
+        appTray.setProcessing();
+        controlPanelWindow.send('set-backup-ui', id, 'processing', message);
+    };
+
+    var _setIdle = function(id)
+    {
+        appTray.setIdle();
+        controlPanelWindow.send('set-backup-ui', id, 'idle', '');
     };
 
     /**

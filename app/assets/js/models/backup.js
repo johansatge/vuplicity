@@ -7,7 +7,6 @@
 
     'use strict';
 
-    var dialog = require('dialog');
     var Duplicity = require(__dirname + '/../utils/duplicity.js');
     var Schedules = require(__dirname + '/schedules.js');
     var Configuration = require(__dirname + '/../utils/configuration.js');
@@ -60,6 +59,7 @@
             duplicityHelper.onOutput(_onDuplicityOutput.bind(this));
             schedulesHelper = new Schedules(_onScheduledEvent.bind(this));
             schedulesHelper.setSchedules(backupData.schedules);
+            outputInterval = setInterval(_sendOutput.bind(this), 1000);
             return backupData;
         };
 
@@ -76,11 +76,9 @@
          */
         this.refreshBackupStatus = function()
         {
-            eventEmitter.emit('ui-processing', backupID, 'Refreshing status...');
-            duplicityHelper.getStatus(backupData.options, function(error, status)
+            duplicityHelper.getStatus(backupData.options, function(status)
             {
                 eventEmitter.emit('status-refreshed', backupID, status);
-                eventEmitter.emit('ui-idle', backupID, error ? error : 'Status updated.');
             });
         };
 
@@ -89,11 +87,9 @@
          */
         this.refreshBackupTree = function()
         {
-            eventEmitter.emit('ui-processing', backupID, 'Refreshing file tree...');
-            duplicityHelper.getFiles(backupData.options, function(error, tree)
+            duplicityHelper.getFiles(backupData.options, function(tree)
             {
                 eventEmitter.emit('file-tree-refreshed', backupID, tree);
-                eventEmitter.emit('ui-idle', backupID, error ? error : 'Files refreshed.');
             });
         };
 
@@ -105,7 +101,6 @@
         this.saveBackupData = function(options, schedules)
         {
             var backup_data = {options: options, schedules: schedules};
-            eventEmitter.emit('ui-processing', backupID, 'Saving settings...');
             configHelper.updateSync(backup_data, function(error)
             {
                 if (error === false)
@@ -114,7 +109,6 @@
                     schedulesHelper.setSchedules(backupData.schedules);
                     eventEmitter.emit('backup-saved', backupID, backupData.options, backupData.schedules);
                 }
-                eventEmitter.emit('ui-idle', backupID, error ? error : 'Settings saved.');
             });
         };
 
@@ -139,20 +133,11 @@
 
         /**
          * Starts a backup
-         * @param context
+         * @param type
          */
-        this.startBackup = function(context)
+        this.startBackup = function(type)
         {
-            var params = {
-                type: 'info',
-                message: 'What task do you want to start ?',
-                buttons: ['Automatic backup', 'Full backup']
-            };
-            var self = this;
-            dialog.showMessageBox(context, params, function(response)
-            {
-                _startBackup.apply(self, [response === 0 ? '' : 'full'])
-            });
+            _startBackup.apply(this, [type]);
         };
 
         /**
@@ -161,99 +146,45 @@
          */
         var _startBackup = function(type)
         {
-            eventEmitter.emit('ui-processing', backupID, 'Backup in progress...');
-            var self = this;
-            duplicityHelper.doBackup(backupData.options, type, function(error)
+            duplicityHelper.doBackup(backupData.options, type, function(has_error)
             {
-                eventEmitter.emit('ui-idle', backupID, error ? error : 'Backup done.');
-                if (!error)
-                {
-                    self.refreshBackupStatus(backupID);
-                }
+                eventEmitter.emit('backup-end', backupID, has_error);
             });
         };
 
         /**
          * Deletes backup
-         * @param context
          */
-        this.deleteBackup = function(context)
+        this.deleteBackup = function()
         {
-            var params = {
-                type: 'warning',
-                message: 'Do you want to delete this backup ?',
-                detail: 'The entry will be removed.\nNothing will be modified on the remote server.',
-                buttons: ['Delete', 'Cancel']
-            };
-            dialog.showMessageBox(context, params, function(response)
+            configHelper.deleteSync(function(has_error)
             {
-                if (response === 0)
-                {
-                    eventEmitter.emit('ui-processing', backupID, 'Deleting backup...');
-                    configHelper.deleteSync(function(error)
-                    {
-                        !error ? eventEmitter.emit('backup-deleted', backupID) : eventEmitter.emit('ui-idle', backupID, error);
-                    });
-                }
+                eventEmitter.emit('backup-deleted', backupID, has_error);
             });
         };
 
         /**
          * Restores a file
          * @param path
-         * @param context
+         * @param destination_path
          */
-        this.restoreFile = function(path, context)
+        this.restoreFile = function(path, destination_path)
         {
-            dialog.showSaveDialog(context, {title: 'Select the restore destination', defaultPath: backupData.path}, function(dest_path)
+            duplicityHelper.restoreFile(backupData.options, path, destination_path, function()
             {
-                if (typeof dest_path !== 'undefined')
-                {
-                    eventEmitter.emit('ui-processing', backupID, 'Restoring file...');
-                    duplicityHelper.restoreFile(backupData.options, path, dest_path, function(error)
-                    {
-                        eventEmitter.emit('ui-idle', backupID, error ? error : 'File restored.');
-                    });
-                }
+                eventEmitter.emit('file-restored', backupID);
             });
         };
 
         /**
          * Restore all files
-         * @param context
+         * @param destination_path
          */
-        this.restoreTree = function(context)
+        this.restoreTree = function(destination_path)
         {
-            var params = {
-                title: 'Select the restore destination',
-                defaultPath: backupData.path,
-                properties: ['openDirectory', 'createDirectory']
-            };
-            dialog.showOpenDialog(context, params, function(destination_path)
+            duplicityHelper.restoreTree(backupData.options, destination_path, function()
             {
-                if (typeof destination_path !== 'undefined')
-                {
-                    eventEmitter.emit('ui-processing', backupID, 'Restoring all files...');
-                    duplicityHelper.restoreTree(backupData.options, destination_path, function(error)
-                    {
-                        eventEmitter.emit('ui-idle', backupID, error ? error : 'Backup tree restored.');
-                    });
-                }
-            });
-        };
-
-        /**
-         * Selects a destination directory
-         * @param context
-         */
-        this.selectBackupPath = function(context)
-        {
-            dialog.showOpenDialog(context, {title: 'Select directory', properties: ['openDirectory']}, function(paths)
-            {
-                if (typeof paths !== 'undefined')
-                {
-                    eventEmitter.emit('backup-path-selected', backupID, paths[0]);
-                }
+                eventEmitter.emit('tree-restored', backupID);
             });
         };
 
@@ -273,20 +204,18 @@
         var _onDuplicityOutput = function(output)
         {
             outputBuffer += output;
-            if (outputInterval === null)
-            {
-                outputInterval = setInterval(_sendOutput.bind(this), 1000);
-            }
         };
 
         /**
-         * Sends and clear output buffer
+         * Sends output buffer
          */
         var _sendOutput = function()
         {
-            eventEmitter.emit('backup-history', backupID, outputBuffer);
-            outputBuffer = '';
-            clearInterval(outputInterval);
+            if (outputBuffer !== '')
+            {
+                eventEmitter.emit('backup-history', backupID, outputBuffer);
+                outputBuffer = '';
+            }
         };
 
     };
