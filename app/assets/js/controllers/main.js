@@ -107,7 +107,7 @@
                 backups[id].startScheduledBackup(controlPanelWindow.getWindow(), type);
             }
         });
-        emitter.on('cli-output', function(id, output)
+        emitter.on('backup-history', function(id, output)
         {
             controlPanelWindow.send('set-backup-history', id, output);
         });

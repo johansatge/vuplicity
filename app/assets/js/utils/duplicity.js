@@ -17,8 +17,6 @@
         var process = null;
         var cancelled = false;
         var outputCallback = null;
-        var outputInterval = null;
-        var outputBuffer = '';
 
         /**
          * Checks if a process is running
@@ -182,47 +180,21 @@
         };
 
         /**
-         * Stores temporarily CLI output in a buffer to delay view update (otherwise UI would become unresponsive)
+         * Sends stdout
          * @param out
          */
         var _onStdout = function(out)
         {
-            outputBuffer += out;
-            _setBufferInterval.apply(this);
+            outputCallback(out);
         };
 
         /**
-         * Stores temporarily CLI output in a buffer to delay view update (otherwise UI would become unresponsive)
+         * Sends stderr
          * @param out
          */
         var _onStderr = function(out)
         {
-            outputBuffer += '<!--:error-->' + out  + '<!--error:-->';
-            _setBufferInterval.apply(this);
-        };
-
-        /**
-         * Inits buffer interval
-         */
-        var _setBufferInterval = function()
-        {
-            if (outputInterval === null)
-            {
-                outputInterval = setInterval(_sendOutput.bind(this), 1000);
-            }
-        };
-
-        /**
-         * Sends and clear output buffer
-         */
-        var _sendOutput = function()
-        {
-            outputCallback(outputBuffer);
-            outputBuffer = '';
-            if (process === null)
-            {
-                clearInterval(outputInterval);
-            }
+            outputCallback('<!--:error-->' + out + '<!--error:-->');
         };
 
     };

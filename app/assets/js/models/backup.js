@@ -21,6 +21,8 @@
         var backupID = null;
         var backupData = null;
         var eventEmitter = null;
+        var outputInterval = null;
+        var outputBuffer = '';
 
         /**
          * Checks and sanitizes the data of a backup
@@ -265,12 +267,26 @@
         };
 
         /**
-         * Sends Duplicity output to the backup view
+         * Stores temporarily CLI output in a buffer to delay view update (otherwise UI would become unresponsive)
          * @param output
          */
         var _onDuplicityOutput = function(output)
         {
-            eventEmitter.emit('cli-output', backupID, output);
+            outputBuffer += output;
+            if (outputInterval === null)
+            {
+                outputInterval = setInterval(_sendOutput.bind(this), 1000);
+            }
+        };
+
+        /**
+         * Sends and clear output buffer
+         */
+        var _sendOutput = function()
+        {
+            eventEmitter.emit('backup-history', backupID, outputBuffer);
+            outputBuffer = '';
+            clearInterval(outputInterval);
         };
 
     };
