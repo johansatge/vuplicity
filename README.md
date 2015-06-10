@@ -119,3 +119,4 @@ This project is released under the [MIT License](LICENSE).
 * [Glob](https://github.com/isaacs/node-glob)
 * [Later](https://github.com/bunkat/later)
 * [yargs](https://github.com/bcoe/yargs)
+* [electron-packager](https://github.com/maxogden/electron-packager)
