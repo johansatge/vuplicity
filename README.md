@@ -10,14 +10,33 @@ A cross-platform GUI for Duplicity backups, powered by Atom Electron.
 
 The GUI works directly with Duplicity by sending shell commands, so you can use your existing backups and / or create new ones independently.
 
-| Feature | Screenshot |
-| --- | :---: |
-| **Status**<br>Check the status of a backup, start it manually, or restore its content. | ![Status](/screenshots/status.thumb.png)<br>[Full view](/screenshots/status.full.png?raw=true) |
-| **Configuration**<br>Fill the source path, destination URL, passphrase, and custom CLI options if needed.<br>You can add several backup configurations on the left panel. | ![Settings](/screenshots/settings.thumb.png)<br>[Full view](/screenshots/settings.full.png?raw=true) |
-| **File tree**<br>Check the content of the backup, or choose to restore a single file. | ![Filetree](/screenshots/filetree.thumb.png)<br>[Full view](/screenshots/filetree.full.png?raw=true) |
-| **Scheduler**<br>Schedule the backup by choosing a delay or a time, and the days when you want it to be applied (in the week or month).<br>You may also combine multiple schedules (for instance, one incremental backup each day at 2:00am, and one full backup once a month). | ![Schedules](/screenshots/schedules.thumb.png)<br>[Full view](/screenshots/schedules.full.png?raw=true) |
+### Status ([screen](/screenshots/status.full.png?raw=true))
 
-The GUI stores one JSON config file per backup in the following directory: `$HOME/.vuplicity`.
+![Status](/screenshots/status.thumb.png)
+
+Check the status of a backup, start it manually, or restore its content.
+
+### Configuration ([screen](/screenshots/settings.full.png?raw=true))
+
+![Settings](/screenshots/settings.thumb.png)
+
+Fill the source path, destination URL, passphrase, and custom CLI options if needed.
+
+You can add several backup configurations on the left panel.
+
+### File tree ([screen](/screenshots/filetree.full.png?raw=true))
+
+![Filetree](/screenshots/filetree.thumb.png)
+
+Check the content of the backup, or choose to restore a single file.
+
+### Scheduler ([screen](/screenshots/schedules.full.png?raw=true))
+
+![Schedules](/screenshots/schedules.thumb.png)
+
+Schedule the backup by choosing a delay or a time, and the days when you want it to be applied (in the week or month).
+
+You may also combine multiple schedules (for instance, one incremental backup each day at 2:00am, and one full backup once a month).
 
 <a id="installation"></a>
 ## Installation
@@ -54,6 +73,8 @@ The following options are available, if needed:
 | :--- | :--- |
 | `electron . --devtools` | Opens the devtools with the control panel |
 | `electron . --configpath=/Users/johan/.vuplicity-dev` | Overrides the path of the config |
+
+The GUI stores one JSON config file per backup in the following directory: `$HOME/.vuplicity`.
 
 <a id="todos"></a>
 ## Todos & caveats
