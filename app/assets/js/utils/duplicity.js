@@ -8,7 +8,6 @@
     'use strict';
 
     var exec = require('child_process').exec;
-    var moment = require('moment');
     var os = require('os');
 
     var module = function()
