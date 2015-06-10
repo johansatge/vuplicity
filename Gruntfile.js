@@ -50,13 +50,13 @@ module.exports = function(grunt)
                 'dir': 'app',
                 'name': manifest.name,
                 'app-version': manifest.version,
-                'bundle-id': manifest.bundle_id,
+                'app-bundle-id': manifest.bundle_id,
                 'helper-bundle-id': manifest.helper_bundle_id,
                 'version': manifest.electron_version,
                 'arch': 'x64',
                 'platform': platform,
-                'out': '.build/' + platform
-                // icon: '' @todo,
+                'out': '.build/' + platform,
+                'icon': 'icon.png'
             };
             packager(options, function(error, app_path)
             {
