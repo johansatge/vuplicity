@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "electron-packager": "^4.1.2",
+    "grunt": "^0.4.5",
+    "yargs": "^3.10.0"
+  }
+}

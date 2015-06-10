@@ -1,6 +1,9 @@
 {
   "name": "Vuplicity",
   "version": "1.0.0",
+  "electron_version": "0.27.3",
+  "bundle_id": "com.johansatge.vuplicity",
+  "helper_bundle_id": "com.johansatge.vuplicity.helper",
   "main": "app.js",
   "dependencies": {
     "glob": "~5.0.10",
