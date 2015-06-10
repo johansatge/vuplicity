@@ -6,8 +6,6 @@
 
     'use strict';
 
-    var yargs = require('yargs');
-
     var module = {};
 
     var argv = require('yargs').argv;
