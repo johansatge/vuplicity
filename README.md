@@ -142,3 +142,4 @@ This project is released under the [MIT License](LICENSE).
 * [Later](https://github.com/bunkat/later)
 * [yargs](https://github.com/bcoe/yargs)
 * [electron-packager](https://github.com/maxogden/electron-packager)
+* [moment](http://momentjs.com/)
