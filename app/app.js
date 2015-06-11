@@ -32,7 +32,7 @@
     var _initTray = function()
     {
         var label = app.getName() + ' ' + app.getVersion();
-        tray = new CustomTray(label, __dirname + '/assets/css/images', _onShowControlPanel.bind(this), _onQuitFromTray.bind(this));
+        tray = new CustomTray(label, __dirname + '/assets/css/images', _onShowControlPanel.bind(this), _onQuit.bind(this));
     };
 
     /**
@@ -60,25 +60,14 @@
     };
 
     /**
-     * Do not quit when all windows are closed
-     * @param evt
+     * Quits the app
      */
-    var _onBeforeQuit = function(evt)
+    var _onQuit = function()
     {
-        evt.preventDefault();
-    };
-
-    /**
-     * Quits the app from the tray
-     */
-    var _onQuitFromTray = function()
-    {
-        app.removeListener('before-quit', _onBeforeQuit);
         app.quit();
     };
 
     require('crash-reporter').start();
     app.on('ready', _onAppReady.bind(this));
-    app.on('before-quit', _onBeforeQuit.bind(this));
 
 })(process, require, __dirname);
