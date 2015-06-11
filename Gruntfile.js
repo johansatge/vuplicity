@@ -58,14 +58,17 @@ module.exports = function(grunt)
                 'out': '.build/' + platform,
                 'icon': 'icon.png'
             };
-            packager(options, function(error, app_path)
+            exec('rm -rf .build/' + platform, function()
             {
-                grunt.log.writeln(error ? error.message : 'Built ' + app_path);
-                built_platforms += 1;
-                if (built_platforms >= platforms.length)
+                packager(options, function(error, app_path)
                 {
-                    done();
-                }
+                    grunt.log.writeln(error ? error : 'Built ' + app_path);
+                    built_platforms += 1;
+                    if (built_platforms >= platforms.length)
+                    {
+                        done();
+                    }
+                });
             });
         });
     });
