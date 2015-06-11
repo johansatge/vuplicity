@@ -83,9 +83,10 @@ The GUI stores one JSON config file per backup in the following directory: `$HOM
 
 Add a build task to wrap the app for each platform.
 
-### Schedules
+### Backup confirmation
 
-Add confirmation email - or notifications - with backup status.
+* Add confirmation email - or notifications - with backup status
+* Displays duplicity informations in the status tab (delta files, etc)
 
 ### Live progressbar
 
