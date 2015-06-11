@@ -313,6 +313,7 @@
             </div>
         </script>
         <script src="../js/utils/windowclient.js"></script>
+        <script src="../js/views/contextmenu.js"></script>
         <script src="../js/views/dom.js"></script>
         <script src="../js/views/filetree.js"></script>
         <script src="../js/views/schedules.js"></script>
@@ -321,6 +322,7 @@
         <script>
             window.onload = function()
             {
+                ContextMenu.init();
                 WindowClient.init();
                 ControlPanel.init();
             };
