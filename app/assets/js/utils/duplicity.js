@@ -137,18 +137,23 @@
         this.getStatus = function(data, callback)
         {
             var options = {env: {PASSPHRASE: data.passphrase, TMPDIR: os.tmpdir()}};
-            var command = 'duplicity collection-status ' + data.url + ' ' + data.cli_options + ' --verbosity info';
-            process = exec(command, options, function(error, stdout, stderr)
+            var command1 = 'duplicity collection-status ' + data.url + ' ' + data.cli_options + ' --verbosity info';
+            var command2 = 'duplicity incremental ' + data.path + ' ' + data.url + ' ' + data.cli_options + ' --verbosity info --dry-run';
+            process = exec(command1 + ' && ' + command2, options, function(error, stdout, stderr)
             {
                 var data = {};
                 var chain_start_time = new RegExp('Chain start time: ([^\n]+)', 'gm').exec(stdout);
                 var chain_end_time = new RegExp('Chain end time: ([^\n]+)', 'gm').exec(stdout);
                 var backup_sets = new RegExp('Number of contained backup sets: ([0-9]+)', 'gm').exec(stdout);
+                var source_files = new RegExp('SourceFiles ([0-9]+)', 'g').exec(stdout);
+                var source_file_size = new RegExp('SourceFileSize [0-9]+ [(]([^)]+)[)]', 'g').exec(stdout);
                 data.chain_start_time = chain_start_time !== null && typeof chain_start_time[1] !== 'undefined' ? Date.parse(chain_start_time[1]) : '';
                 data.chain_end_time = chain_end_time !== null && typeof chain_end_time[1] !== 'undefined' ? Date.parse(chain_end_time[1]) : '';
                 data.backup_sets = backup_sets !== null && typeof backup_sets[1] !== 'undefined' ? backup_sets[1] : '';
                 data.chain_start_time = data.chain_start_time !== '' ? moment(data.chain_start_time).format('YYYY-MM-DD HH:mm') : '';
                 data.chain_end_time = data.chain_end_time !== '' ? moment(data.chain_end_time).format('YYYY-MM-DD HH:mm') : '';
+                data.source_files = source_files !== null && typeof source_files[1] !== 'undefined' ? source_files[1] : '';
+                data.source_file_size = source_file_size !== null && typeof source_file_size[1] !== 'undefined' ? source_file_size[1] : '';
                 process = null;
                 callback(error !== null, data);
             });
