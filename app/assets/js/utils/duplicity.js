@@ -147,9 +147,11 @@
                 var backup_sets = new RegExp('Number of contained backup sets: ([0-9]+)', 'gm').exec(stdout);
                 var source_files = new RegExp('SourceFiles ([0-9]+)', 'g').exec(stdout);
                 var source_file_size = new RegExp('SourceFileSize [0-9]+ [(]([^)]+)[)]', 'g').exec(stdout);
+                var backup_volumes = new RegExp('Total number of contained volumes: ([0-9]+)', 'gm').exec(stdout);
                 data.chain_start_time = chain_start_time !== null && typeof chain_start_time[1] !== 'undefined' ? Date.parse(chain_start_time[1]) : '';
                 data.chain_end_time = chain_end_time !== null && typeof chain_end_time[1] !== 'undefined' ? Date.parse(chain_end_time[1]) : '';
                 data.backup_sets = backup_sets !== null && typeof backup_sets[1] !== 'undefined' ? backup_sets[1] : '';
+                data.backup_volumes = backup_volumes !== null && typeof backup_volumes[1] !== 'undefined' ? backup_volumes[1] : '';
                 data.chain_start_time = data.chain_start_time !== '' ? moment(data.chain_start_time).format('YYYY-MM-DD HH:mm') : '';
                 data.chain_end_time = data.chain_end_time !== '' ? moment(data.chain_end_time).format('YYYY-MM-DD HH:mm') : '';
                 data.source_files = source_files !== null && typeof source_files[1] !== 'undefined' ? source_files[1] : '';
