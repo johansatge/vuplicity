@@ -129,6 +129,7 @@
         {
             if (!backups[id].isProcessing())
             {
+                _setUI.apply(this, [id, 'processing', 'Starting scheduled backup...']);
                 backups[id].startScheduledBackup(controlPanelWindow.getWindow(), type);
             }
         });
