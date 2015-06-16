@@ -110,7 +110,7 @@ It may be nice to encrypt the files with a global passphrase, and ask it to the 
 
 Add new backup informations, such as:
 
-* Next planned backup date on the left panel
+* ~~Next planned backup date on the left panel~~
 * Current backup size in the **Status** tab
 * Informations on next planned backup (count of added & deleted files ?)
 

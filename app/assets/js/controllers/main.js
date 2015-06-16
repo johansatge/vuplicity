@@ -158,6 +158,7 @@
         {
             if (!has_error)
             {
+                controlPanelWindow.send('set-backup-next-date', id, backups[id].getNextBackupDate());
                 backups[id].refreshBackupStatus();
             }
             else
@@ -171,6 +172,7 @@
             if (!error)
             {
                 controlPanelWindow.send('set-backup-data', id, options, schedules, false);
+                controlPanelWindow.send('set-backup-next-date', id, backups[id].getNextBackupDate());
             }
         });
         emitter.on('backup-deleted', function(id, error)
@@ -225,6 +227,7 @@
         var data = backups[id].init(id, path, emitter);
         backupsHistory[id] = '';
         controlPanelWindow.send('set-backup-data', id, data.options, data.schedules, is_opened);
+        controlPanelWindow.send('set-backup-next-date', id, backups[id].getNextBackupDate());
     };
 
     /**

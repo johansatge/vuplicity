@@ -61,7 +61,7 @@
                 }
                 if (property === 'chain_end_time')
                 {
-                    itemNode.querySelector('.js-last-update').innerHTML = data[property].length > 0 ? data[property] : '--';
+                    itemNode.querySelector('.js-last-backup').innerHTML = data[property].length > 0 ? data[property] : '--';
                 }
             }
         };
@@ -81,6 +81,15 @@
                 }
             }
             itemNode.querySelector('.js-title').innerHTML = typeof data.title !== 'undefined' && data.title.length > 0 ? data.title : 'Unnamed backup';
+        };
+
+        /**
+         * Updates next planned date
+         * @param date
+         */
+        this.updateNextDate = function(date)
+        {
+            itemNode.querySelector('.js-next-backup').innerHTML = date;
         };
 
         /**

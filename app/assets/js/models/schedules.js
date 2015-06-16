@@ -7,6 +7,7 @@
     'use strict';
 
     var Later = require('later');
+    var moment = require('moment');
 
     var module = function(callback)
     {
@@ -20,9 +21,9 @@
          */
         this.setSchedules = function(schedules)
         {
-            currentSchedules.map(function(schedule)
+            currentSchedules.map(function(data)
             {
-                schedule.clear();
+                data.interval.clear();
             });
             currentSchedules = [];
             for (var index = 0; index < schedules.length; index += 1)
@@ -33,9 +34,29 @@
                 {
                     var instance = Later.parse.text(interval + ' ' + days);
                     var callback = schedules[index].backup_type === 'full' ? _onScheduleFull : _onScheduleAuto;
-                    currentSchedules.push(Later.setInterval(callback.bind(this), instance));
+                    currentSchedules.push({
+                        interval: Later.setInterval(callback.bind(this), instance),
+                        instance: Later.schedule(instance)
+                    });
                 }
             }
+        };
+
+        /**
+         * Gets the closest, next occurrence
+         */
+        this.getNext = function()
+        {
+            var times = [];
+            for (var index = 0; index < currentSchedules.length; index += 1)
+            {
+                times.push(moment(currentSchedules[index].instance.next(1)).unix());
+            }
+            if (times.length > 0)
+            {
+                return moment.unix(Math.min.apply(Math, times)).format('YYYY-MM-DD HH:mm');
+            }
+            return 'never';
         };
 
         /**

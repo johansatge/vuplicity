@@ -43,6 +43,7 @@
         addBackupNode.addEventListener('click', _onCreateNewBackup.bind(this));
         removeBackupNode.addEventListener('click', _onRequestBackupDeletion.bind(this));
         ipc.on('set-backup-data', _onSetBackupData.bind(this));
+        ipc.on('set-backup-next-date', _onSetBackupNextDate.bind(this));
         ipc.on('set-backup-path', _onSetBackupPath.bind(this));
         ipc.on('set-backup-status', _onSetBackupStatus.bind(this));
         ipc.on('set-backup-ui', _onSetBackupUI.bind(this));
@@ -105,6 +106,16 @@
         }
         backups[id].updateOptions(options);
         backups[id].updateSchedules(schedules);
+    };
+
+    /**
+     * Sets the date of the next planned backup for the given item
+     * @param id
+     * @param date
+     */
+    var _onSetBackupNextDate = function(id, date)
+    {
+        backups[id].updateNextDate(date);
     };
 
     /**

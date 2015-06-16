@@ -69,6 +69,14 @@
         };
 
         /**
+         * Gets the date of the next planned backup
+         */
+        this.getNextBackupDate = function()
+        {
+            return schedulesHelper.getNext();
+        };
+
+        /**
          * Gets backup status
          */
         this.refreshBackupStatus = function()
