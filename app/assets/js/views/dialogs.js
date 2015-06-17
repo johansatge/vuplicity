@@ -21,11 +21,14 @@
         var params = {
             type: 'info',
             message: 'What task do you want to start ?',
-            buttons: ['Automatic backup', 'Full backup']
+            buttons: ['Automatic backup', 'Full backup', 'Cancel']
         };
         dialog.showMessageBox(context, params, function(response)
         {
-            callback(response === 0 ? '' : 'full');
+            if (response < 2)
+            {
+                callback(response === 0 ? '' : 'full');
+            }
         });
     };
 
