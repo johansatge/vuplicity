@@ -39,6 +39,7 @@
         configPath = config_path;
 
         setInterval(_sendBackupsHistory.bind(this), 1000);
+        setInterval(_sendBackupsNextDate.bind(this), 60000);
         _handleViewEvents.apply(this);
         _handleModelEvents.apply(this);
     };
@@ -199,6 +200,15 @@
                 controlPanelWindow.send('set-backup-history', id, backupsHistory[id]);
                 backupsHistory[id] = '';
             }
+        }
+    };
+
+    var _sendBackupsNextDate = function()
+    {
+        for (var id in backups)
+        {
+            console.log('la');
+            controlPanelWindow.send('set-backup-next-date', id, backups[id].getNextBackupDate());
         }
     };
 

@@ -55,7 +55,7 @@
             }
             if (times.length > 0)
             {
-                return moment.unix(Math.min.apply(Math, times)).format('YYYY-MM-DD HH:mm');
+                return moment().to(moment.unix(Math.min.apply(Math, times)));
             }
             return 'never';
         };
