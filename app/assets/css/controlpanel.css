@@ -401,28 +401,33 @@ html, body {
   position: absolute;
   bottom: 0;
   width: 100%;
+  overflow: hidden;
 }
-/* line 7, ../sass/detail/_history.scss */
+/* line 8, ../sass/detail/_history.scss */
+.backup-history:hover button {
+  top: 1px;
+}
+/* line 13, ../sass/detail/_history.scss */
 .backup-history button {
   position: absolute;
-  right: 6px;
-  top: 8px;
+  right: 24px;
+  top: -20px;
   background: #cbcbcb;
-  padding: 2px 6px 3px 4px;
-  border-radius: 3px;
+  padding: 3px 8px 4px 5px;
+  border-radius: 0 0 3px 3px;
   font-size: 9px;
   color: #ffffff;
-  margin: 0 0 0 5px;
+  transition: top 150ms;
 }
-/* line 19, ../sass/detail/_history.scss */
+/* line 25, ../sass/detail/_history.scss */
 .backup-history button i {
   margin: 0 2px 0 0;
 }
-/* line 24, ../sass/detail/_history.scss */
+/* line 30, ../sass/detail/_history.scss */
 .backup-history button:active {
   background: #c5c5c5;
 }
-/* line 30, ../sass/detail/_history.scss */
+/* line 36, ../sass/detail/_history.scss */
 .backup-history pre {
   cursor: text;
   -webkit-user-select: auto;
@@ -437,7 +442,7 @@ html, body {
   overflow-y: auto;
   word-wrap: break-word;
 }
-/* line 45, ../sass/detail/_history.scss */
+/* line 51, ../sass/detail/_history.scss */
 .backup-history pre span {
   font-family: "Courier", sans-serif;
   font-size: 11px;

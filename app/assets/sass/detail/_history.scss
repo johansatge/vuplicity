@@ -3,18 +3,24 @@
     position : absolute;
     bottom   : 0;
     width    : 100%;
+    overflow : hidden;
+
+    &:hover button
+    {
+        top : 1px;
+    }
 
     button
     {
         position      : absolute;
-        right         : 6px;
-        top           : 8px;
+        right         : 24px;
+        top           : -20px;
         background    : #cbcbcb;
-        padding       : 2px 6px 3px 4px;
-        border-radius : 3px;
+        padding       : 3px 8px 4px 5px;
+        border-radius : 0 0 3px 3px;
         font-size     : 9px;
         color         : #ffffff;
-        margin        : 0 0 0 5px;
+        transition    : top 150ms;
 
         i
         {
