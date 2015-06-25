@@ -114,7 +114,7 @@ Add new backup informations, such as:
 * ~~Current backup size in the **Status** tab~~
 * Informations on next planned backup (count of added & deleted files ?)
 
-Make dates more readable (by using *from* and *to* notations ?)
+~~Make dates more readable (by using *from* and *to* notations ?)~~
 
 ### Interactive CLI
 
