@@ -10,6 +10,7 @@
     var exec = require('child_process').exec;
     var os = require('os');
     var moment = require('moment');
+    var maxBuffer = 1024 * 1000;
 
     var module = function()
     {
@@ -43,7 +44,7 @@
          */
         this.doBackup = function(data, type, callback)
         {
-            var options = {env: {PASSPHRASE: data.passphrase, TMPDIR: os.tmpdir()}};
+            var options = {env: {PASSPHRASE: data.passphrase, TMPDIR: os.tmpdir()}, maxBuffer: maxBuffer};
             var command = 'duplicity ' + type + ' "' + data.path + '" "' + data.url + '" ' + data.cli_options + ' --verbosity info';
             process = exec(command, options, function(error, stdout, stderr)
             {
@@ -63,12 +64,12 @@
          */
         this.restoreFile = function(data, path, dest_path, callback)
         {
-            var options = {env: {PASSPHRASE: data.passphrase, TMPDIR: os.tmpdir()}};
+            var options = {env: {PASSPHRASE: data.passphrase, TMPDIR: os.tmpdir()}, maxBuffer: maxBuffer};
             var command = 'duplicity restore --file-to-restore "' + path + '" "' + data.url + '" "' + dest_path + '"' + ' ' + data.cli_options + ' --verbosity info';
             process = exec(command, options, function(error, stdout, stderr)
             {
                 process = null;
-                callback(cancelled || error !== null);
+                callback(cancelled || error !== null);
             });
             process.stdout.on('data', _onStdout.bind(this));
             process.stderr.on('data', _onStderr.bind(this));
@@ -82,12 +83,12 @@
          */
         this.restoreTree = function(data, dest_path, callback)
         {
-            var options = {env: {PASSPHRASE: data.passphrase, TMPDIR: os.tmpdir()}};
+            var options = {env: {PASSPHRASE: data.passphrase, TMPDIR: os.tmpdir()}, maxBuffer: maxBuffer};
             var command = 'duplicity restore "' + data.url + '" "' + dest_path + '"' + ' ' + data.cli_options + ' --verbosity info';
             process = exec(command, options, function(error, stdout, stderr)
             {
                 process = null;
-                callback(cancelled || error !== null);
+                callback(cancelled || error !== null);
             });
             process.stdout.on('data', _onStdout.bind(this));
             process.stderr.on('data', _onStderr.bind(this));
@@ -100,7 +101,7 @@
          */
         this.getFiles = function(data, callback)
         {
-            var options = {env: {PASSPHRASE: data.passphrase, TMPDIR: os.tmpdir()}};
+            var options = {env: {PASSPHRASE: data.passphrase, TMPDIR: os.tmpdir()}, maxBuffer: maxBuffer};
             var command = 'duplicity list-current-files ' + data.url + ' ' + data.cli_options + ' --verbosity info';
             process = exec(command, options, function(error, stdout, stderr)
             {
@@ -136,7 +137,7 @@
          */
         this.getStatus = function(data, callback)
         {
-            var options = {env: {PASSPHRASE: data.passphrase, TMPDIR: os.tmpdir()}};
+            var options = {env: {PASSPHRASE: data.passphrase, TMPDIR: os.tmpdir()}, maxBuffer: maxBuffer};
             var command1 = 'duplicity collection-status ' + data.url + ' ' + data.cli_options + ' --verbosity info';
             var command2 = 'duplicity incremental ' + data.path + ' ' + data.url + ' ' + data.cli_options + ' --verbosity info --dry-run';
             process = exec(command1 + ' && ' + command2, options, function(error, stdout, stderr)
