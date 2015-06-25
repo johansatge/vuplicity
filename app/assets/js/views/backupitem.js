@@ -59,10 +59,6 @@
                 {
                     node.innerHTML = data[property].length > 0 ? data[property] : '--';
                 }
-                if (property === 'chain_end_time')
-                {
-                    itemNode.querySelector('.js-last-backup').innerHTML = data[property].length > 0 ? data[property] : '--';
-                }
             }
         };
 
@@ -90,6 +86,11 @@
         this.updateNextDate = function(date)
         {
             itemNode.querySelector('.js-next-backup').innerHTML = date;
+        };
+
+        this.updateLastDate = function(date)
+        {
+            itemNode.querySelector('.js-last-backup').innerHTML = date;
         };
 
         /**

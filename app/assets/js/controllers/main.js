@@ -40,6 +40,7 @@
 
         setInterval(_sendBackupsHistory.bind(this), 1000);
         setInterval(_sendBackupsNextDate.bind(this), 60000);
+        setInterval(_sendBackupsLastDate.bind(this), 60000);
         _handleViewEvents.apply(this);
         _handleModelEvents.apply(this);
     };
@@ -142,6 +143,7 @@
         {
             _setUI.apply(this, [id, 'idle', has_error ? 'A Duplicity error occurred.' : 'Status refreshed.']);
             controlPanelWindow.send('set-backup-status', id, status);
+            controlPanelWindow.send('set-backup-last-date', id, backups[id].getLastBackupDate());
         });
         emitter.on('file-tree-refreshed', function(id, has_error, tree)
         {
@@ -207,8 +209,15 @@
     {
         for (var id in backups)
         {
-            console.log('la');
             controlPanelWindow.send('set-backup-next-date', id, backups[id].getNextBackupDate());
+        }
+    };
+
+    var _sendBackupsLastDate = function()
+    {
+        for (var id in backups)
+        {
+            controlPanelWindow.send('set-backup-last-date', id, backups[id].getLastBackupDate());
         }
     };
 

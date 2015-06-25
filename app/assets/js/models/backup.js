@@ -7,6 +7,7 @@
 
     'use strict';
 
+    var moment = require('moment');
     var Duplicity = require(__dirname + '/../utils/duplicity.js');
     var Schedules = require(__dirname + '/schedules.js');
     var Configuration = require(__dirname + '/../utils/configuration.js');
@@ -20,6 +21,7 @@
         var backupID = null;
         var backupData = null;
         var eventEmitter = null;
+        var lastBackupDate = null;
 
         /**
          * Checks and sanitizes the data of a backup
@@ -76,6 +78,11 @@
             return schedulesHelper.getNext();
         };
 
+        this.getLastBackupDate = function()
+        {
+            return lastBackupDate !== null ? moment(lastBackupDate).from(moment()) : '--';
+        };
+
         /**
          * Gets backup status
          */
@@ -83,6 +90,10 @@
         {
             duplicityHelper.getStatus(backupData.options, function(has_error, status)
             {
+                if (typeof status.chain_end_time !== 'undefined')
+                {
+                    lastBackupDate = status.chain_end_time;
+                }
                 eventEmitter.emit('status-refreshed', backupID, has_error, status);
             });
         };
