@@ -43,6 +43,10 @@ module.exports = function(grunt)
     {
         var done = this.async();
         var platforms = ['linux', 'win32', 'darwin'];
+        if (typeof argv.platforms !== 'undefined')
+        {
+            platforms = argv.platforms.split(',');
+        }
         var built_platforms = 0;
         platforms.map(function(platform)
         {
