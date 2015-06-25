@@ -18,7 +18,7 @@
         var cancelled = false;
         var outputCallback = null;
         var maxBuffer = 1024 * 1000;
-        var verbosityLevel = 'info';
+        var verbosityLevel = 'notice';
 
         /**
          * Checks if a process is running
@@ -140,7 +140,7 @@
         {
             var options = {env: {PASSPHRASE: data.passphrase, TMPDIR: os.tmpdir()}, maxBuffer: maxBuffer};
             var command1 = 'duplicity collection-status ' + data.url + ' ' + data.cli_options + ' --verbosity ' + verbosityLevel;
-            var command2 = 'duplicity incremental ' + data.path + ' ' + data.url + ' ' + data.cli_options + ' --verbosity info --dry-run';
+            var command2 = 'duplicity incremental ' + data.path + ' ' + data.url + ' ' + data.cli_options + ' --verbosity ' + verbosityLevel + ' --dry-run';
             process = exec(command1 + ' && ' + command2, options, function(error, stdout, stderr)
             {
                 var data = {};
