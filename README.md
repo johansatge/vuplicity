@@ -2,10 +2,13 @@
 
 A cross-platform GUI for Duplicity backups, powered by Atom Electron.
 
-[Features](#features) | [Installation](#installation) | [Todos & caveats](#todos) | [Changelog](#changelog) | [License](#license) | [Credits](#credits)
---- | --- | --- | --- | --- | ---
+* [Features](#features)
+* [Installation](#installation)
+* [Todos and caveats](#todos-and-caveats)
+* [Changelog](#changelog)
+* [License](#license)
+* [Credits](#credits)
 
-<a id="features"></a>
 ## Features
 
 The GUI works directly with Duplicity by sending shell commands, so you can use your existing backups and / or create new ones independently.
@@ -38,46 +41,47 @@ Schedule the backup by choosing a delay or a time, and the days when you want it
 
 You may also combine multiple schedules (for instance, one incremental backup each day at 2:00am, and one full backup once a month).
 
-<a id="installation"></a>
 ## Installation
 
 *Sorry, no prebuilt binaries for now, as `1.0.0` is still in active development...*
 
-**1.** Install [Duplicity](http://duplicity.nongnu.org/) if needed
-
-(Ensure it is included in your global `$PATH` to allow the app to access it)
+**1.** Install [Duplicity](http://duplicity.nongnu.org/) if needed (ensure it is included in your global `$PATH` to allow the app to access it)
 
 **2.** Install [node.js](https://nodejs.org/) and [npm](https://github.com/npm/npm) if needed
 
 **3.** Install [Atom Electron](http://electron.atom.io/) if needed (by using `npm`)
 
+**3.** Install [Grunt](http://gruntjs.com/) if needed
+
 **4.** Get the project and its dependencies
 
-```
+```bash
 git clone https://github.com/johansatge/vuplicity.git
-```
-
-```
+npm install
 cd vuplicity/app && npm install
-```
 
 **5.** Run
 
-```
-electron . &
+```bash
+grunt run
 ```
 
 The following options are available, if needed:
 
 | Option | Usage |
 | :--- | :--- |
-| `electron . --devtools` | Opens the devtools with the control panel |
-| `electron . --configpath=/Users/johan/.vuplicity-dev` | Overrides the path of the config |
+| `grunt run --devtools` | Opens the devtools with the control panel |
+| `grunt run --configpath=/Users/johan/.vuplicity-dev` | Overrides the path of the config |
 
 The GUI stores one JSON config file per backup in the following directory: `$HOME/.vuplicity`.
 
-<a id="todos"></a>
-## Todos & caveats
+**6.** Build
+
+```bash
+grunt build --platforms=darwin,linux,win32
+```
+
+## Todos and caveats
 
 ### App wrapper
 
@@ -124,19 +128,16 @@ For instance, when using the Dropbox backend, you have to load an authorization 
 
 This step has to be executed manually; when it's done, you will be able to use the GUI.
 
-<a id="changelog"></a>
 ## Changelog
 
 | Version | Notes |
 | --- | --- |
 | `1.0.0 beta` | Current version (work in progress) |
 
-<a id="license"></a>
 ## License
 
 This project is released under the [MIT License](LICENSE).
 
-<a id="credits"></a>
 ## Credits
 
 * [Atom Electron](http://electron.atom.io)
