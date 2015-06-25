@@ -8,6 +8,7 @@
 
     var Later = require('later');
     var moment = require('moment');
+    Later.date.localTime();
 
     var module = function(callback)
     {
@@ -88,7 +89,7 @@
                 {
                     return false;
                 }
-                return 'on the ' + schedule.weekdays.join(',') + ' day of the week';
+                return 'on the ' + schedule.weekdays.sort().join(',') + ' day of the week';
             }
             else if (schedule.interval_basis === 'monthly')
             {
