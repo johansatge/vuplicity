@@ -37,6 +37,11 @@
             _initSchedules.apply(this);
         };
 
+        this.setProgress = function(progress)
+        {
+            itemNode.querySelector('.js-progress').style.width = progress + '%';
+        };
+
         /**
          * Updates file tree
          * @param tree
@@ -110,6 +115,7 @@
         {
             DOM.toggleClass(itemNode, 'js-processing', is_processing);
             DOM.toggleClass(detailNode, 'js-processing', is_processing);
+            itemNode.querySelector('.js-progress').style.width = '100%';
         };
 
         /**

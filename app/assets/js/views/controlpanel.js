@@ -50,7 +50,13 @@
         ipc.on('set-backup-ui', _onSetBackupUI.bind(this));
         ipc.on('set-backup-file-tree', _onSetBackupFileTree.bind(this));
         ipc.on('set-backup-history', _onSetBackupHistory.bind(this));
+        ipc.on('set-backup-progress', _onSetBackupProgress.bind(this));
         ipc.on('confirm-backup-deletion', _onConfirmBackupDeletion.bind(this));
+    };
+
+    var _onSetBackupProgress = function(id, progress)
+    {
+        backups[id].setProgress(progress);
     };
 
     /**

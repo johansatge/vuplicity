@@ -172,8 +172,7 @@
         });
         emitter.on('backup-progress', function(id, progress)
         {
-            // @todo update progressbar in view
-            console.log(progress);
+            controlPanelWindow.send('set-backup-progress', id, progress);
         });
         emitter.on('backup-saved', function(id, error, options, schedules)
         {
