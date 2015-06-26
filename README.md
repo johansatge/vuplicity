@@ -121,9 +121,9 @@ This step has to be executed manually; when it's done, you will be able to use t
 
 ## Changelog
 
-| Version | Notes |
-| --- | --- |
-| `1.0.0 beta` | Current version (work in progress) |
+| Version | Date | Notes |
+| --- | --- | --- |
+| `1.0.0` | June 26th, 2015 | Initial version |
 
 ## License
 
