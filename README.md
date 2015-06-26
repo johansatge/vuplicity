@@ -42,6 +42,10 @@ You may also combine multiple schedules (for instance, one incremental backup ea
 
 ## Download
 
+*[Duplicity](http://duplicity.nongnu.org/) is not shipped with the app.
+
+You have to install it first, and ensure that the `duplicity` command is included in your global `$PATH` to allow the app to access it.*
+
 ### OSX
 
 You can download the last version of the app on the [Releases](https://github.com/johansatge/vuplicity/releases) page.
@@ -60,11 +64,9 @@ Comments are very welcome on the [Issues](https://github.com/johansatge/vuplicit
 
 ### Installation steps
 
-**1.** Install [Duplicity](http://duplicity.nongnu.org/) if needed (ensure it is included in your global `$PATH` to allow the app to access it)
+**1.** Install [node.js](https://nodejs.org/) and [npm](https://github.com/npm/npm) if needed
 
-**2.** Install [node.js](https://nodejs.org/) and [npm](https://github.com/npm/npm) if needed
-
-**3.** Install [Atom Electron](http://electron.atom.io/) if needed (by using `npm`)
+**2.** Install [Atom Electron](http://electron.atom.io/) if needed (by using `npm`)
 
 **3.** Install [Grunt](http://gruntjs.com/) if needed
 
