@@ -55,8 +55,7 @@
             backupID = id;
             configHelper = new Configuration(config_path);
             backupData = _checkData.apply(this, [configHelper.loadSync()]);
-            duplicityHelper = new Duplicity();
-            duplicityHelper.onOutput(_onDuplicityOutput.bind(this));
+            duplicityHelper = new Duplicity(_onDuplicityOutput.bind(this), _onDuplicityProgress.bind(this));
             schedulesHelper = new Schedules(_onScheduledEvent.bind(this));
             schedulesHelper.setSchedules(backupData.schedules);
             return backupData;
@@ -204,10 +203,6 @@
             });
         };
 
-        /**
-         * Triggers a scheduled event
-         * @param type
-         */
         var _onScheduledEvent = function(type)
         {
             eventEmitter.emit('scheduled-backup', backupID, type);
@@ -216,6 +211,11 @@
         var _onDuplicityOutput = function(output)
         {
             eventEmitter.emit('backup-history', backupID, output);
+        };
+
+        var _onDuplicityProgress = function(progress)
+        {
+            eventEmitter.emit('backup-progress', backupID, Math.round(progress * 100) / 100);
         };
 
     };

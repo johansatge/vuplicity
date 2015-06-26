@@ -11,14 +11,18 @@
     var os = require('os');
     var moment = require('moment');
 
-    var module = function()
+    var module = function(output_callback, progress_callback)
     {
 
         var process = null;
         var cancelled = false;
-        var outputCallback = null;
+        var outputCallback = output_callback;
+        var progressCallback = progress_callback;
         var maxBuffer = 1024 * 1000;
         var verbosityLevel = 'notice';
+        var currentBackupSize = null;
+        var currentBackupVolume = null;
+        var currentBackupVolumeSize = null;
 
         /**
          * Checks if a process is running
@@ -29,15 +33,6 @@
         };
 
         /**
-         * Registers a callback to be triggered when an output is received from the CLI tool
-         * @param callback
-         */
-        this.onOutput = function(callback)
-        {
-            outputCallback = callback;
-        };
-
-        /**
          * Starts a backup task
          * @param data
          * @param type (full | "")
@@ -45,14 +40,19 @@
          */
         this.doBackup = function(data, type, callback)
         {
+            currentBackupSize = false;
+            currentBackupVolume = false;
+            var current_volsize = new RegExp('--volsize ([0-9]+)', 'gm').exec(data.cli_options);
+            currentBackupVolumeSize = current_volsize !== null && typeof current_volsize[1] !== 'undefined' ? parseInt(current_volsize) : 25;
             var options = {env: {PASSPHRASE: data.passphrase, TMPDIR: os.tmpdir()}, maxBuffer: maxBuffer};
-            var command = 'duplicity ' + type + ' "' + data.path + '" "' + data.url + '" ' + data.cli_options + ' --verbosity ' + verbosityLevel;
-            process = exec(command, options, function(error, stdout, stderr)
+            var command1 = 'duplicity incremental ' + data.path + ' ' + data.url + ' ' + data.cli_options + ' --verbosity ' + verbosityLevel + ' --dry-run';
+            var command2 = 'duplicity ' + type + ' "' + data.path + '" "' + data.url + '" ' + data.cli_options + ' --verbosity info';
+            process = exec(command1 + ' && ' + command2, options, function(error, stdout, stderr)
             {
                 process = null;
                 callback(cancelled || error !== null);
             });
-            process.stdout.on('data', _onStdout.bind(this));
+            process.stdout.on('data', _onBackupStdout.bind(this));
             process.stderr.on('data', _onStderr.bind(this));
         };
 
@@ -72,7 +72,7 @@
                 process = null;
                 callback(cancelled || error !== null);
             });
-            process.stdout.on('data', _onStdout.bind(this));
+            process.stdout.on('data', _onGenericStdout.bind(this));
             process.stderr.on('data', _onStderr.bind(this));
         };
 
@@ -91,7 +91,7 @@
                 process = null;
                 callback(cancelled || error !== null);
             });
-            process.stdout.on('data', _onStdout.bind(this));
+            process.stdout.on('data', _onGenericStdout.bind(this));
             process.stderr.on('data', _onStderr.bind(this));
         };
 
@@ -127,7 +127,7 @@
                 process = null;
                 callback(error !== null, tree);
             });
-            process.stdout.on('data', _onStdout.bind(this));
+            process.stdout.on('data', _onGenericStdout.bind(this));
             process.stderr.on('data', _onStderr.bind(this));
         };
 
@@ -161,7 +161,7 @@
                 process = null;
                 callback(error !== null, data);
             });
-            process.stdout.on('data', _onStdout.bind(this));
+            process.stdout.on('data', _onGenericStdout.bind(this));
             process.stderr.on('data', _onStderr.bind(this));
         };
 
@@ -178,9 +178,35 @@
          * Sends stdout
          * @param out
          */
-        var _onStdout = function(out)
+        var _onGenericStdout = function(out)
         {
             outputCallback(out);
+        };
+
+        /**
+         * Sends backup stdout, and calculates current progress if needed
+         * @param out
+         */
+        var _onBackupStdout = function(out)
+        {
+            var backup_size = new RegExp('SourceFileSize ([0-9]+) ', 'gm').exec(out);
+            if (backup_size !== null && typeof backup_size[1] !== 'undefined')
+            {
+                currentBackupSize = parseInt(backup_size[1]) / 1024 / 1024;
+            }
+            var current_volume = new RegExp('Writing.*\.vol([0-9]+).', 'gm').exec(out);
+            if (current_volume !== null && typeof current_volume[1] !== 'undefined')
+            {
+                currentBackupVolume = parseInt(current_volume[1]);
+            }
+            if (currentBackupSize !== false && currentBackupVolume !== false)
+            {
+                progressCallback((currentBackupVolume * 100) / (currentBackupSize / currentBackupVolumeSize));
+            }
+            if (out.search(/^A /g) === -1)
+            {
+                outputCallback(out);
+            }
         };
 
         /**

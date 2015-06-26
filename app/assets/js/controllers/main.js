@@ -170,6 +170,11 @@
                 _setUI.apply(this, [id, 'idle', 'A Duplicity error occurred.']);
             }
         });
+        emitter.on('backup-progress', function(id, progress)
+        {
+            // @todo update progressbar in view
+            console.log(progress);
+        });
         emitter.on('backup-saved', function(id, error, options, schedules)
         {
             _setUI.apply(this, [id, 'idle', error ? error : 'Settings saved.']);
