@@ -61,6 +61,7 @@ You may also combine multiple schedules (for instance, one incremental backup ea
 git clone https://github.com/johansatge/vuplicity.git
 npm install
 cd vuplicity/app && npm install
+```
 
 **5.** Run
 
@@ -93,12 +94,6 @@ Add a build task to wrap the app for each platform.
 
 * Add confirmation email - or notifications - with backup status
 * Displays duplicity informations in the status tab (delta files, etc)
-
-### Live progressbar
-
-Display the progression of a backup by using the `--progress` Duplicity option.
-
-*On my machine the progress does not show when using the cli tool, I'm a victim of the [ETA stalled bug](https://www.google.com/#q=duplicity+eta+stalled) - I will have to figure out why, before being able to develop this.*
 
 ### Update checker
 
