@@ -1,5 +1,7 @@
 # Vuplicity
 
+![Icon](icon_tiny.png)
+
 A cross-platform GUI for Duplicity backups, powered by Atom Electron.
 
 * [Features](#features)
