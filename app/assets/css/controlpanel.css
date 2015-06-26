@@ -195,7 +195,11 @@ html, body {
   color: #999999;
   text-shadow: 0 1px 0 #1d1d1d;
 }
-/* line 34, ../sass/list/_item.scss */
+/* line 33, ../sass/list/_item.scss */
+.backup-item .status .right {
+  float: right;
+}
+/* line 39, ../sass/list/_item.scss */
 .backup-item .error {
   display: none;
   position: absolute;
@@ -204,7 +208,7 @@ html, body {
   top: 17px;
   font-size: 16px;
 }
-/* line 44, ../sass/list/_item.scss */
+/* line 49, ../sass/list/_item.scss */
 .backup-item .progressbar {
   display: none;
   position: relative;
@@ -217,7 +221,7 @@ html, body {
   border: 1px solid #2b2b2b;
   box-shadow: 0 1px 0 #4d4e4d, inset 0 5px 10px #313132;
 }
-/* line 57, ../sass/list/_item.scss */
+/* line 62, ../sass/list/_item.scss */
 .backup-item .progressbar .cancel {
   position: absolute;
   top: -5px;
@@ -228,7 +232,7 @@ html, body {
   color: #cccccc;
   text-shadow: 0 1px 0 #2b2b2b;
 }
-/* line 69, ../sass/list/_item.scss */
+/* line 74, ../sass/list/_item.scss */
 .backup-item .progressbar .progress {
   position: absolute;
   height: 100%;
@@ -243,7 +247,7 @@ html, body {
     background-position: 60px 60px;
   }
 }
-/* line 88, ../sass/list/_item.scss */
+/* line 93, ../sass/list/_item.scss */
 .backup-item .progressbar .progress:after {
   border-radius: 4px;
   content: "";
@@ -256,46 +260,46 @@ html, body {
   background-size: 30px 30px;
   -webkit-animation: move 2s linear infinite;
 }
-/* line 106, ../sass/list/_item.scss */
+/* line 111, ../sass/list/_item.scss */
 .backup-item.js-processing .progressbar {
   display: block;
 }
-/* line 112, ../sass/list/_item.scss */
+/* line 117, ../sass/list/_item.scss */
 .backup-item.js-error .error {
   display: block;
 }
-/* line 117, ../sass/list/_item.scss */
+/* line 122, ../sass/list/_item.scss */
 .backup-item.js-active {
   background: linear-gradient(to top, #7ebfdf, #759fda);
   box-shadow: inset 0 0 1px #ffffff;
 }
-/* line 122, ../sass/list/_item.scss */
+/* line 127, ../sass/list/_item.scss */
 .backup-item.js-active:active {
   background: linear-gradient(to top, #7ebfdf, #6b91c7);
 }
-/* line 127, ../sass/list/_item.scss */
+/* line 132, ../sass/list/_item.scss */
 .backup-item.js-active .progressbar {
   border: 1px solid #6e96cd;
   background: #90d6fa;
   box-shadow: 0 1px 0 #9bcde6, inset 0 5px 10px #759fda;
 }
-/* line 133, ../sass/list/_item.scss */
+/* line 138, ../sass/list/_item.scss */
 .backup-item.js-active .progressbar .cancel {
   color: #ffffff;
   text-shadow: 0 1px 0 #6788b6;
 }
-/* line 139, ../sass/list/_item.scss */
+/* line 144, ../sass/list/_item.scss */
 .backup-item.js-active .progressbar .progress:after {
   background-image: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(0.25, #9bcde6), color-stop(0.25, transparent), color-stop(0.5, transparent), color-stop(0.5, #9bcde6), color-stop(0.75, #9bcde6), color-stop(0.75, transparent), to(transparent));
 }
-/* line 145, ../sass/list/_item.scss */
+/* line 150, ../sass/list/_item.scss */
 .backup-item.js-active .status,
 .backup-item.js-active .process-message,
 .backup-item.js-active .title {
   text-shadow: 0 1px 0 #6788b6;
   color: #ffffff;
 }
-/* line 153, ../sass/list/_item.scss */
+/* line 158, ../sass/list/_item.scss */
 .backup-item.js-active .loader,
 .backup-item.js-active .error {
   color: #ffffff;

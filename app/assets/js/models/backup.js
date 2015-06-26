@@ -79,7 +79,7 @@
 
         this.getLastBackupDate = function()
         {
-            return lastBackupDate !== null ? moment(lastBackupDate).from(moment()) : '--';
+            return lastBackupDate !== null ? moment(lastBackupDate).from(moment()) : 'unknown';
         };
 
         /**
