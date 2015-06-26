@@ -42,9 +42,9 @@ You may also combine multiple schedules (for instance, one incremental backup ea
 
 ## Download
 
-*[Duplicity](http://duplicity.nongnu.org/) is not shipped with the app.
+*[Duplicity](http://duplicity.nongnu.org/) is not shipped with the app.*
 
-You have to install it first, and ensure that the `duplicity` command is included in your global `$PATH` to allow the app to access it.*
+*You have to install it first, and ensure that the `duplicity` command is included in your global `$PATH` to allow the app to access it.*
 
 ### OSX
 
