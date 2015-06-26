@@ -60,7 +60,7 @@ module.exports = function(grunt)
                 'arch': 'x64',
                 'platform': platform,
                 'out': '.build/' + platform,
-                'icon': 'icon.png'
+                'icon': platform === 'darwin' ? 'icon.icns' : 'icon.png'
             };
             exec('rm -rf .build/' + platform, function()
             {
