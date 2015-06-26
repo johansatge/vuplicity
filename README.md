@@ -13,31 +13,27 @@ A cross-platform GUI for Duplicity backups, powered by Atom Electron.
 
 ## Features
 
+![Screen](screenshot.jpg)
+
 The GUI works directly with Duplicity by sending shell commands, so you can use your existing backups and / or create new ones independently.
 
-### Status ([screen](/screenshots/status.full.png?raw=true))
-
-![Status](/screenshots/status.thumb.png)
+#### Backup status
 
 Check the status of a backup, start it manually, or restore its content.
 
-### Configuration ([screen](/screenshots/settings.full.png?raw=true))
-
-![Settings](/screenshots/settings.thumb.png)
+#### Configuration
 
 Fill the source path, destination URL, passphrase, and custom CLI options if needed.
 
 You can add several backup configurations on the left panel.
 
-### File tree ([screen](/screenshots/filetree.full.png?raw=true))
+The configuration uses one JSON file per backup, stored in `$HOME/.vuplicity`.
 
-![Filetree](/screenshots/filetree.thumb.png)
+#### File tree
 
 Check the content of the backup, or choose to restore a single file.
 
-### Scheduler ([screen](/screenshots/schedules.full.png?raw=true))
-
-![Schedules](/screenshots/schedules.thumb.png)
+#### Scheduler
 
 Schedule the backup by choosing a delay or a time, and the days when you want it to be applied (in the week or month).
 
@@ -75,8 +71,6 @@ The following options are available, if needed:
 | :--- | :--- |
 | `grunt run --devtools` | Opens the devtools with the control panel |
 | `grunt run --configpath=/Users/johan/.vuplicity-dev` | Overrides the path of the config |
-
-The GUI stores one JSON config file per backup in the following directory: `$HOME/.vuplicity`.
 
 **6.** Build
 
