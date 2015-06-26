@@ -171,7 +171,7 @@
         this.cancel = function()
         {
             cancelled = true;
-            process.kill('SIGINT');
+            process.kill();
         };
 
         /**
