@@ -5,7 +5,8 @@
 A cross-platform GUI for Duplicity backups, powered by Atom Electron.
 
 * [Features](#features)
-* [Installation](#installation)
+* [Download](#download)
+* [Installation and development](#installation-and-development)
 * [Todos and caveats](#todos-and-caveats)
 * [Changelog](#changelog)
 * [License](#license)
@@ -39,15 +40,33 @@ Schedule the backup by choosing a delay or a time, and the days when you want it
 
 You may also combine multiple schedules (for instance, one incremental backup each day at 2:00am, and one full backup once a month).
 
-## Installation
+## Download
 
-*Sorry, no prebuilt binaries for now, as `1.0.0` is still in active development...*
+*[Duplicity](http://duplicity.nongnu.org/) is not shipped with the app.*
 
-**1.** Install [Duplicity](http://duplicity.nongnu.org/) if needed (ensure it is included in your global `$PATH` to allow the app to access it)
+*You have to install it first, and ensure that the `duplicity` command is included in your global `$PATH` to allow the app to access it.*
 
-**2.** Install [node.js](https://nodejs.org/) and [npm](https://github.com/npm/npm) if needed
+### OSX
 
-**3.** Install [Atom Electron](http://electron.atom.io/) if needed (by using `npm`)
+You can download the last version of the app on the [Releases](https://github.com/johansatge/vuplicity/releases) page.
+
+### Linux & Windows
+
+**Help needed !**
+
+For now no binaries are available, because I didn't run advanced tests on those platforms.
+
+If you want to get involved, feel free to follow the installation steps above, and test the project by yourself.
+
+Comments are very welcome on the [Issues](https://github.com/johansatge/vuplicity/issues) page.
+
+## Installation and development
+
+### Installation steps
+
+**1.** Install [node.js](https://nodejs.org/) and [npm](https://github.com/npm/npm) if needed
+
+**2.** Install [Atom Electron](http://electron.atom.io/) if needed (by using `npm`)
 
 **3.** Install [Grunt](http://gruntjs.com/) if needed
 
@@ -59,7 +78,9 @@ npm install
 cd vuplicity/app && npm install
 ```
 
-**5.** Run
+### Development
+
+Run the application:
 
 ```bash
 grunt run
@@ -72,10 +93,16 @@ The following options are available, if needed:
 | `grunt run --devtools` | Opens the devtools with the control panel |
 | `grunt run --configpath=/Users/johan/.vuplicity-dev` | Overrides the path of the config |
 
-**6.** Build
+Build the application for the desired platform:
 
 ```bash
 grunt build --platforms=darwin,linux,win32
+```
+
+Watch for SASS updates:
+
+```bash
+grunt sass
 ```
 
 ## Todos and caveats
