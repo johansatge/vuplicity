@@ -205,8 +205,8 @@ html, body {
   position: absolute;
   color: #f6d349;
   right: 10px;
-  top: 17px;
-  font-size: 16px;
+  top: 10px;
+  font-size: 11px;
 }
 /* line 49, ../sass/list/_item.scss */
 .backup-item .progressbar {
