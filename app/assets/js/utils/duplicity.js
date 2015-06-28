@@ -203,7 +203,7 @@
             {
                 progressCallback((currentBackupVolume * 100) / (currentBackupSize / currentBackupVolumeSize));
             }
-            if (out.search(/^A /g) === -1)
+            if (out.search(/^A /g) === -1 && out.search(/^:: :: /g) === -1)
             {
                 outputCallback(out);
             }
