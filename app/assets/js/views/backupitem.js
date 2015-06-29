@@ -39,7 +39,7 @@
 
         this.setProgress = function(progress)
         {
-            itemNode.querySelector('.js-progress').style.width = progress + '%';
+            itemNode.querySelector('.js-progress').style.width = (progress >= 2 ? progress : 2) + '%';
         };
 
         /**
