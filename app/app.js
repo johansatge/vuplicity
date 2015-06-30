@@ -10,6 +10,8 @@
     var MainController = require(__dirname + '/assets/js/controllers/main.js');
     var CustomTray = require(__dirname + '/assets/js//utils/customtray.js');
     var CLI = require(__dirname + '/assets/js/utils/cli.js');
+    var fs = require('fs');
+    var manifest = JSON.parse(fs.readFileSync(__dirname + '/package.json', {encoding: 'utf8'}));
 
     var tray = null;
 
@@ -31,7 +33,7 @@
      */
     var _initTray = function()
     {
-        var label = app.getName() + ' ' + app.getVersion();
+        var label = manifest.name + ' ' + manifest.version;
         tray = new CustomTray(label, __dirname + '/assets/css/images', _onShowControlPanel.bind(this), _onQuit.bind(this));
     };
 
