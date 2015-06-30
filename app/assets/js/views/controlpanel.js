@@ -14,19 +14,14 @@
     var removeBackupNode = null;
     var currentBackupID = null;
 
-    /**
-     * Inits the view
-     */
     module.init = function()
     {
         _initDOM.apply(this);
         _initEvents.apply(this);
+        _initIPC.apply(this);
         ipc.send('control-panel-ready');
     };
 
-    /**
-     * Inits DOM stuff
-     */
     var _initDOM = function()
     {
         backupsListNode = document.querySelector('.js-backups-list');
@@ -35,109 +30,75 @@
         removeBackupNode = document.querySelector('.js-remove-backup');
     };
 
-    /**
-     * Inits window events
-     */
     var _initEvents = function()
     {
         addBackupNode.addEventListener('click', _onCreateNewBackup.bind(this));
         removeBackupNode.addEventListener('click', _onRequestBackupDeletion.bind(this));
-        ipc.on('set-backup-data', _onSetBackupData.bind(this));
-        ipc.on('set-backup-next-date', _onSetBackupNextDate.bind(this));
-        ipc.on('set-backup-last-date', _onSetBackupLastDate.bind(this));
-        ipc.on('set-backup-path', _onSetBackupPath.bind(this));
-        ipc.on('set-backup-status', _onSetBackupStatus.bind(this));
-        ipc.on('set-backup-ui', _onSetBackupUI.bind(this));
-        ipc.on('set-backup-file-tree', _onSetBackupFileTree.bind(this));
-        ipc.on('set-backup-history', _onSetBackupHistory.bind(this));
-        ipc.on('set-backup-progress', _onSetBackupProgress.bind(this));
-        ipc.on('confirm-backup-deletion', _onConfirmBackupDeletion.bind(this));
     };
 
-    var _onSetBackupProgress = function(id, progress)
+    var _initIPC = function()
     {
-        backups[id].setProgress(progress);
-    };
-
-    /**
-     * Updates the history of a backup
-     * @param id
-     * @param history
-     */
-    var _onSetBackupHistory = function(id, history)
-    {
-        backups[id].updateHistory(history);
-    };
-
-    /**
-     * Updates the file tree of a backup
-     * @param id
-     * @param tree
-     */
-    var _onSetBackupFileTree = function(id, tree)
-    {
-        backups[id].updateFileTree(tree);
-    };
-
-    /**
-     * Sets the UI state of the given backup
-     * @param backup_id
-     * @param status
-     */
-    var _onSetBackupUI = function(backup_id, status)
-    {
-        backups[backup_id].toggleProcessingStatus(status !== 'idle');
-        _updateDeleteButton.apply(this);
-    };
-
-    /**
-     * Updates the data of a backup (and creates it first, if needed)
-     * @param id
-     * @param options
-     * @param schedules
-     * @param is_visible
-     */
-    var _onSetBackupData = function(id, options, schedules, is_visible)
-    {
-        if (typeof backups[id] === 'undefined')
+        ipc.on('set-backup-next-date', function(id, date)
         {
-            var backup = new BackupItem(id);
-            backup.init(_onToggleBackupVisibility.bind(this), _onTriggerBackupAction.bind(this));
-            backupsListNode.insertBefore(backup.getItemNode(), backupsListNode.firstChild);
-            backupsDetailNode.appendChild(backup.getDetailNode());
-            backups[id] = backup;
-        }
-        if (is_visible)
+            backups[id].updateNextDate(date);
+        });
+        ipc.on('set-backup-last-date', function(id, date)
         {
-            backups[id].toggleVisibility();
-        }
-        backups[id].updateOptions(options);
-        backups[id].updateSchedules(schedules);
-    };
-
-    /**
-     * Sets the date of the next planned backup for the given item
-     * @param id
-     * @param date
-     */
-    var _onSetBackupNextDate = function(id, date)
-    {
-        backups[id].updateNextDate(date);
-    };
-
-    var _onSetBackupLastDate = function(id, date)
-    {
-        backups[id].updateLastDate(date);
-    };
-
-    /**
-     * Updates the status of a backup
-     * @param id
-     * @param data
-     */
-    var _onSetBackupStatus = function(id, data)
-    {
-        backups[id].updateStatus(data);
+            backups[id].updateLastDate(date);
+        });
+        ipc.on('set-backup-path', function(path, id)
+        {
+            backups[id].updateOptions({path: path});
+        });
+        ipc.on('set-backup-status', function(id, data)
+        {
+            backups[id].updateStatus(data);
+        });
+        ipc.on('set-backup-file-tree', function(id, tree)
+        {
+            backups[id].updateFileTree(tree);
+        });
+        ipc.on('set-backup-history', function(id, history)
+        {
+            backups[id].updateHistory(history);
+        });
+        ipc.on('set-backup-progress', function(id, progress)
+        {
+            backups[id].setProgress(progress);
+        });
+        ipc.on('set-backup-ui', function(id, status)
+        {
+            backups[id].toggleProcessingStatus(status !== 'idle');
+            _updateDeleteButton.apply(this);
+        });
+        ipc.on('confirm-backup-deletion', function(id)
+        {
+            backupsListNode.removeChild(backups[id].getItemNode());
+            backupsDetailNode.removeChild(backups[id].getDetailNode());
+            backups[id] = null;
+            if (id === currentBackupID)
+            {
+                currentBackupID = null;
+                _updateDeleteButton.apply(this);
+            }
+        });
+        ipc.on('set-backup-data', function(id, options, schedules, is_visible)
+        {
+            if (typeof backups[id] === 'undefined')
+            {
+                var backup = new BackupItem(id);
+                backup.init(_onToggleBackupVisibility.bind(this), _onTriggerBackupAction.bind(this));
+                backupsListNode.insertBefore(backup.getItemNode(), backupsListNode.firstChild);
+                backupsDetailNode.appendChild(backup.getDetailNode());
+                backups[id] = backup;
+            }
+            if (is_visible)
+            {
+                backups[id].toggleVisibility();
+            }
+            backups[id].updateOptions(options);
+            backups[id].updateSchedules(schedules);
+        });
     };
 
     /**
@@ -151,16 +112,6 @@
     };
 
     /**
-     * Updates the needed backup item when a directory has been selected in the "open" dialog
-     * @param path
-     * @param id
-     */
-    var _onSetBackupPath = function(path, id)
-    {
-        backups[id].updateOptions({path: path});
-    };
-
-    /**
      * Requests the deletion of the current backup
      * @param evt
      */
@@ -168,22 +119,6 @@
     {
         evt.preventDefault();
         ipc.send('delete-backup', currentBackupID);
-    };
-
-    /**
-     * Deletes the selected backup when the user has confirmed the action
-     * @param backup_id
-     */
-    var _onConfirmBackupDeletion = function(backup_id)
-    {
-        backupsListNode.removeChild(backups[backup_id].getItemNode());
-        backupsDetailNode.removeChild(backups[backup_id].getDetailNode());
-        backups[backup_id] = null;
-        if (backup_id === currentBackupID)
-        {
-            currentBackupID = null;
-            _updateDeleteButton.apply(this);
-        }
     };
 
     /**
