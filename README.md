@@ -165,3 +165,5 @@ This project is released under the [MIT License](LICENSE).
 * [yargs](https://github.com/bcoe/yargs)
 * [electron-packager](https://github.com/maxogden/electron-packager)
 * [moment](http://momentjs.com/)
+* [request](https://github.com/request/request)
+* [compare-versions](https://github.com/omichelsen/compare-versions)

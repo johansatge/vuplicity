@@ -10,6 +10,7 @@
     var MainController = require(__dirname + '/assets/js/controllers/main.js');
     var CustomTray = require(__dirname + '/assets/js//utils/customtray.js');
     var CLI = require(__dirname + '/assets/js/utils/cli.js');
+    var ReleaseChecker = require(__dirname + '/assets/js/utils/releasechecker.js');
     var fs = require('fs');
     var manifest = JSON.parse(fs.readFileSync(__dirname + '/package.json', {encoding: 'utf8'}));
 
@@ -26,6 +27,8 @@
         }
         _initTray.apply(this);
         _initController.apply(this);
+        var checker = new ReleaseChecker(manifest.version, manifest.updates);
+        checker.checkLastRelease();
     };
 
     /**
