@@ -8,7 +8,6 @@ module.exports = function(grunt)
     var argv = require('yargs').argv;
     var manifest = JSON.parse(fs.readFileSync('app/package.json', {encoding: 'utf8'}));
     var packager = require('electron-packager');
-    process.env.TMPDIR = __dirname + '/.build/tmp'; // This makes sure electron-packager works on external partitions / drives
 
     /**
      * SASS watcher
