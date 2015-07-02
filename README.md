@@ -150,6 +150,7 @@ This step has to be executed manually; when it's done, you will be able to use t
 
 | Version | Date | Notes |
 | --- | --- | --- |
+| `1.0.0` | July 2nd, 2015 | - Various CSS fixes<br>- Sanitizes history when doing a backup<br>- Fixes app icon on OSX |
 | `1.0.0` | June 26th, 2015 | Initial version |
 
 ## License
