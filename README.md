@@ -6,7 +6,7 @@ A cross-platform GUI for Duplicity backups, powered by Atom Electron.
 
 * [Features](#features)
 * [Download](#download)
-* [Installation and development](#installation-and-development)
+* [Development installation](#development-installation)
 * [Todos and caveats](#todos-and-caveats)
 * [Changelog](#changelog)
 * [License](#license)
@@ -60,7 +60,7 @@ If you want to get involved, feel free to follow the installation steps above, a
 
 Comments are very welcome on the [Issues](https://github.com/johansatge/vuplicity/issues) page.
 
-## Installation and development
+## Development installation
 
 ### Installation steps
 
