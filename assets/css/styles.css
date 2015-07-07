@@ -1,0 +1,290 @@
+html, body, div, button, p, img, h1, h2, h3, h4, pre
+{
+    margin                 : 0;
+    padding                : 0;
+    border                 : 0;
+    font-family            : "Source Sans Pro", sans-serif;
+    font-weight            : 400;
+    -webkit-font-smoothing : antialiased;
+}
+
+html
+{
+    background : #fefefe;
+}
+
+.heading
+{
+    position   : relative;
+    z-index    : 1;
+    background : #3a3a3a;
+    padding    : 40px 0 0 0;
+    overflow   : hidden;
+}
+
+h1
+{
+    font-weight : 300;
+    color       : #fefefe;
+    font-size   : 56px;
+    text-shadow : 0 2px 0 #000000;
+    text-align  : center;
+    margin      : 0 20px 40px 20px;
+}
+
+h1 span
+{
+    font-weight : 300;
+    display     : block;
+    margin      : 10px 0 0 0;
+    font-size   : 24px;
+    text-shadow : 0 1px 0 #000000;
+}
+
+h1 a,
+h1 a:visited
+{
+    color           : #fefefe;
+    border-bottom   : 2px solid #2f2f2f;
+    text-decoration : none;
+}
+
+.heading img
+{
+    display  : block;
+    position : relative;
+    left     : 50%;
+    margin   : 0 0 -160px -400px;
+    width    : 800px;
+}
+
+@media screen and (max-width : 800px)
+{
+    .heading img
+    {
+        left   : 10%;
+        width  : 80%;
+        margin : 0 0 40px 0;
+    }
+}
+
+.buttons
+{
+    position   : relative;
+    float      : left;
+    width      : 100%;
+    z-index    : 2;
+    background : #f2f2f2;
+    box-shadow : 0 -10px 20px rgba(0, 0, 0, 0.5);
+    text-align : center;
+    padding    : 50px 0 40px 0;
+}
+
+.buttons .inside
+{
+    position : relative;
+    float    : left;
+    left     : 50%;
+    width    : 660px;
+    margin   : 0 0 0 -330px;
+}
+
+.buttons span
+{
+    position    : relative;
+    display     : block;
+    float       : left;
+    margin      : 0 10px 10px 0;
+    width       : 210px;
+    text-align  : center;
+    font-weight : 400;
+    font-size   : 14px;
+    color       : #c9c9c9;
+}
+
+@media screen and (max-width : 700px)
+{
+    .buttons .inside
+    {
+        width  : 90%;
+        left   : 5%;
+        margin : 0;
+    }
+
+    .buttons span
+    {
+        width  : 80%;
+        margin : 0 0 10px 10%;
+    }
+}
+
+.buttons span a,
+.buttons span a:visited
+{
+    color           : #c9c9c9;
+    text-decoration : underline;
+}
+
+.buttons span i
+{
+    font-size : 12px;
+    margin    : 0 0 0 5px;
+}
+
+.buttons .button,
+.buttons .button:visited
+{
+    box-sizing      : border-box;
+    display         : block;
+    width           : 100%;
+    font-weight     : 600;
+    font-size       : 18px;
+    color           : #292929;
+    text-decoration : none;
+    border          : 2px solid #292929;
+    border-radius   : 4px;
+    padding         : 6px 0 8px 0;
+    margin          : 0 0 5px 0;
+}
+
+.buttons .button.disabled
+{
+    opacity : 0.2;
+    cursor  : default;
+}
+
+.content
+{
+    position   : relative;
+    float      : left;
+    z-index    : 3;
+    width      : 100%;
+    background : #fefefe;
+}
+
+.content .inside
+{
+    position : relative;
+    left     : 50%;
+    width    : 900px;
+    margin   : 0 0 0 -450px;
+    padding  : 60px 0 0 0;
+}
+
+.content .inside .feature
+{
+    width  : 48%;
+    float  : left;
+    margin : 0 0 60px 0;
+}
+
+.content .inside .feature.left
+{
+    margin-right : 4%;
+}
+
+@media screen and (max-width : 900px)
+{
+    .content .inside
+    {
+        left   : 5%;
+        width  : 90%;
+        float  : left;
+        margin : 0;
+    }
+
+    .content .inside .feature
+    {
+        width : 100%;
+    }
+
+    .content .inside .feature.left
+    {
+        margin-right : 0;
+    }
+}
+
+.content .inside .feature img
+{
+    width         : 300px;
+    height        : 300px;
+    border-radius : 150px;
+    position      : relative;
+    left          : 50%;
+    margin        : 0 0 30px -150px;
+    border        : 3px solid #f5f5f5;
+}
+
+.content .inside .feature h2
+{
+    text-align  : center;
+    font-weight : 400;
+    color       : #646464;
+    font-size   : 30px;
+    margin      : 0 0 15px 0;
+}
+
+.content .inside .feature h2 i
+{
+    font-size : 28px;
+    color     : #bfbfbf;
+    margin    : 0 5px 0 0;
+}
+
+.content .inside .feature p
+{
+    color       : #646464;
+    font-weight : 400;
+    line-height : 30px;
+    font-size   : 18px;
+    text-align  : center;
+}
+
+.electron
+{
+    position   : relative;
+    z-index    : 2;
+    float      : left;
+    width      : 100%;
+    background : #7bdcef;
+    padding    : 40px 0 20px 0;
+}
+
+.electron p
+{
+    position    : relative;
+    color       : #45828e;
+    width       : 550px;
+    left        : 50%;
+    margin      : 0 0 0 -275px;
+    padding     : 0 0 20px 0;
+    font-size   : 18px;
+    font-weight : 600;
+}
+
+@media screen and (max-width : 600px)
+{
+    .electron p
+    {
+        width  : 90%;
+        left   : 5%;
+        margin : 0;
+    }
+}
+
+.electron i
+{
+    font-size : 12px;
+}
+
+.electron a,
+.electron a:visited
+{
+    color           : #39b1d1;
+    text-decoration : none;
+}
+
+.electron a:hover
+{
+    text-decoration : underline;
+}
