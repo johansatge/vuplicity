@@ -1,7 +1,5 @@
 # Vuplicity
 
-![Icon](icon_tiny.png)
-
 Downloads and features can be found on the [homepage](http://johansatge.com/vuplicity/).
 
 ---
