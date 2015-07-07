@@ -7,7 +7,7 @@ A cross-platform GUI for Duplicity backups, powered by Atom Electron.
 * [Features](#features)
 * [Download](#download)
 * [Development installation](#development-installation)
-* [Todos and caveats](#todos-and-caveats)
+* [Todos](#todos)
 * [Changelog](#changelog)
 * [License](#license)
 * [Credits](#credits)
@@ -105,46 +105,9 @@ Watch for SASS updates:
 grunt sass
 ```
 
-## Todos and caveats
+## Todos
 
-### App wrapper
-
-Add a build task to wrap the app for each platform.
-
-### Backup confirmation
-
-* Add confirmation email - or notifications - with backup status
-* Displays duplicity informations in the status tab (delta files, etc)
-
-### Update checker
-
-Regularly check for updates and display a notice (on the control panel or the tray icon ?).
-
-Allow the user to disable auto-check in the tray menu.
-
-### Fix unsecure passphrases
-
-Passphrases are stored in clear text in the configuration files.
-
-It may be nice to encrypt the files with a global passphrase, and ask it to the user when starting the GUI.
-
-### Backup informations
-
-Add new backup informations, such as:
-
-* ~~Next planned backup date on the left panel~~
-* ~~Current backup size in the **Status** tab~~
-* Informations on next planned backup (count of added & deleted files ?)
-
-~~Make dates more readable (by using *from* and *to* notations ?)~~
-
-### Interactive CLI
-
-For now, there is no way to interact with the CLI tool.
-
-For instance, when using the Dropbox backend, you have to load an authorization URL, and then tell the script to continue.
-
-This step has to be executed manually; when it's done, you will be able to use the GUI.
+Planned features are listed in the [Issues](https://github.com/johansatge/vuplicity/issues).
 
 ## Changelog
 
