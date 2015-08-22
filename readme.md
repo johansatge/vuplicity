@@ -1,14 +1,64 @@
-# Vuplicity
+![Vuplicity](icon_tiny.png)
 
-Downloads and features can be found on the [homepage](http://johansatge.com/vuplicity/).
+A cross-platform GUI for Duplicity backups, powered by Atom Electron.
 
 ---
 
+* [Features](#features)
+* [Download](#download)
 * [Development installation](#development-installation)
 * [Todos](#todos)
 * [Changelog](#changelog)
 * [License](#license)
 * [Credits](#credits)
+
+## Features
+
+![Screen](screenshot.jpg)
+
+The GUI works directly with Duplicity by sending shell commands, so you can use your existing backups and / or create new ones independently.
+
+#### Backup status
+
+Check the status of a backup, start it manually, or restore its content.
+
+#### Configuration
+
+Fill the source path, destination URL, passphrase, and custom CLI options if needed.
+
+You can add several backup configurations on the left panel.
+
+The configuration uses one JSON file per backup, stored in `$HOME/.vuplicity`.
+
+#### File tree
+
+Check the content of the backup, or choose to restore a single file.
+
+#### Scheduler
+
+Schedule the backup by choosing a delay or a time, and the days when you want it to be applied (in the week or month).
+
+You may also combine multiple schedules (for instance, one incremental backup each day at 2:00am, and one full backup once a month).
+
+## Download
+
+*[Duplicity](http://duplicity.nongnu.org/) is not shipped with the app.*
+
+*You have to install it first, and ensure that the `duplicity` command is included in your global `$PATH` to allow the app to access it.*
+
+### OSX
+
+You can download the last version of the app on the [Releases](https://github.com/johansatge/vuplicity/releases) page.
+
+### Linux & Windows
+
+**Help needed !**
+
+For now no binaries are available, because I didn't run advanced tests on those platforms.
+
+If you want to get involved, feel free to follow the installation steps above, and test the project by yourself.
+
+Comments are very welcome on the [Issues](https://github.com/johansatge/vuplicity/issues) page.
 
 ## Development installation
 
