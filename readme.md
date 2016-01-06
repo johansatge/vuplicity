@@ -2,6 +2,17 @@
 
 A cross-platform GUI for Duplicity backups, powered by Atom Electron.
 
+> :warning:
+>
+> I had a lot of problems with `duplicity` lately (frequent crashes on my OSX system, corrupted data) that led me to
+> not use it anymore (nor Vuplicity) for my backups.
+> 
+> I think that being a user of the product is a crucial point for a maintainer to do a great work, so that's why I am afraid I will not ~~have~~ take time to work on Vuplicity in the future.
+> 
+> That being said, the [license](LICENSE) allows you to do whatever you want with the existing code and UI; so, if you are still interested in the project, please feel free to fork it / do stuff in the code / adjust things or rebuild entire features // it's up to you.
+>
+> Thanks!
+
 ---
 
 * [Features](#features)
