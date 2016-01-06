@@ -68,8 +68,8 @@
     {
         app.quit();
     };
-
-    require('crash-reporter').start();
+    // TODO: Add those two variables to get feedback
+    require('crash-reporter').start({companyName: "None", submitURL: "None"});
     app.on('ready', _onAppReady.bind(this));
 
 })(process, require, __dirname);

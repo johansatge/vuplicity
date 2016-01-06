@@ -158,4 +158,4 @@
 
     window.ControlPanel = module;
 
-})(window, document, require('ipc'), BackupItem);
+})(window, document, require("electron").ipcRenderer, BackupItem);

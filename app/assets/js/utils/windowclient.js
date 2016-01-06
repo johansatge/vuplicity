@@ -77,4 +77,4 @@
 
     window.WindowClient = module;
 
-})(window, document, require('ipc'));
+})(window, document, require('electron').ipcRenderer);
