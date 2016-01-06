@@ -29,7 +29,7 @@
                     var stats = fs.statSync(dir_path);
                     if (!stats.isDirectory())
                     {
-                        callback('Settings directory could not be created.');
+                        callback('Settings directory is not a directory.');
                         return;
                     }
                 }
@@ -37,7 +37,7 @@
                 {
                     try
                     {
-                        fs.mkdirSync(path);
+                        fs.mkdirSync(dir_path);
                     }
                     catch (error)
                     {
