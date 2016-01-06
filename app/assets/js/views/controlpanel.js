@@ -38,40 +38,40 @@
 
     var _initIPC = function()
     {
-        ipc.on('set-backup-next-date', function(id, date)
+        ipc.on('set-backup-next-date', function(event, id, date)
         {
             backups[id].updateNextDate(date);
         });
-        ipc.on('set-backup-last-date', function(id, date)
+        ipc.on('set-backup-last-date', function(event, id, date)
         {
             backups[id].updateLastDate(date);
         });
-        ipc.on('set-backup-path', function(path, id)
+        ipc.on('set-backup-path', function(event, path, id)
         {
             backups[id].updateOptions({path: path});
         });
-        ipc.on('set-backup-status', function(id, data)
+        ipc.on('set-backup-status', function(event, id, data)
         {
             backups[id].updateStatus(data);
         });
-        ipc.on('set-backup-file-tree', function(id, tree)
+        ipc.on('set-backup-file-tree', function(event, id, tree)
         {
             backups[id].updateFileTree(tree);
         });
-        ipc.on('set-backup-history', function(id, history)
+        ipc.on('set-backup-history', function(event, id, history)
         {
             backups[id].updateHistory(history);
         });
-        ipc.on('set-backup-progress', function(id, progress)
+        ipc.on('set-backup-progress', function(event, id, progress)
         {
             backups[id].setProgress(progress);
         });
-        ipc.on('set-backup-ui', function(id, status)
+        ipc.on('set-backup-ui', function(event,id, status)
         {
             backups[id].toggleProcessingStatus(status !== 'idle');
             _updateDeleteButton.apply(this);
         });
-        ipc.on('confirm-backup-deletion', function(id)
+        ipc.on('confirm-backup-deletion', function(event, id)
         {
             backupsListNode.removeChild(backups[id].getItemNode());
             backupsDetailNode.removeChild(backups[id].getDetailNode());
@@ -82,7 +82,7 @@
                 _updateDeleteButton.apply(this);
             }
         });
-        ipc.on('set-backup-data', function(id, options, schedules, is_visible)
+        ipc.on('set-backup-data', function(event, id, options, schedules, is_visible)
         {
             if (typeof backups[id] === 'undefined')
             {
@@ -157,5 +157,5 @@
     };
 
     window.ControlPanel = module;
-
-})(window, document, require("electron").ipcRenderer, BackupItem);
+    
+})(window, document, require('electron').ipcRenderer, BackupItem);
