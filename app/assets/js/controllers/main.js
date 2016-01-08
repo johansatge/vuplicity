@@ -7,7 +7,7 @@
 
     'use strict';
 
-    var ipc = require('ipc');
+    var ipc = require('electron').ipcMain;
     var events = require('events');
     var dialog = require('dialog');
     var glob = require('glob');

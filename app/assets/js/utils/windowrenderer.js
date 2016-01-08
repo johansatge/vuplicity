@@ -7,7 +7,8 @@
     'use strict';
 
     var BrowserWindow = require('browser-window');
-    var ipc = require('ipc');
+    // TODO: This should be ipcRenderer but crashes at line 36 & 37
+    var ipc = require('electron').ipcMain; 
     var CLI = require(__dirname + '/cli.js');
 
     var module = function()
@@ -30,7 +31,7 @@
                 frame: false,
                 transparent: true
             });
-            window.webContents.loadUrl(url);
+            window.webContents.loadURL(url);
             window.on('focus', _onWindowFocus.bind(this));
             window.on('blur', _onWindowBlur.bind(this));
             ipc.on('window-move', _onWindowMove.bind(this));

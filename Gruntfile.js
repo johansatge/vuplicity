@@ -29,7 +29,9 @@ module.exports = function(grunt)
         var done = this.async();
         var show_devtools = argv.devtools ? ' --devtools' : '';
         var override_config = argv.configpath ? ' --configpath=' + argv.configpath : '';
-        var child = exec('electron app' + show_devtools + override_config);
+        // TODO: Needs to be tested on Mac/Windows but should work on those platforms
+        var linux_fix = " --enable-transparent-visuals";
+        var child = exec('electron app' + show_devtools + override_config + linux_fix);
         child.stdout.on('data', grunt.log.write);
         child.stderr.on('data', grunt.log.write);
         child.on('close', done);

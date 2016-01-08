@@ -2,6 +2,8 @@
   "dependencies": {
     "electron-packager": "^5.0.0",
     "grunt": "^0.4.5",
-    "yargs": "^3.10.0"
+    "yargs": "^3.10.0",
+    "moment": "^2.11.0",
+    "later": "^1.2.0"
   }
 }

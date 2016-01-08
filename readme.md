@@ -77,9 +77,9 @@ Comments are very welcome on the [Issues](https://github.com/johansatge/vuplicit
 
 **1.** Install [node.js](https://nodejs.org/) and [npm](https://github.com/npm/npm) if needed
 
-**2.** Install [Atom Electron](http://electron.atom.io/) if needed (by using `npm`)
+**2.** Install [Atom Electron](http://electron.atom.io/) if needed (by using `npm install -g electron-prebuilt`)
 
-**3.** Install [Grunt](http://gruntjs.com/) if needed
+**3.** Install [Grunt](http://gruntjs.com/) if needed (by using `npm install -g grunt`)
 
 **4.** Get the project and its dependencies
 
