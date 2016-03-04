@@ -4,6 +4,8 @@ A cross-platform GUI for Duplicity backups, powered by Atom Electron.
 
 > :warning:
 >
+> [![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
+>
 > I had a lot of problems with `duplicity` lately (frequent crashes on my OSX system, corrupted data) that led me to
 > not use it anymore (nor Vuplicity) for my backups.
 > 
